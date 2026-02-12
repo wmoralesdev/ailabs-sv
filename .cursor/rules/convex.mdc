@@ -1,0 +1,13 @@
+---
+description: Convex backend and database guidelines
+globs: convex/**/*.ts, convex/**/*.tsx, src/**/*convex*
+---
+
+# Convex Development Rules
+
+- Use the Convex function format: `query`, `mutation`, `action`, `httpAction` from `./_generated/server`.
+- Schema: define tables in `convex/schema.ts` with `defineSchema`, `defineTable`, and `v` validators from `convex/values`.
+- Authentication: use `getAuthUserId` from `@convex-dev/auth/server` to require auth in mutations; return `null` or restrict data in queries when unauthenticated.
+- Client: use `useQuery`, `useMutation` from `convex/react` with `api.module.function` references.
+- Import the API from `convex/_generated/api` and data model types from `convex/_generated/dataModel`.
+- Run `npx convex dev` to regenerate `_generated` when adding functions or changing the schema.
