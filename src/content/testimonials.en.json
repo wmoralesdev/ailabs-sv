@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Andrea Gómez",
+    "title": "Senior Frontend Dev",
+    "testimonial": "I came to learn a tool. I left asking better questions about how I build.",
+    "avatar": "/testimonials/andrea-gomez.webp"
+  },
+  {
+    "name": "Carlos Méndez",
+    "title": "CTO @ TechSV",
+    "testimonial": "The best part isn't the AI. It's being around people who actually want to figure things out.",
+    "avatar": "/testimonials/carlos-mendez.webp"
+  },
+  {
+    "name": "Gabriel Campos",
+    "title": "Frontend Developer",
+    "testimonial": "This is the place where developers with the same vision come together and start building together.",
+    "avatar": "/testimonials/gabriel-campos.webp",
+    "twitter": "https://x.com/gabrielcampos",
+    "linkedin": "https://linkedin.com/in/gabrielcampos"
+  },
+  {
+    "name": "Karla Fuentes",
+    "title": "Software Developer",
+    "testimonial": "It's a very close-knit community, where everyone shares their knowledge and supports each other. Thanks to that, I've grown a lot in programming and have more confidence to take on new challenges.",
+    "avatar": "/testimonials/karla-fuentes.webp",
+    "twitter": "https://x.com/karlafuentes",
+    "linkedin": "https://linkedin.com/in/karlafuentes"
+  },
+  {
+    "name": "Cristian Carballo",
+    "title": "Software Developer",
+    "testimonial": "It has been an excellent opportunity to connect with many professionals, as well as attend events where we can put our skills to the test with Cursor and learn to develop digital products.",
+    "avatar": "/testimonials/cristian-carballo.webp",
+    "twitter": "https://x.com/cristiancarballo",
+    "linkedin": "https://linkedin.com/in/cristiancarballo"
+  },
+  {
+    "name": "Daniela Huezo",
+    "title": "Cursor Ambassador",
+    "testimonial": "Being part of the community has helped me interact with more people and share a bit of what I know. Very happy to belong and excited for what's to come.",
+    "avatar": "/testimonials/daniela-huezo.webp",
+    "twitter": "https://x.com/danielahuezo",
+    "linkedin": "https://linkedin.com/in/danielahuezo"
+  },
+  {
+    "name": "Fernando Borea",
+    "title": "CEO @ Borea Labs",
+    "testimonial": "This community is one of the best things that I've come across to stay up to date with the latest AI-driven tools for developers",
+    "avatar": "/testimonials/fernando-borea.webp",
+    "twitter": "https://x.com/fernandoborea",
+    "linkedin": "https://linkedin.com/in/fernandoborea"
+  }
+]

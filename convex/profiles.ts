@@ -1,11 +1,14 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
-import { getAuthUserId } from "@convex-dev/auth/server";
 
 const profileLinksValidator = v.object({
   linkedin: v.optional(v.string()),
   x: v.optional(v.string()),
 });
+
+const experienceLevelValidator = v.optional(
+  v.union(v.literal("beginner"), v.literal("intermediate"), v.literal("advanced"), v.literal("exploring"), v.literal("building"), v.literal("shipping"))
+);
 
 /**
  * List profiles with optional search by name/title.
@@ -64,7 +67,8 @@ export const list = query({
 export const getBySlug = query({
   args: { slug: v.string() },
   handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
+    const identity = await ctx.auth.getUserIdentity();
+    const userId = identity?.subject ?? null;
     const profile = await ctx.db
       .query("profiles")
       .withIndex("by_slug", (q) => q.eq("slug", args.slug))
@@ -85,7 +89,8 @@ export const getBySlug = query({
 export const me = query({
   args: {},
   handler: async (ctx) => {
-    const userId = await getAuthUserId(ctx);
+    const identity = await ctx.auth.getUserIdentity();
+    const userId = identity?.subject ?? null;
     if (!userId) return null;
     return await ctx.db
       .query("profiles")
@@ -105,11 +110,19 @@ export const upsertMine = mutation({
     title: v.string(),
     bio: v.string(),
     avatarUrl: v.optional(v.string()),
+    location: v.optional(v.string()),
+    company: v.optional(v.string()),
+    experienceLevel: experienceLevelValidator,
+    interests: v.optional(v.array(v.string())),
+    tools: v.optional(v.array(v.string())),
+    lookingFor: v.optional(v.array(v.string())),
+    availability: v.optional(v.array(v.string())),
     links: profileLinksValidator,
     contact: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
+    const identity = await ctx.auth.getUserIdentity();
+    const userId = identity?.subject;
     if (!userId) {
       throw new Error("Must be signed in to create or update a profile");
     }
@@ -133,6 +146,13 @@ export const upsertMine = mutation({
       title: args.title,
       bio: args.bio,
       avatarUrl: args.avatarUrl,
+      location: args.location,
+      company: args.company,
+      experienceLevel: args.experienceLevel,
+      interests: args.interests,
+      tools: args.tools,
+      lookingFor: args.lookingFor,
+      availability: args.availability,
       links: args.links,
       contact: args.contact,
       ownerId: userId,

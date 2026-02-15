@@ -14,56 +14,66 @@ export function SiteFooter() {
       <div className="container mx-auto px-6">
         <div className="mb-16 grid grid-cols-1 gap-10 md:grid-cols-12">
           <div className="md:col-span-4">
-            <Link
-              to="/"
-              className="mb-6 flex items-center gap-2"
-              aria-label={t.site.name}
-            >
-              <div className="flex h-6 w-6 items-center justify-center rounded bg-foreground text-background">
-                <HugeiconsIcon icon={CodeIcon} size={14} />
-              </div>
-              <span className="text-lg font-semibold tracking-tight">
-                <span className="text-primary">AI</span>
-                <span className="text-foreground">Labs</span>
-                <span className="text-muted-foreground">.sv</span>
-              </span>
-            </Link>
+            <div className="mb-6 flex items-center gap-3">
+              <Link
+                to="/"
+                className="flex items-center gap-2"
+                aria-label={t.site.name}
+              >
+                <div className="flex h-6 w-6 items-center justify-center rounded bg-foreground text-background">
+                  <HugeiconsIcon icon={CodeIcon} size={14} />
+                </div>
+                <span className="font-display text-lg font-semibold tracking-tight">
+                  <span className="text-primary">ai</span>
+                  <span className="text-foreground">labs</span>
+                  <span className="text-muted-foreground">.sv</span>
+                </span>
+              </Link>
+              <a
+                href="https://www.lem-design.art/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-border/60 bg-muted/40 px-2.5 py-0.5 text-[11px] font-light text-foreground/50 transition-colors hover:border-primary/50 hover:text-foreground/70"
+              >
+                Logo by Melanie Martinez · lem-design.art
+              </a>
+            </div>
             <p className="mb-6 max-w-xs text-sm font-light leading-relaxed text-foreground/60">
               {t.site.description}
             </p>
             <div className="flex gap-4">
               {t.ambassador.socials.twitter ? (
-                <a
-                  href={t.ambassador.socials.twitter}
+                <Link
+                  to={t.ambassador.socials.twitter as any}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={t.ui.ambassador.x}
                   className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-foreground/60 transition-all hover:border-primary hover:text-primary hover:opacity-100"
                 >
                   <XIcon className="size-4" />
-                </a>
+                </Link>
               ) : null}
               {t.ambassador.socials.github ? (
-                <a
-                  href={t.ambassador.socials.github}
+                <Link
+                  to={t.ambassador.socials.github as any}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={t.ui.ambassador.github}
                   className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-foreground/60 transition-all hover:border-primary hover:text-primary hover:opacity-100"
                 >
                   <GithubIcon className="size-4" />
-                </a>
+                </Link>
               ) : null}
               {t.ambassador.socials.linkedin ? (
-                <a
-                  href={t.ambassador.socials.linkedin}
+                <Link
+                  to={t.ambassador.socials.linkedin as any}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
                   className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-foreground/60 transition-all hover:border-primary hover:text-primary hover:opacity-100"
                 >
                   <LinkedinIcon className="size-4" />
-                </a>
+                </Link>
               ) : null}
             </div>
           </div>
@@ -72,24 +82,24 @@ export function SiteFooter() {
             <h4 className="mb-6 text-sm font-medium">{t.ui.footer.organization}</h4>
             <ul className="space-y-3">
               <li>
-                <a href="/#overview" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
+                <Link to="/" hash="overview" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
                   {t.ui.footer.overview}
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/#community" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
+                <Link to="/" hash="community" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
                   {t.ui.footer.community}
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/#events" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
+                <Link to="/" hash="events" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
                   {t.ui.footer.events}
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/#partners" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
+                <Link to="/" hash="partners" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
                   Partners
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -98,27 +108,47 @@ export function SiteFooter() {
             <h4 className="mb-6 text-sm font-medium">{t.ui.footer.resources}</h4>
             <ul className="space-y-3">
               <li>
-                <Link to="/sponsor-kit" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
-                  {t.sponsorKit.title}
+                <Link to="/partners" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
+                  {t.ui.nav.partners}
                 </Link>
               </li>
               <li>
-                <a
-                  href={t.site.whatsappLink}
+                <Link to="/resources" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
+                  {t.ui.footer.resources}
+                </Link>
+              </li>
+              <li>
+                <Link to="/feed" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
+                  {t.ui.footer.feed}
+                </Link>
+              </li>
+              <li>
+                <Link to="/terms" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
+                  {t.ui.footer.terms}
+                </Link>
+              </li>
+              <li>
+                <Link to="/design-system" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
+                  Design System
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={t.site.whatsappLink as any}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100"
                 >
                   {t.ui.footer.whatsapp}
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href={`mailto:${t.partner.email}`}
+                <Link
+                  to={`mailto:${t.partner.email}` as any}
                   className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100"
                 >
                   {t.ui.footer.contact}
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -144,19 +174,20 @@ export function SiteFooter() {
 
         <div className="flex flex-col items-center justify-between gap-4 border-t border-border pt-8 md:flex-row">
           <p className="text-xs font-light text-foreground/40">
-            © {new Date().getFullYear()} AI Labs SV. {t.ui.footer.madeWith}{" "}
+            © {new Date().getFullYear()}{" "}
+            <span className="font-display">ailabs.sv</span>. {t.ui.footer.madeWith}{" "}
             <span className="mx-0.5 inline-block text-primary">♥</span>{" "}
             {t.ui.footer.inSanSalvador}
           </p>
           <div className="flex items-center gap-6">
-            <a
-              href={`mailto:${t.partner.email}`}
+            <Link
+              to={`mailto:${t.partner.email}` as any}
               className="text-xs font-light text-foreground/40 transition-opacity hover:opacity-100"
             >
               {t.ui.footer.contact}
-            </a>
-            <Link to="/sponsor-kit" className="text-xs font-light text-foreground/40 transition-opacity hover:opacity-100">
-              {t.sponsorKit.title}
+            </Link>
+            <Link to="/terms" className="text-xs font-light text-foreground/40 transition-opacity hover:opacity-100">
+              {t.ui.footer.terms}
             </Link>
           </div>
         </div>

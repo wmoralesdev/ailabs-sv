@@ -1,5 +1,6 @@
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRightIcon } from "@hugeicons/core-free-icons";
+import { Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { SectionHeader } from "@/components/section-header";
 
@@ -28,15 +29,15 @@ export function JoinCtaSection() {
           align="center"
           size="lg"
         />
-        <a
-          href={t.site.whatsappLink}
+        <Link
+          to={t.site.whatsappLink as any}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-primary px-10 text-lg font-medium text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-primary/40"
         >
           {t.joinCta.cta}
           <HugeiconsIcon icon={ArrowRightIcon} size={22} />
-        </a>
+        </Link>
         <p className="mt-6 text-sm font-light text-muted-foreground">
           {t.joinCta.finePrint}
         </p>

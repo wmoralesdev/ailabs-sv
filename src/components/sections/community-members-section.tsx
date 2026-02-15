@@ -1,6 +1,7 @@
 import { useI18n } from "@/lib/i18n";
 import { SectionHeader } from "@/components/section-header";
 import { SocialLinks } from "@/components/social-links";
+import { formatWithBrandText } from "@/components/brand-text";
 
 export function CommunityMembersSection() {
   const { t } = useI18n();
@@ -46,7 +47,7 @@ export function CommunityMembersSection() {
                 <p className="text-base font-medium">{member.name}</p>
               </div>
               <p className="line-clamp-2 whitespace-normal text-sm font-light text-foreground/60">
-                {member.bio}
+                {formatWithBrandText(member.bio)}
               </p>
               {member.socials &&
               (member.socials.twitter ||

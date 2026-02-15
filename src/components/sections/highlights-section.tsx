@@ -63,7 +63,7 @@ export function HighlightsSection() {
 
         <div className="flex justify-center">
           <Link
-            to="/sponsor-kit"
+            to="/partners"
             className={cn(
               buttonVariants({ size: "lg", variant: "outline" }),
               "h-11 rounded-full border-primary/20 px-6 text-sm text-primary hover:bg-primary/10 hover:border-primary/30"

@@ -1,11 +1,15 @@
 import { useEffect } from "react";
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import appCss from '../styles.css?url'
+import { ClerkProvider } from "@clerk/tanstack-react-start"
+import { esES } from "@clerk/localizations"
 import { I18nProvider } from '@/lib/i18n'
 import { ThemeProvider } from "@/components/theme-provider"
 import { LangSync } from "@/components/lang-sync"
 import { ConvexProvider } from "@/components/convex-provider"
+import { AuthProvider } from "@/components/auth/auth-context"
 
+const clerkPublishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY as string;
 
 export const Route = createRootRoute({
   head: () => ({
@@ -18,7 +22,7 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'AI Labs SV',
+        title: 'ailabs.sv',
       },
       {
         name: 'description',
@@ -56,12 +60,16 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-          <ConvexProvider>
-            <I18nProvider>
-              <LangSync />
-              {children}
-            </I18nProvider>
-          </ConvexProvider>
+          <ClerkProvider publishableKey={clerkPublishableKey} localization={esES}>
+            <ConvexProvider>
+              <AuthProvider>
+                <I18nProvider>
+                  <LangSync />
+                  {children}
+                </I18nProvider>
+              </AuthProvider>
+            </ConvexProvider>
+          </ClerkProvider>
         </ThemeProvider>
         {/* <TanStackDevtools
           config={{

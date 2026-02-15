@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Gabriel Campos",
+    "title": "Frontend Developer",
+    "testimonial": "Este es el lugar donde desarrolladores con la misma visión se encuentran y empiezan a construir juntos.",
+    "avatar": "/testimonials/gabriel-campos.webp",
+    "twitter": "https://x.com/gabrielcampos",
+    "linkedin": "https://linkedin.com/in/gabrielcampos"
+  },
+  {
+    "name": "Karla Fuentes",
+    "title": "Software Developer",
+    "testimonial": "Es una comunidad muy unida, donde todos comparten sus conocimientos y apoyan a los demás. Gracias a ello, he crecido mucho en programación y tengo más confianza para asumir nuevos retos.",
+    "avatar": "/testimonials/karla-fuentes.webp",
+    "twitter": "https://x.com/karlafuentes",
+    "linkedin": "https://linkedin.com/in/karlafuentes"
+  },
+  {
+    "name": "Cristian Carballo",
+    "title": "Software Developer",
+    "testimonial": "Ha sido una excelente oportunidad de conectar con muchos profesionales, además de asistir a eventos donde podemos poner a prueba nuestras habilidades con cursor y aprender a desarrollar productos digitales.",
+    "avatar": "/testimonials/cristian-carballo.webp",
+    "twitter": "https://x.com/cristiancarballo",
+    "linkedin": "https://linkedin.com/in/cristiancarballo"
+  },
+  {
+    "name": "Daniela Huezo",
+    "title": "Cursor Ambassador",
+    "testimonial": "Ser parte de la comunidad me ha ayudado a interactuar con más personas y poder compartir un poco de lo que sé, muy felices de pertenecer y ansiosa por lo que viene",
+    "avatar": "/testimonials/daniela-huezo.webp",
+    "twitter": "https://x.com/danielahuezo",
+    "linkedin": "https://linkedin.com/in/danielahuezo"
+  },
+  {
+    "name": "Fernando Borea",
+    "title": "CEO @ Borea Labs",
+    "testimonial": "Esta comunidad es una de las mejores cosas que he encontrado para mantenerme actualizado con las últimas herramientas de IA para desarrolladores.",
+    "avatar": "/testimonials/fernando-borea.webp",
+    "twitter": "https://x.com/fernandoborea",
+    "linkedin": "https://linkedin.com/in/fernandoborea"
+  }
+]

@@ -1,5 +1,6 @@
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRightIcon } from "@hugeicons/core-free-icons";
+import { Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { AnimatedGrid } from "@/components/ui/animated-grid";
 
@@ -39,21 +40,22 @@ export function HeroSection() {
         </p>
 
         <div className="flex flex-col items-center justify-center gap-4 motion-safe:animate-hero-in [animation-delay:300ms] sm:flex-row">
-          <a
-            href={t.site.whatsappLink}
+          <Link
+            to={t.site.whatsappLink as any}
             target="_blank"
             rel="noopener noreferrer"
             className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary px-8 font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-primary/30 sm:w-auto"
           >
             {t.hero.primaryCta}
             <HugeiconsIcon icon={ArrowRightIcon} size={18} />
-          </a>
-          <a
-            href="/#community"
+          </Link>
+          <Link
+            to="/"
+            hash="community"
             className="flex h-12 w-full items-center justify-center rounded-lg border border-border bg-transparent px-8 font-medium text-foreground transition-all duration-300 hover:border-primary/30 hover:bg-accent/50 sm:w-auto"
           >
             {t.hero.secondaryCta}
-          </a>
+          </Link>
         </div>
       </div>
     </section>

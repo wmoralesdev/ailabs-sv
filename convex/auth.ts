@@ -1,8 +1,15 @@
-import GitHub from "@auth/core/providers/github";
-import Google from "@auth/core/providers/google";
-import { convexAuth } from "@convex-dev/auth/server";
-import { ResendOTP } from "./resend_otp";
+import { query } from "./_generated/server";
 
-export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
-  providers: [ResendOTP, Google, GitHub],
+/**
+ * Compatibility helper.
+ * Old clients may still call `auth:isAuthenticated`. Keep this lightweight
+ * query to avoid "function not found" noise during/after the Clerk migration.
+ */
+export const isAuthenticated = query({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    return Boolean(identity?.subject);
+  },
 });
+

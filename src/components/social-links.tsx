@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { GithubIcon } from "@/components/ui/github-icon";
 import { LinkedinIcon } from "@/components/ui/linkedin-icon";
 import { XIcon } from "@/components/ui/x-icon";
@@ -29,8 +30,8 @@ function IconLink({
   className?: string;
 }) {
   return (
-    <a
-      href={href}
+    <Link
+      to={href as any}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
@@ -41,7 +42,7 @@ function IconLink({
     >
       <span className="sr-only">{label}</span>
       {children}
-    </a>
+    </Link>
   );
 }
 

@@ -6,16 +6,12 @@ import { LanguageToggle } from "@/components/language-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { AuthHeaderActions } from "@/components/auth/auth-header-actions";
 import { JoinCtaButton } from "@/components/join-cta-button";
-import { motion } from "motion/react";
 
 export function SiteHeader() {
   const { t } = useI18n();
 
   return (
-    <motion.header
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+    <header
       className="fixed inset-x-0 top-4 z-50 mx-auto w-[calc(100%-2rem)] max-w-5xl rounded-2xl border border-border/60 bg-background/80 shadow-lg shadow-black/5 backdrop-blur-lg pt-[env(safe-area-inset-top)]"
     >
       <div className="flex h-14 items-center justify-between px-5">
@@ -28,45 +24,41 @@ export function SiteHeader() {
           <div className="flex size-8 items-center justify-center rounded-lg bg-foreground text-background">
             <HugeiconsIcon icon={CodeIcon} size={18} />
           </div>
-          <span className="text-lg font-semibold tracking-tight">
-            <span className="text-primary">AI</span>
-            <span className="text-foreground">Labs</span>
+          <span className="font-display text-lg font-semibold tracking-tight">
+            <span className="text-primary">ai</span>
+            <span className="text-foreground">labs</span>
             <span className="text-muted-foreground">.sv</span>
           </span>
         </Link>
 
         {/* Center Menu */}
         <nav className="hidden items-center gap-1 md:flex">
-          <a
-            href="/#overview"
+          <Link
+            to="/"
+            hash="overview"
             className="rounded-lg px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-foreground"
           >
             {t.ui.nav.overview}
-          </a>
-          <Link
-            to="/community"
-            className="rounded-lg px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-foreground"
-          >
-            {t.ui.nav.community}
           </Link>
-          <a
-            href="/#events"
+          <Link
+            to="/"
+            hash="events"
             className="rounded-lg px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-foreground"
           >
             {t.ui.nav.events}
-          </a>
-          <a
-            href="/#partners"
+          </Link>
+          <Link
+            to="/partners"
             className="rounded-lg px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-foreground"
           >
             {t.ui.nav.partners}
-          </a>
-          <a
-            href="/#blog"
+          </Link>
+          <Link
+            to="/blog"
             className="rounded-lg px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-foreground"
           >
             {t.ui.nav.blog}
-          </a>
+          </Link>
         </nav>
 
         {/* Right Actions */}
@@ -85,6 +77,6 @@ export function SiteHeader() {
           <JoinCtaButton />
         </div>
       </div>
-    </motion.header>
+    </header>
   );
 }

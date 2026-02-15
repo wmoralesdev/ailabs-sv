@@ -17,6 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { formatWithBrandText } from "@/components/brand-text";
 
 export function EventsSection() {
   const { t } = useI18n();
@@ -63,7 +64,7 @@ export function EventsSection() {
                       </div>
                     </div>
                     <CardTitle className="text-xl leading-tight md:text-2xl">
-                      {event.title}
+                      {formatWithBrandText(event.title)}
                     </CardTitle>
                     <div className="space-y-2 pt-1 text-sm text-muted-foreground">
                       <p className="flex items-center gap-2">
@@ -84,7 +85,7 @@ export function EventsSection() {
                   </CardHeader>
                   <CardContent className="px-6">
                     <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-                      {event.description}
+                      {formatWithBrandText(event.description)}
                     </p>
                   </CardContent>
                   <CardFooter className="border-border/60 px-6">
@@ -145,7 +146,7 @@ export function EventsSection() {
                     {event.date}
                   </p>
                   <h4 className="text-lg font-semibold leading-tight md:text-xl">
-                    {event.title}
+                    {formatWithBrandText(event.title)}
                   </h4>
                   {event.recapLink ? (
                     <a

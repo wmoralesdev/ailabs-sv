@@ -74,7 +74,7 @@ function ProfileFormInner({ profile }: { profile: ProfileDoc }) {
         },
         contact: value.contact || undefined,
       });
-      navigate({ to: "/community/$slug", params: { slug: value.slug } });
+      navigate({ to: "/me" });
     },
   });
 
@@ -117,7 +117,7 @@ function ProfileFormInner({ profile }: { profile: ProfileDoc }) {
                       aria-invalid={isInvalid}
                       placeholder="jane-doe"
                     />
-                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    {!!isInvalid && <FieldError errors={field.state.meta.errors} />}
                   </Field>
                 );
               }}
@@ -140,7 +140,7 @@ function ProfileFormInner({ profile }: { profile: ProfileDoc }) {
                       aria-invalid={isInvalid}
                       placeholder="Jane Doe"
                     />
-                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    {!!isInvalid && <FieldError errors={field.state.meta.errors} />}
                   </Field>
                 );
               }}
@@ -163,7 +163,7 @@ function ProfileFormInner({ profile }: { profile: ProfileDoc }) {
                       aria-invalid={isInvalid}
                       placeholder="Senior Developer"
                     />
-                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    {!!isInvalid && <FieldError errors={field.state.meta.errors} />}
                   </Field>
                 );
               }}
@@ -187,7 +187,7 @@ function ProfileFormInner({ profile }: { profile: ProfileDoc }) {
                       placeholder="Tell us about yourself…"
                       className="min-h-[120px]"
                     />
-                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    {!!isInvalid && <FieldError errors={field.state.meta.errors} />}
                   </Field>
                 );
               }}
@@ -211,7 +211,7 @@ function ProfileFormInner({ profile }: { profile: ProfileDoc }) {
                       aria-invalid={isInvalid}
                       placeholder="https://…"
                     />
-                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    {!!isInvalid && <FieldError errors={field.state.meta.errors} />}
                   </Field>
                 );
               }}
@@ -280,8 +280,7 @@ function ProfileFormInner({ profile }: { profile: ProfileDoc }) {
               type="button"
               variant="outline"
               onClick={() =>
-                form.state.values.slug &&
-                navigate({ to: "/community/$slug", params: { slug: form.state.values.slug } })
+                navigate({ to: "/me" })
               }
             >
               View profile
@@ -295,20 +294,13 @@ function ProfileFormInner({ profile }: { profile: ProfileDoc }) {
 
 export function ProfileEditor() {
   const profile = useQuery(api.profiles.me);
-  const isAuthenticated = useQuery(api.auth.isAuthenticated);
-  const navigate = useNavigate();
 
-  if (profile === undefined || isAuthenticated === undefined) {
+  if (profile === undefined) {
     return (
       <Card>
         <CardContent className="pt-6">Loading…</CardContent>
       </Card>
     );
-  }
-
-  if (!isAuthenticated) {
-    navigate({ to: "/sign-in" });
-    return null;
   }
 
   const defaultProfile: ProfileDoc = profile ?? {

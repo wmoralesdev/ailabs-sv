@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { SectionHeader } from "@/components/section-header";
 import { cn } from "@/lib/utils";
 import { SocialLinks } from "@/components/social-links";
+import { formatWithBrandText } from "@/components/brand-text";
 
 function getInitials(name: string): string {
   const parts = name.trim().split(/\s+/);
@@ -54,7 +56,7 @@ export function AmbassadorSection() {
               className="[&_h2]:mb-4"
             />
             <p className="mb-4 text-pretty text-lg font-light leading-relaxed text-muted-foreground">
-              {t.ambassador.bio}
+              {formatWithBrandText(t.ambassador.bio)}
             </p>
 
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
@@ -64,14 +66,14 @@ export function AmbassadorSection() {
               <span className="text-muted-foreground/60" aria-hidden="true">
                 ·
               </span>
-              <a
-                href={ctaHref}
+              <Link
+                to={ctaHref as any}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm font-medium text-primary underline-offset-4 hover:underline"
               >
-                {t.ambassador.cta}
-              </a>
+                {formatWithBrandText(t.ambassador.cta)}
+              </Link>
               {hasSocials && (
                 <>
                   <span className="text-muted-foreground/60" aria-hidden="true">

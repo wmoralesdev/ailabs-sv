@@ -9,16 +9,28 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SponsorKitRouteImport } from './routes/sponsor-kit'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as SignInRouteImport } from './routes/sign-in'
+import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as PartnersRouteImport } from './routes/partners'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as MeRouteImport } from './routes/me'
-import { Route as CommunityRouteImport } from './routes/community'
+import { Route as FeedRouteImport } from './routes/feed'
+import { Route as DesignSystemRouteImport } from './routes/design-system'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SignInSsoCallbackRouteImport } from './routes/sign-in_.sso-callback'
 import { Route as CommunitySlugRouteImport } from './routes/community.$slug'
 
-const SponsorKitRoute = SponsorKitRouteImport.update({
-  id: '/sponsor-kit',
-  path: '/sponsor-kit',
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignUpRoute = SignUpRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignInRoute = SignInRouteImport.update({
@@ -26,14 +38,39 @@ const SignInRoute = SignInRouteImport.update({
   path: '/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesRoute = ResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnersRoute = PartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MeRoute = MeRouteImport.update({
   id: '/me',
   path: '/me',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CommunityRoute = CommunityRouteImport.update({
-  id: '/community',
-  path: '/community',
+const FeedRoute = FeedRouteImport.update({
+  id: '/feed',
+  path: '/feed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DesignSystemRoute = DesignSystemRouteImport.update({
+  id: '/design-system',
+  path: '/design-system',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -41,79 +78,141 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SignInSsoCallbackRoute = SignInSsoCallbackRouteImport.update({
+  id: '/sign-in_/sso-callback',
+  path: '/sign-in/sso-callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CommunitySlugRoute = CommunitySlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => CommunityRoute,
+  id: '/community/$slug',
+  path: '/community/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/community': typeof CommunityRouteWithChildren
+  '/blog': typeof BlogRoute
+  '/design-system': typeof DesignSystemRoute
+  '/feed': typeof FeedRoute
   '/me': typeof MeRoute
+  '/onboarding': typeof OnboardingRoute
+  '/partners': typeof PartnersRoute
+  '/resources': typeof ResourcesRoute
   '/sign-in': typeof SignInRoute
-  '/sponsor-kit': typeof SponsorKitRoute
+  '/sign-up': typeof SignUpRoute
+  '/terms': typeof TermsRoute
   '/community/$slug': typeof CommunitySlugRoute
+  '/sign-in/sso-callback': typeof SignInSsoCallbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/community': typeof CommunityRouteWithChildren
+  '/blog': typeof BlogRoute
+  '/design-system': typeof DesignSystemRoute
+  '/feed': typeof FeedRoute
   '/me': typeof MeRoute
+  '/onboarding': typeof OnboardingRoute
+  '/partners': typeof PartnersRoute
+  '/resources': typeof ResourcesRoute
   '/sign-in': typeof SignInRoute
-  '/sponsor-kit': typeof SponsorKitRoute
+  '/sign-up': typeof SignUpRoute
+  '/terms': typeof TermsRoute
   '/community/$slug': typeof CommunitySlugRoute
+  '/sign-in/sso-callback': typeof SignInSsoCallbackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/community': typeof CommunityRouteWithChildren
+  '/blog': typeof BlogRoute
+  '/design-system': typeof DesignSystemRoute
+  '/feed': typeof FeedRoute
   '/me': typeof MeRoute
+  '/onboarding': typeof OnboardingRoute
+  '/partners': typeof PartnersRoute
+  '/resources': typeof ResourcesRoute
   '/sign-in': typeof SignInRoute
-  '/sponsor-kit': typeof SponsorKitRoute
+  '/sign-up': typeof SignUpRoute
+  '/terms': typeof TermsRoute
   '/community/$slug': typeof CommunitySlugRoute
+  '/sign-in_/sso-callback': typeof SignInSsoCallbackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/community'
+    | '/blog'
+    | '/design-system'
+    | '/feed'
     | '/me'
+    | '/onboarding'
+    | '/partners'
+    | '/resources'
     | '/sign-in'
-    | '/sponsor-kit'
+    | '/sign-up'
+    | '/terms'
     | '/community/$slug'
+    | '/sign-in/sso-callback'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/community'
+    | '/blog'
+    | '/design-system'
+    | '/feed'
     | '/me'
+    | '/onboarding'
+    | '/partners'
+    | '/resources'
     | '/sign-in'
-    | '/sponsor-kit'
+    | '/sign-up'
+    | '/terms'
     | '/community/$slug'
+    | '/sign-in/sso-callback'
   id:
     | '__root__'
     | '/'
-    | '/community'
+    | '/blog'
+    | '/design-system'
+    | '/feed'
     | '/me'
+    | '/onboarding'
+    | '/partners'
+    | '/resources'
     | '/sign-in'
-    | '/sponsor-kit'
+    | '/sign-up'
+    | '/terms'
     | '/community/$slug'
+    | '/sign-in_/sso-callback'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CommunityRoute: typeof CommunityRouteWithChildren
+  BlogRoute: typeof BlogRoute
+  DesignSystemRoute: typeof DesignSystemRoute
+  FeedRoute: typeof FeedRoute
   MeRoute: typeof MeRoute
+  OnboardingRoute: typeof OnboardingRoute
+  PartnersRoute: typeof PartnersRoute
+  ResourcesRoute: typeof ResourcesRoute
   SignInRoute: typeof SignInRoute
-  SponsorKitRoute: typeof SponsorKitRoute
+  SignUpRoute: typeof SignUpRoute
+  TermsRoute: typeof TermsRoute
+  CommunitySlugRoute: typeof CommunitySlugRoute
+  SignInSsoCallbackRoute: typeof SignInSsoCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sponsor-kit': {
-      id: '/sponsor-kit'
-      path: '/sponsor-kit'
-      fullPath: '/sponsor-kit'
-      preLoaderRoute: typeof SponsorKitRouteImport
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign-up': {
+      id: '/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof SignUpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sign-in': {
@@ -123,6 +222,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignInRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partners': {
+      id: '/partners'
+      path: '/partners'
+      fullPath: '/partners'
+      preLoaderRoute: typeof PartnersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/me': {
       id: '/me'
       path: '/me'
@@ -130,11 +250,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/community': {
-      id: '/community'
-      path: '/community'
-      fullPath: '/community'
-      preLoaderRoute: typeof CommunityRouteImport
+    '/feed': {
+      id: '/feed'
+      path: '/feed'
+      fullPath: '/feed'
+      preLoaderRoute: typeof FeedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/design-system': {
+      id: '/design-system'
+      path: '/design-system'
+      fullPath: '/design-system'
+      preLoaderRoute: typeof DesignSystemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -144,44 +278,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sign-in_/sso-callback': {
+      id: '/sign-in_/sso-callback'
+      path: '/sign-in/sso-callback'
+      fullPath: '/sign-in/sso-callback'
+      preLoaderRoute: typeof SignInSsoCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/community/$slug': {
       id: '/community/$slug'
-      path: '/$slug'
+      path: '/community/$slug'
       fullPath: '/community/$slug'
       preLoaderRoute: typeof CommunitySlugRouteImport
-      parentRoute: typeof CommunityRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface CommunityRouteChildren {
-  CommunitySlugRoute: typeof CommunitySlugRoute
-}
-
-const CommunityRouteChildren: CommunityRouteChildren = {
-  CommunitySlugRoute: CommunitySlugRoute,
-}
-
-const CommunityRouteWithChildren = CommunityRoute._addFileChildren(
-  CommunityRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CommunityRoute: CommunityRouteWithChildren,
+  BlogRoute: BlogRoute,
+  DesignSystemRoute: DesignSystemRoute,
+  FeedRoute: FeedRoute,
   MeRoute: MeRoute,
+  OnboardingRoute: OnboardingRoute,
+  PartnersRoute: PartnersRoute,
+  ResourcesRoute: ResourcesRoute,
   SignInRoute: SignInRoute,
-  SponsorKitRoute: SponsorKitRoute,
+  SignUpRoute: SignUpRoute,
+  TermsRoute: TermsRoute,
+  CommunitySlugRoute: CommunitySlugRoute,
+  SignInSsoCallbackRoute: SignInSsoCallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 
 import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
+import type { startInstance } from './start.ts'
 declare module '@tanstack/react-start' {
   interface Register {
     ssr: true
     router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
   }
 }
