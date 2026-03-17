@@ -49,7 +49,7 @@ export function SiteHeader() {
             : "justify-between gap-0 border border-transparent bg-transparent px-5 shadow-none",
         )}
       >
-        <div className="flex items-center justify-start transition-all duration-300">
+        <div className="flex h-full items-center justify-start transition-all duration-300">
           <Link
             to="/"
             className={cn(
@@ -62,17 +62,17 @@ export function SiteHeader() {
           </Link>
         </div>
 
-        <nav className="hidden items-center gap-1 transition-all duration-300 md:flex flex-1 justify-start ml-4">
+        <nav className="ml-4 hidden h-full flex-1 items-center justify-start gap-1 transition-all duration-300 md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.label}
               to={link.to}
               hash={link.hash}
               className={cn(
-                "rounded-full px-4 py-2 text-sm font-medium transition-colors",
+                "inline-flex h-9 items-center justify-center px-4 text-sm font-medium leading-none transition-colors",
                 scrolled
-                  ? "text-background/80 hover:bg-background/15 hover:text-background"
-                  : "text-foreground/80 hover:bg-accent hover:text-foreground"
+                  ? "text-background/70 hover:text-background aria-[current=page]:text-background"
+                  : "text-foreground/70 hover:text-primary aria-[current=page]:text-primary"
               )}
             >
               {link.label}
@@ -82,7 +82,7 @@ export function SiteHeader() {
 
         <div
           className={cn(
-            "flex items-center justify-end gap-2 transition-all duration-300",
+            "flex h-full items-center justify-end gap-2 transition-all duration-300",
             scrolled && "[&_button]:text-background [&_button:hover]:bg-background/15 [&_button:hover]:text-background",
           )}
         >
