@@ -5,38 +5,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@font-face {
-  font-family: 'Cursor Gothic';
-  src: url('/fonts/WOFF/CursorGothic-Regular.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cursor Gothic';
-  src: url('/fonts/WOFF/CursorGothic-Italic.woff') format('woff');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cursor Gothic';
-  src: url('/fonts/WOFF/CursorGothic-Bold.woff') format('woff');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cursor Gothic';
-  src: url('/fonts/WOFF/CursorGothic-BoldItalic.woff') format('woff');
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-
 :root {
     --background: oklch(0.9688 0.007 106.52);
     --foreground: oklch(0.2972 0 0);
