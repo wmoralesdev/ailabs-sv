@@ -8,7 +8,6 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { LangSync } from "@/components/lang-sync"
 import { ConvexProvider } from "@/components/convex-provider"
 import { AuthProvider } from "@/components/auth/auth-context"
-import { postDebugLog } from "@/lib/debug-log"
 
 const clerkPublishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY as string;
 
@@ -57,79 +56,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     if (import.meta.env.DEV) {
       void import("react-grab");
     }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    // #region agent log
-    postDebugLog({
-      runId: "initial",
-      hypothesisId: "H1",
-      location: "src/routes/__root.tsx",
-      message: "root document boot",
-      data: {
-        path: window.location.pathname,
-        mode: import.meta.env.MODE,
-        hasClerkPublishableKey: Boolean(clerkPublishableKey),
-      },
-    });
-    // #endregion
-
-    const onError = (event: ErrorEvent) => {
-      const stack =
-        typeof event.error?.stack === "string"
-          ? event.error.stack.split("\n").slice(0, 4).join("\n")
-          : null;
-
-      // #region agent log
-      postDebugLog({
-        runId: "initial",
-        hypothesisId: "H4",
-        location: "src/routes/__root.tsx",
-        message: "window error",
-        data: {
-          path: window.location.pathname,
-          source: event.filename ?? null,
-          errorMessage: event.message ?? null,
-          stack,
-        },
-      });
-      // #endregion
-    };
-
-    const onUnhandledRejection = (event: PromiseRejectionEvent) => {
-      const reason =
-        event.reason instanceof Error
-          ? {
-              message: event.reason.message,
-              stack: event.reason.stack?.split("\n").slice(0, 4).join("\n") ?? null,
-            }
-          : {
-              message:
-                typeof event.reason === "string" ? event.reason : JSON.stringify(event.reason ?? null),
-            };
-
-      // #region agent log
-      postDebugLog({
-        runId: "initial",
-        hypothesisId: "H4",
-        location: "src/routes/__root.tsx",
-        message: "window unhandled rejection",
-        data: {
-          path: window.location.pathname,
-          reason,
-        },
-      });
-      // #endregion
-    };
-
-    window.addEventListener("error", onError);
-    window.addEventListener("unhandledrejection", onUnhandledRejection);
-    return () => {
-      window.removeEventListener("error", onError);
-      window.removeEventListener("unhandledrejection", onUnhandledRejection);
-    };
   }, []);
 
   return (

@@ -1,10 +1,9 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo } from "react";
+import { createContext, useContext, useMemo } from "react";
 import { useConvexAuth } from "convex/react";
 import { useUser } from "@clerk/tanstack-react-start";
 import { Spinner } from "@/components/ui/spinner";
-import { postDebugLog } from "@/lib/debug-log";
 
 type AuthStatus = "loading" | "signed_in" | "signed_out";
 
@@ -19,24 +18,6 @@ const AuthContext = createContext<AuthState | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { isLoading: isConvexLoading, isAuthenticated } = useConvexAuth();
   const { user, isLoaded: isClerkLoaded } = useUser();
-
-  useEffect(() => {
-    // #region agent log
-    postDebugLog({
-      runId: "initial",
-      hypothesisId: "H2",
-      location: "src/components/auth/auth-context.tsx",
-      message: "auth state snapshot",
-      data: {
-        path: typeof window === "undefined" ? null : window.location.pathname,
-        isConvexLoading,
-        isClerkLoaded,
-        isAuthenticated,
-        hasUser: Boolean(user),
-      },
-    });
-    // #endregion
-  }, [isAuthenticated, isClerkLoaded, isConvexLoading, user]);
 
   const value = useMemo<AuthState>(() => {
     const loading = isConvexLoading || !isClerkLoaded;

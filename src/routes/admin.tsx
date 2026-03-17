@@ -1,5 +1,4 @@
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
-import { useEffect } from "react";
 import { useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
 import { authStateFn } from "@/lib/auth-server";
@@ -9,7 +8,6 @@ import { RequireAuth } from "@/components/auth/require-auth";
 import { AdminEventsPage } from "@/components/admin/admin-events-page";
 import { Spinner } from "@/components/ui/spinner";
 import { buttonVariants } from "@/components/ui/button";
-import { postDebugLog } from "@/lib/debug-log";
 
 export const Route = createFileRoute("/admin")({
   beforeLoad: async () => {
@@ -23,22 +21,6 @@ export const Route = createFileRoute("/admin")({
 
 function AdminPage() {
   const isAdmin = useQuery(api.admin.isCurrentUserAdmin);
-
-  useEffect(() => {
-    // #region agent log
-    postDebugLog({
-      runId: "initial",
-      hypothesisId: "H3",
-      location: "src/routes/admin.tsx",
-      message: "admin route query snapshot",
-      data: {
-        path: typeof window === "undefined" ? null : window.location.pathname,
-        adminState:
-          isAdmin === undefined ? "loading" : isAdmin ? "true" : "false",
-      },
-    });
-    // #endregion
-  }, [isAdmin]);
 
   return (
     <RequireAuth>
