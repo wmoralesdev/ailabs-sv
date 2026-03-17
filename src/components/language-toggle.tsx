@@ -7,9 +7,9 @@ export function LanguageToggle() {
   return (
     <Button
       variant="ghost"
-      size="sm"
+      size="lg"
       onClick={() => setLanguage(language === "es" ? "en" : "es")}
-      className="w-12 px-0 font-mono text-xs font-medium"
+      className="min-w-11 px-2 font-mono text-sm font-medium"
       aria-label={language === "es" ? t.ui.a11y.switchToEnglish : t.ui.a11y.switchToSpanish}
     >
       {language.toUpperCase()}

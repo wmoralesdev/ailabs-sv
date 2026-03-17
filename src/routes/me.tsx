@@ -1,4 +1,5 @@
-import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, redirect, useNavigate, useRouter } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
 import { authStateFn } from "@/lib/auth-server";
@@ -20,7 +21,14 @@ export const Route = createFileRoute("/me")({
 
 function MePage() {
   const navigate = useNavigate();
+  const router = useRouter();
   const profile = useQuery(api.profiles.me);
+
+  useEffect(() => {
+    if (profile === null) {
+      router.navigate({ to: "/onboarding", replace: true });
+    }
+  }, [profile, router]);
 
   return (
     <RequireAuth>
@@ -32,17 +40,8 @@ function MePage() {
               <Spinner size="lg" />
             </div>
           ) : profile === null ? (
-            <div className="flex flex-1 flex-col items-center justify-center gap-4 px-6 text-center">
-              <p className="text-muted-foreground">
-                Complete onboarding to create your profile.
-              </p>
-              <button
-                type="button"
-                onClick={() => navigate({ to: "/onboarding" })}
-                className="rounded-lg bg-primary px-6 py-2 font-medium text-primary-foreground"
-              >
-                Start onboarding
-              </button>
+            <div className="flex flex-1 items-center justify-center">
+              <Spinner size="lg" />
             </div>
           ) : (
             <ProfileView

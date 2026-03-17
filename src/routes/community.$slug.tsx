@@ -15,7 +15,8 @@ export const Route = createFileRoute("/community/$slug")({
 function CommunityProfilePage() {
   const { slug } = Route.useParams();
   const profile = useQuery(api.profiles.getBySlug, { slug });
-  const { isAuthenticated } = useAuthState();
+  const { isAuthenticated, user } = useAuthState();
+  const isOwner = !!profile && !!user && user.id === profile.ownerId;
 
   return (
     <div className="min-h-dvh bg-background text-foreground font-sans">
@@ -43,7 +44,7 @@ function CommunityProfilePage() {
         ) : (
           <ProfileView
             profile={profile}
-            isOwner={false}
+            isOwner={isOwner}
             showContact={isAuthenticated}
           />
         )}

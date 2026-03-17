@@ -15,6 +15,7 @@ export interface SiteContent {
   hero: {
     headlineLine1: string;
     headlineLine2: string;
+    headlinePhrases: string[];
     subheadline: string;
     primaryCta: string;
     secondaryCta: string;
@@ -27,7 +28,7 @@ export interface SiteContent {
     socials?: { twitter?: string; linkedin?: string; github?: string };
     badges?: Array<string>;
   }>;
-  ambassador: {
+  founder: {
     name: string;
     role: string;
     bio: string;
@@ -97,8 +98,11 @@ export interface SiteContent {
     upcomingTitle: string;
     pastTitle: string;
     noUpcoming: string;
+    noPast: string;
     rsvpButton: string;
     recapButton: string;
+    albumButton: string;
+    virtualLabel: string;
     upcoming: Array<{
       id: string;
       title: string;
@@ -178,10 +182,85 @@ export interface SiteContent {
   feed: {
     wipLabel: string;
     wipDescription: string;
+    title: string;
+    heroBadge?: string;
+    heroSubtitle?: string;
+    filterAll: string;
+    filterPosts: string;
+    filterRepos: string;
+    filterSkills: string;
+    filterPrompts: string;
+    filterBlog: string;
+    composerPlaceholder: string;
+    postButton: string;
+    joinToShare: string;
+    joinCta: string;
+    loadMore: string;
+    empty: string;
+    sortNewest?: string;
+    sortOldest?: string;
+    sortNewestFirst?: string;
+    sortOldestFirst?: string;
+    searchPlaceholder?: string;
   };
   resources: {
     wipLabel: string;
     wipDescription: string;
+    tabPosts: string;
+    tabRepos: string;
+    tabSkills: string;
+    tabPrompts: string;
+    tabBlog: string;
+    addResource: string;
+    titleLabel: string;
+    titlePlaceholder: string;
+    bodyLabel: string;
+    bodyPlaceholder: string;
+    urlLabel: string;
+    urlLabelRepo?: string;
+    urlLabelSkill?: string;
+    urlPlaceholder: string;
+    tagsLabel: string;
+    tagsDescription: string;
+    tagsPlaceholder: string;
+    languageLabel: string;
+    languagePlaceholder: string;
+    visibilityLabel: string;
+    visibilityPublic: string;
+    visibilityMembers: string;
+    save: string;
+    cancel: string;
+    empty: string;
+    typeRepo: string;
+    typeSkill: string;
+    typePrompt: string;
+    typeBlog: string;
+    rawContentLabel?: string;
+    rawContentDescription?: string;
+    skillHelperTitle?: string;
+    skillHelperText?: string;
+    skillHelperLink?: string;
+    writeLabel?: string;
+    previewLabel?: string;
+    previewEmpty?: string;
+    copy?: string;
+    copied?: string;
+    openWithCursor?: string;
+    openWithClaude?: string;
+    edit?: string;
+    delete?: string;
+    moreActions?: string;
+    deleteConfirmTitle?: string;
+    deleteConfirmDescription?: string;
+    editPost?: string;
+  };
+  interactions: {
+    like: string;
+    comment: string;
+    bookmark: string;
+    reply: string;
+    addComment: string;
+    commentPlaceholder: string;
   };
   blog: {
     wipLabel: string;
@@ -203,6 +282,11 @@ export interface SiteContent {
       headlineAccent: string;
       subheadline: string;
       cta: string;
+      edit?: {
+        headline: string;
+        subheadline: string;
+        cta: string;
+      };
     };
     about: {
       headline: string;
@@ -212,11 +296,20 @@ export interface SiteContent {
       slugLabel: string;
       slugDescription: string;
       slugPlaceholder: string;
+      handleAvailable: string;
+      handleTaken: string;
+      handleInvalid: string;
       avatarLabel: string;
       avatarUploadCta: string;
       avatarUploading: string;
+      avatarDragDropHint: string;
+      avatarFileSizeHint: string;
       locationLabel: string;
       locationPlaceholder: string;
+      taglineLabel: string;
+      taglinePlaceholder: string;
+      taglineDescription: string;
+      taglineRequired: string;
       nameRequired: string;
       slugRequired: string;
     };
@@ -231,6 +324,7 @@ export interface SiteContent {
       companyLabel: string;
       companyPlaceholder: string;
       experienceLabel: string;
+      experiencePlaceholder: string;
       experienceOptions: { value: string; label: string; description?: string }[];
       bioLabel: string;
       bioPlaceholder: string;
@@ -245,10 +339,23 @@ export interface SiteContent {
       toolsLabel: string;
       lookingForLabel: string;
       availabilityLabel: string;
-      interests: string[];
-      tools: string[];
-      lookingFor: string[];
-      availability: string[];
+      interests: { id: string; label: string }[];
+      tools: { id: string; label: string }[];
+      lookingFor: { id: string; label: string }[];
+      availability: { id: string; label: string }[];
+    };
+    interestsExplore?: {
+      headline: string;
+      subheadline: string;
+      interestsLabel: string;
+      interestsRequired: string;
+      toolsLabel: string;
+    };
+    interestsConnect?: {
+      headline: string;
+      subheadline: string;
+      lookingForLabel: string;
+      availabilityLabel: string;
     };
     connect: {
       headline: string;
@@ -299,12 +406,19 @@ export interface SiteContent {
     invalidCodeError: string;
   };
   ui: {
+    header?: {
+      newPost: string;
+      submitProject: string;
+      myProfile: string;
+      signOut: string;
+    };
     nav: {
       overview: string;
       community: string;
       events: string;
       partners: string;
       blog: string;
+      feed: string;
       join: string;
       account: string;
     };
@@ -342,9 +456,35 @@ export interface SiteContent {
     };
     testimonials: { badge: string; title: string };
     highlights: { badge: string; whySponsor: string };
-    ambassador: { github: string; x: string; photoPlaceholder: string };
+    founder: { github: string; x: string; photoPlaceholder: string };
     a11y: { search: string; switchToEnglish: string; switchToSpanish: string; selectTheme: string; themeLight: string; themeDark: string; themeSystem: string };
     backToHome: string;
+  };
+  profile?: {
+    activity: string;
+    achievements: string;
+    achievementsEmpty: string;
+    eventsAttended: string;
+    projects: string;
+    showcaseEmpty: string;
+    showcaseEmptySubtext: string;
+    member: string;
+    contact: string;
+    editProfile: string;
+    about: string;
+    experience: string;
+    interests: string;
+    tools: string;
+    lookingFor: string;
+    availability: string;
+    experienceLabels: {
+      beginner: string;
+      intermediate: string;
+      advanced: string;
+      exploring: string;
+      building: string;
+      shipping: string;
+    };
   };
 }
 
@@ -359,6 +499,13 @@ const contentEs: SiteContent = {
   hero: {
     headlineLine1: "La curiosidad nos mueve.",
     headlineLine2: "La IA es como exploramos.",
+    headlinePhrases: [
+      "La IA es como exploramos.",
+      "La IA es nuestro catalizador.",
+      "La IA es el principio.",
+      "La IA es nuestro sandbox.",
+      "La IA es lo que construimos."
+    ],
     subheadline: "Una comunidad de builders en El Salvador que hace preguntas, experimenta y comparte lo que aprende.",
     primaryCta: "Explorar el Lab",
     secondaryCta: "Ver qué estamos explorando",
@@ -373,18 +520,18 @@ const contentEs: SiteContent = {
     { name: "Ricardo S.", role: "BACKEND DEV", bio: "Sistemas distribuidos, curiosidad concentrada." },
     { name: "Gabriela P.", role: "DATA SCIENTIST", bio: "Encontrando patrones que otros no ven." },
   ],
-  ambassador: {
+  founder: {
     name: "Walter Morales",
-    role: "Founder",
-    bio: "Fundó ailabs.sv porque tenía preguntas sobre qué podía hacer la IA — y no encontraba a nadie en El Salvador haciéndolas. Ahora más de 500 builders de la región exploran juntos.",
+    role: "FOUNDER",
+    bio: "Fundamos ailabs.sv con una pregunta simple: ¿qué puede hacer la IA aquí, realmente? Nadie en El Salvador estaba preguntando — así que creamos el espacio para descubrirlo. Lo que empezó como curiosidad se convirtió en una comunidad de 500+ builders en la región, organizando workshops, hackathons y conversaciones reales sobre lo que es posible.",
     image: "/images/walter-morales.webp",
     sectionTitle: "THE STORY",
     cta: "wmorales.dev →",
-    purposeFraming: "¿Quieres construir algo con nosotros?",
+    purposeFraming: "¿Querés construir algo con nosotros?",
     purposeItems: [
-      "Alianzas que crean oportunidades de aprendizaje",
-      "Invitaciones a charlas que generan discusiones",
-      "Conexiones con builders curiosos",
+      "Alianzas que convierten ideas en experiencias de aprendizaje",
+      "Invitaciones a hablar que van más allá de las slides",
+      "Conexiones con builders que construyen, no solo hablan",
     ],
     socials: {
       twitter: "https://twitter.com/wmoralesdev",
@@ -454,81 +601,13 @@ const contentEs: SiteContent = {
     upcomingTitle: "Próximos eventos",
     pastTitle: "Galería de eventos",
     noUpcoming: "Pronto anunciaremos nuevas fechas.",
+    noPast: "Aún no hay eventos pasados.",
     rsvpButton: "Confirmar asistencia",
     recapButton: "Ver resumen",
-    upcoming: [
-      {
-        id: "next-meetup",
-        title: "ailabs.sv & Coffee: AI Workflow Deep Dive",
-        date: "Sábado 15 de marzo, 10:00 AM",
-        location: "Impact Hub San Salvador",
-        description: "Trae tu laptop y tus preguntas. Lo demás lo resolvemos juntos.",
-        rsvpLink: "https://chat.whatsapp.com/Ga8mG1fqDM9C0ryxAw1eIj",
-        type: "Workshop",
-        tags: ["AI", "Workflow", "Networking"],
-      },
-      {
-        id: "hackathon-agents",
-        title: "Hackathon: Build with Agents",
-        date: "Sábado 12 de abril, 9:00 AM",
-        location: "Tech Loft",
-        description: "Una pregunta, 48 horas, y lo que puedas construir para responderla.",
-        rsvpLink: "https://chat.whatsapp.com/Ga8mG1fqDM9C0ryxAw1eIj",
-        type: "Hackathon",
-        tags: ["Hackathon", "Agents", "Code"],
-      },
-      {
-        id: "social-night",
-        title: "Social Night: Devs & Drinks",
-        date: "Viernes 25 de abril, 7:00 PM",
-        location: "Cervecería La 20",
-        description: "Sin agenda. Solo conversaciones con gente construyendo cosas interesantes.",
-        rsvpLink: "https://chat.whatsapp.com/Ga8mG1fqDM9C0ryxAw1eIj",
-        type: "Social",
-        tags: ["Networking", "Community", "Fun"],
-      },
-    ],
-    past: [
-      {
-        id: "launch-party",
-        title: "ailabs.sv Launch Party",
-        date: "febrero 2026",
-        image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop",
-        span: "col-span-2",
-      },
-      {
-        id: "ai-talk",
-        title: "Charla: El Futuro del Código",
-        date: "enero 2026",
-        image: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?q=80&w=2072&auto=format&fit=crop",
-        span: "row-span-2",
-      },
-      {
-        id: "networking-night",
-        title: "Networking Night",
-        date: "diciembre 2025",
-        image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=2070&auto=format&fit=crop",
-      },
-      {
-        id: "workshop-1",
-        title: "Primer Workshop",
-        date: "noviembre 2025",
-        image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop",
-      },
-      {
-        id: "panel-ai",
-        title: "Panel: IA en Producción",
-        date: "octubre 2025",
-        image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2070&auto=format&fit=crop",
-        span: "col-span-2",
-      },
-      {
-        id: "ama-session",
-        title: "ailabs.sv AMA",
-        date: "septiembre 2025",
-        image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=2070&auto=format&fit=crop",
-      },
-    ],
+    albumButton: "Ver álbum",
+    virtualLabel: "Virtual",
+    upcoming: [],
+    past: [],
   },
   partner: {
     title: "¿Curiosidad por colaborar?",
@@ -630,10 +709,85 @@ const contentEs: SiteContent = {
   feed: {
     wipLabel: "En construcción",
     wipDescription: "El feed estará disponible pronto.",
+    title: "Feed de la Comunidad",
+    heroBadge: "COMUNIDAD",
+    heroSubtitle: "Comparte lo que estás construyendo, descubre recursos y conecta con builders.",
+    filterAll: "Todo",
+    filterPosts: "Posts",
+    filterRepos: "Repos",
+    filterSkills: "Skills",
+    filterPrompts: "Prompts",
+    filterBlog: "Blog",
+    composerPlaceholder: "¿Qué tienes en mente?",
+    postButton: "Publicar",
+    joinToShare: "Únete a la comunidad para compartir",
+    joinCta: "Iniciar sesión",
+    loadMore: "Cargar más",
+    empty: "Aún no hay contenido. ¡Sé el primero en publicar!",
+    sortNewest: "Recientes",
+    sortOldest: "Antiguos",
+    sortNewestFirst: "Más recientes primero",
+    sortOldestFirst: "Más antiguos primero",
+    searchPlaceholder: "Buscar en el feed...",
   },
   resources: {
     wipLabel: "En construcción",
     wipDescription: "Los recursos estarán disponibles pronto.",
+    tabPosts: "Posts",
+    tabRepos: "Repos",
+    tabSkills: "Skills",
+    tabPrompts: "Prompts",
+    tabBlog: "Blog",
+    addResource: "Agregar",
+    titleLabel: "Título",
+    titlePlaceholder: "Ej: Mi colección de prompts",
+    bodyLabel: "Contenido",
+    bodyPlaceholder: "Describe tu recurso en markdown…",
+    urlLabel: "URL (opcional)",
+    urlLabelRepo: "URL del repositorio",
+    urlLabelSkill: "URL de GitHub",
+    urlPlaceholder: "https://github.com/…",
+    tagsLabel: "Etiquetas",
+    tagsDescription: "Separadas por comas",
+    tagsPlaceholder: "cursor, ai, typescript",
+    languageLabel: "Lenguaje",
+    languagePlaceholder: "TypeScript",
+    visibilityLabel: "Visibilidad",
+    visibilityPublic: "Público",
+    visibilityMembers: "Solo miembros",
+    save: "Guardar",
+    cancel: "Cancelar",
+    empty: "Aún no hay recursos aquí.",
+    typeRepo: "Repo",
+    typeSkill: "Skill",
+    typePrompt: "Prompt",
+    typeBlog: "Blog",
+    rawContentLabel: "Contenido del prompt",
+    rawContentDescription: "El texto del prompt que se copiará/usará.",
+    skillHelperTitle: "Los skills siguen el formato skills.sh",
+    skillHelperText: "Aloja tu skill en GitHub siguiendo el formato skills.sh.",
+    skillHelperLink: "Saber más →",
+    writeLabel: "Escribir",
+    previewLabel: "Vista previa",
+    previewEmpty: "Nada que previsualizar",
+    copy: "Copiar",
+    copied: "¡Copiado!",
+    openWithCursor: "Abrir con Cursor",
+    openWithClaude: "Abrir con Claude",
+    edit: "Editar",
+    delete: "Eliminar",
+    moreActions: "Más acciones",
+    deleteConfirmTitle: "¿Eliminar este elemento?",
+    deleteConfirmDescription: "Esta acción no se puede deshacer.",
+    editPost: "Editar publicación",
+  },
+  interactions: {
+    like: "Me gusta",
+    comment: "Comentar",
+    bookmark: "Guardar",
+    reply: "Responder",
+    addComment: "Agregar comentario",
+    commentPlaceholder: "Escribe un comentario…",
   },
   blog: {
     wipLabel: "En construcción",
@@ -655,22 +809,36 @@ const contentEs: SiteContent = {
       headlineAccent: "Walter",
       subheadline: "Bienvenido a ailabs.sv — una comunidad de builders explorando lo posible con IA. En unos pasos tendrás tu perfil listo para conectar con otros curiosos.",
       cta: "Empezar",
+      edit: {
+        headline: "¡Bienvenido de vuelta!",
+        subheadline: "Tus compañeros builders quieren conocerte mejor — actualiza tu perfil cuando quieras.",
+        cta: "Actualizar perfil",
+      },
     },
     about: {
       headline: "Cuéntanos un poco de ti",
       subheadline: "Así la comunidad podrá encontrarte.",
       nameLabel: "Nombre",
       namePlaceholder: "Tu nombre",
-      slugLabel: "Slug del perfil",
-      slugDescription: "Tu URL será: /community/tu-slug",
+      slugLabel: "Tu handle",
+      slugDescription: "Tu URL será: /community/tu-handle",
       slugPlaceholder: "jane-doe",
+      handleAvailable: "Este handle está disponible",
+      handleTaken: "Este handle ya está en uso",
+      handleInvalid: "Solo letras minúsculas, números y guiones",
       avatarLabel: "Foto de perfil",
       avatarUploadCta: "Subir foto",
       avatarUploading: "Subiendo…",
+      avatarDragDropHint: "Arrastra o haz clic para subir",
+      avatarFileSizeHint: "JPG, PNG, WebP — máx 2MB",
       locationLabel: "Ubicación",
       locationPlaceholder: "San Salvador, El Salvador",
+      taglineLabel: "Frase o lema",
+      taglinePlaceholder: "Ej: Construyendo con curiosidad.",
+      taglineDescription: "Una frase corta, slogan o lema que aparecerá en tu perfil público.",
+      taglineRequired: "La frase o lema es requerida",
       nameRequired: "El nombre es requerido",
-      slugRequired: "El slug es requerido",
+      slugRequired: "El handle es requerido",
     },
     work: {
       headline: "¿Qué te trae por aquí?",
@@ -691,6 +859,7 @@ const contentEs: SiteContent = {
       companyLabel: "Empresa o escuela (opcional)",
       companyPlaceholder: "Universidad, Tech Co…",
       experienceLabel: "Tu recorrido con IA",
+      experiencePlaceholder: "Selecciona…",
       experienceOptions: [
         { value: "exploring", label: "Explorando", description: "Recién empezando con herramientas de IA" },
         { value: "building", label: "Construyendo", description: "Usando IA en proyectos y experimentos" },
@@ -710,49 +879,62 @@ const contentEs: SiteContent = {
       lookingForLabel: "Qué buscas",
       availabilityLabel: "Disponibilidad",
       interests: [
-        "Agentes y automatización",
-        "RAG y bases de conocimiento",
-        "Visión por computadora",
-        "NLP y LLMs",
-        "Voz y audio",
-        "Generación de código",
-        "Datos y analytics",
-        "MLOps e infraestructura",
-        "Producto y UX con IA",
+        { id: "agents-automation", label: "Agentes y automatización" },
+        { id: "rag-knowledge-bases", label: "RAG y bases de conocimiento" },
+        { id: "computer-vision", label: "Visión por computadora" },
+        { id: "nlp-llms", label: "NLP y LLMs" },
+        { id: "voice-audio", label: "Voz y audio" },
+        { id: "code-generation", label: "Generación de código" },
+        { id: "data-analytics", label: "Datos y analytics" },
+        { id: "mlops-infrastructure", label: "MLOps e infraestructura" },
+        { id: "product-ux-ai", label: "Producto y UX con IA" },
       ],
       tools: [
-        "ChatGPT",
-        "Claude",
-        "Cursor",
-        "GitHub Copilot",
-        "v0",
-        "Midjourney",
-        "Stable Diffusion",
-        "DALL-E",
-        "OpenAI API",
-        "Anthropic API",
-        "Gemini",
-        "Perplexity",
-        "LangChain",
-        "Hugging Face",
-        "Replit AI",
-        "Vercel AI SDK",
+        { id: "chatgpt", label: "ChatGPT" },
+        { id: "claude", label: "Claude" },
+        { id: "cursor", label: "Cursor" },
+        { id: "github-copilot", label: "GitHub Copilot" },
+        { id: "v0", label: "v0" },
+        { id: "midjourney", label: "Midjourney" },
+        { id: "stable-diffusion", label: "Stable Diffusion" },
+        { id: "dalle", label: "DALL-E" },
+        { id: "openai-api", label: "OpenAI API" },
+        { id: "anthropic-api", label: "Anthropic API" },
+        { id: "gemini", label: "Gemini" },
+        { id: "perplexity", label: "Perplexity" },
+        { id: "langchain", label: "LangChain" },
+        { id: "hugging-face", label: "Hugging Face" },
+        { id: "replit-ai", label: "Replit AI" },
+        { id: "vercel-ai-sdk", label: "Vercel AI SDK" },
       ],
       lookingFor: [
-        "Compañeros de aprendizaje",
-        "Colaboradores de proyectos",
-        "Mentoría (como aprendiz)",
-        "Mentoría (como mentor)",
-        "Oportunidades laborales",
-        "Co-fundadores",
-        "Solo explorando",
+        { id: "learning-buddies", label: "Compañeros de aprendizaje" },
+        { id: "project-collaborators", label: "Colaboradores de proyectos" },
+        { id: "mentorship-mentee", label: "Mentoría (como aprendiz)" },
+        { id: "mentorship-mentor", label: "Mentoría (como mentor)" },
+        { id: "job-opportunities", label: "Oportunidades laborales" },
+        { id: "co-founders", label: "Co-fundadores" },
+        { id: "just-exploring", label: "Solo explorando" },
       ],
       availability: [
-        "Abierto a cafés",
-        "Abierto a colaboraciones",
-        "Disponible para hablar",
-        "Abierto a mentoría",
+        { id: "coffee-chats", label: "Abierto a cafés" },
+        { id: "collaborations", label: "Abierto a colaboraciones" },
+        { id: "speaking", label: "Disponible para hablar" },
+        { id: "mentoring", label: "Abierto a mentoría" },
       ],
+    },
+    interestsExplore: {
+      headline: "¿Qué exploras?",
+      subheadline: "Temas y herramientas que te interesan.",
+      interestsLabel: "Temas de IA que te interesan",
+      interestsRequired: "Selecciona al menos uno",
+      toolsLabel: "Herramientas de IA que has explorado",
+    },
+    interestsConnect: {
+      headline: "¿Cómo conectas?",
+      subheadline: "Qué buscas y tu disponibilidad.",
+      lookingForLabel: "Qué buscas",
+      availabilityLabel: "Disponibilidad",
     },
     connect: {
       headline: "Conectar",
@@ -803,12 +985,19 @@ const contentEs: SiteContent = {
     invalidCodeError: "Código inválido. Intenta de nuevo.",
   },
   ui: {
+    header: {
+      newPost: "Nuevo post",
+      submitProject: "Enviar proyecto",
+      myProfile: "Mi perfil",
+      signOut: "Cerrar sesión",
+    },
     nav: {
       overview: "Inicio",
       community: "Comunidad",
       events: "Eventos",
       partners: "Partners",
       blog: "Blog",
+      feed: "Showcase",
       join: "Explorar el Lab",
       account: "Mi cuenta",
     },
@@ -826,7 +1015,7 @@ const contentEs: SiteContent = {
       events: "Eventos",
       contact: "Contacto",
       whatsapp: "WhatsApp",
-      feed: "Feed",
+      feed: "Showcase",
       terms: "Términos",
     },
     hero: { badgeLabel: "Abierto a los curiosos" },
@@ -850,7 +1039,7 @@ const contentEs: SiteContent = {
     },
     testimonials: { badge: "VOICES", title: "Lo que dicen los miembros" },
     highlights: { badge: "Destacados", whySponsor: "Por qué patrocinar" },
-    ambassador: { github: "GitHub", x: "X", photoPlaceholder: "Foto del embajador" },
+    founder: { github: "GitHub", x: "X", photoPlaceholder: "Foto del fundador" },
     a11y: {
       search: "Buscar",
       switchToEnglish: "Cambiar a inglés",
@@ -861,6 +1050,32 @@ const contentEs: SiteContent = {
       themeSystem: "Sistema",
     },
     backToHome: "Volver al inicio",
+  },
+  profile: {
+    activity: "Actividad",
+    achievements: "Logros",
+    achievementsEmpty: "Aún no hay logros",
+    eventsAttended: "Eventos asistidos",
+    projects: "Proyectos",
+    showcaseEmpty: "Aún no has enviado ningún proyecto.",
+    showcaseEmptySubtext: "Comparte lo que estás construyendo con la comunidad.",
+    member: "Miembro",
+    contact: "Contactar",
+    editProfile: "Editar perfil",
+    about: "Acerca de",
+    experience: "Experiencia",
+    interests: "Intereses",
+    tools: "Herramientas",
+    lookingFor: "Qué busco",
+    availability: "Disponibilidad",
+    experienceLabels: {
+      beginner: "Principiante",
+      intermediate: "Intermedio",
+      advanced: "Avanzado",
+      exploring: "Explorando",
+      building: "Construyendo",
+      shipping: "Desplegando",
+    },
   },
 };
 
@@ -875,6 +1090,13 @@ const contentEn: SiteContent = {
   hero: {
     headlineLine1: "Curiosity is what drives us.",
     headlineLine2: "AI is how we explore.",
+    headlinePhrases: [
+      "AI is how we explore.",
+      "AI is our catalyst.",
+      "AI is the beginning.",
+      "AI is our sandbox.",
+      "AI is what we build."
+    ],
     subheadline: "A community of builders in El Salvador who ask questions, run experiments, and share what they learn.",
     primaryCta: "Explore the Lab",
     secondaryCta: "See what we're exploring",
@@ -889,18 +1111,18 @@ const contentEn: SiteContent = {
     { name: "Ricardo S.", role: "BACKEND DEV", bio: "Distributed systems, concentrated curiosity." },
     { name: "Gabriela P.", role: "DATA SCIENTIST", bio: "Finding patterns others miss." },
   ],
-  ambassador: {
+  founder: {
     name: "Walter Morales",
-    role: "Founder",
-    bio: "Started ailabs.sv because he had questions about what AI could do — and couldn't find anyone in El Salvador asking them. Now 500+ builders across the region are exploring together.",
+    role: "FOUNDER",
+    bio: "We started ailabs.sv with a simple question: what can AI actually do here? No one in El Salvador was asking — so we built the space to find out. What began as curiosity became a community of 500+ builders across the region, running workshops, hackathons, and real conversations about what's possible.",
     image: "/images/walter-morales.webp",
     sectionTitle: "THE STORY",
     cta: "wmorales.dev →",
     purposeFraming: "Want to build something with us?",
     purposeItems: [
-      "Partnerships that create learning opportunities",
-      "Speaking invitations that spark discussions",
-      "Connections with curious builders",
+      "Partnerships that turn ideas into learning experiences",
+      "Speaking invitations that go beyond the slides",
+      "Connections with builders who ship, not just talk",
     ],
     socials: {
       twitter: "https://twitter.com/wmoralesdev",
@@ -970,81 +1192,13 @@ const contentEn: SiteContent = {
     upcomingTitle: "Upcoming Events",
     pastTitle: "Event Gallery",
     noUpcoming: "New dates coming soon.",
+    noPast: "No past events yet.",
     rsvpButton: "RSVP Now",
     recapButton: "View Recap",
-    upcoming: [
-      {
-        id: "next-meetup",
-        title: "ailabs.sv & Coffee: AI Workflow Deep Dive",
-        date: "Saturday, March 15th, 10:00 AM",
-        location: "Impact Hub San Salvador",
-        description: "Bring your laptop and your questions. We'll figure out the rest together.",
-        rsvpLink: "https://chat.whatsapp.com/Ga8mG1fqDM9C0ryxAw1eIj",
-        type: "Workshop",
-        tags: ["AI", "Workflow", "Networking"],
-      },
-      {
-        id: "hackathon-agents",
-        title: "Hackathon: Build with Agents",
-        date: "Saturday, April 12th, 9:00 AM",
-        location: "Tech Loft",
-        description: "One question, 48 hours, and whatever you can build to answer it.",
-        rsvpLink: "https://chat.whatsapp.com/Ga8mG1fqDM9C0ryxAw1eIj",
-        type: "Hackathon",
-        tags: ["Hackathon", "Agents", "Code"],
-      },
-      {
-        id: "social-night",
-        title: "Social Night: Devs & Drinks",
-        date: "Friday, April 25th, 7:00 PM",
-        location: "Cervecería La 20",
-        description: "No agenda. Just conversations with people building interesting things.",
-        rsvpLink: "https://chat.whatsapp.com/Ga8mG1fqDM9C0ryxAw1eIj",
-        type: "Social",
-        tags: ["Networking", "Community", "Fun"],
-      },
-    ],
-    past: [
-      {
-        id: "launch-party",
-        title: "ailabs.sv Launch Party",
-        date: "February 2026",
-        image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop",
-        span: "col-span-2",
-      },
-      {
-        id: "ai-talk",
-        title: "Talk: The Future of Code",
-        date: "January 2026",
-        image: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?q=80&w=2072&auto=format&fit=crop",
-        span: "row-span-2",
-      },
-      {
-        id: "networking-night",
-        title: "Networking Night",
-        date: "December 2025",
-        image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=2070&auto=format&fit=crop",
-      },
-      {
-        id: "workshop-1",
-        title: "First Workshop",
-        date: "November 2025",
-        image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop",
-      },
-      {
-        id: "panel-ai",
-        title: "Panel: AI in Production",
-        date: "October 2025",
-        image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2070&auto=format&fit=crop",
-        span: "col-span-2",
-      },
-      {
-        id: "ama-session",
-        title: "ailabs.sv AMA",
-        date: "September 2025",
-        image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=2070&auto=format&fit=crop",
-      },
-    ],
+    albumButton: "View Album",
+    virtualLabel: "Virtual",
+    upcoming: [],
+    past: [],
   },
   partner: {
     title: "Curious about partnering?",
@@ -1146,10 +1300,85 @@ const contentEn: SiteContent = {
   feed: {
     wipLabel: "Work in progress",
     wipDescription: "The feed will be available soon.",
+    title: "Community Feed",
+    heroBadge: "COMMUNITY",
+    heroSubtitle: "Share what you're building, discover resources, and connect with builders.",
+    filterAll: "All",
+    filterPosts: "Posts",
+    filterRepos: "Repos",
+    filterSkills: "Skills",
+    filterPrompts: "Prompts",
+    filterBlog: "Blog",
+    composerPlaceholder: "What's on your mind?",
+    postButton: "Post",
+    joinToShare: "Join the community to share",
+    joinCta: "Sign in",
+    loadMore: "Load more",
+    empty: "No content yet. Be the first to post!",
+    sortNewest: "Newest",
+    sortOldest: "Oldest",
+    sortNewestFirst: "Newest first",
+    sortOldestFirst: "Oldest first",
+    searchPlaceholder: "Search feed...",
   },
   resources: {
     wipLabel: "Work in progress",
     wipDescription: "Resources will be available soon.",
+    tabPosts: "Posts",
+    tabRepos: "Repos",
+    tabSkills: "Skills",
+    tabPrompts: "Prompts",
+    tabBlog: "Blog",
+    addResource: "Add",
+    titleLabel: "Title",
+    titlePlaceholder: "E.g. My prompt collection",
+    bodyLabel: "Content",
+    bodyPlaceholder: "Describe your resource in markdown…",
+    urlLabel: "URL (optional)",
+    urlLabelRepo: "Repository URL",
+    urlLabelSkill: "GitHub URL",
+    urlPlaceholder: "https://github.com/…",
+    tagsLabel: "Tags",
+    tagsDescription: "Comma-separated",
+    tagsPlaceholder: "cursor, ai, typescript",
+    languageLabel: "Language",
+    languagePlaceholder: "TypeScript",
+    visibilityLabel: "Visibility",
+    visibilityPublic: "Public",
+    visibilityMembers: "Members only",
+    save: "Save",
+    cancel: "Cancel",
+    empty: "No resources here yet.",
+    typeRepo: "Repo",
+    typeSkill: "Skill",
+    typePrompt: "Prompt",
+    typeBlog: "Blog",
+    rawContentLabel: "Prompt content",
+    rawContentDescription: "The actual prompt text that will be copied/used.",
+    skillHelperTitle: "Skills follow the skills.sh format",
+    skillHelperText: "Host your skill on GitHub following the skills.sh format.",
+    skillHelperLink: "Learn more →",
+    writeLabel: "Write",
+    previewLabel: "Preview",
+    previewEmpty: "Nothing to preview",
+    copy: "Copy",
+    copied: "Copied!",
+    openWithCursor: "Open with Cursor",
+    openWithClaude: "Open with Claude",
+    edit: "Edit",
+    delete: "Delete",
+    moreActions: "More actions",
+    deleteConfirmTitle: "Delete this item?",
+    deleteConfirmDescription: "This action cannot be undone.",
+    editPost: "Edit post",
+  },
+  interactions: {
+    like: "Like",
+    comment: "Comment",
+    bookmark: "Bookmark",
+    reply: "Reply",
+    addComment: "Add comment",
+    commentPlaceholder: "Write a comment…",
   },
   blog: {
     wipLabel: "Coming soon",
@@ -1171,22 +1400,36 @@ const contentEn: SiteContent = {
       headlineAccent: "Walter",
       subheadline: "Welcome to ailabs.sv — a community of builders exploring what's possible with AI. In a few steps you'll have your profile ready to connect with other curious people.",
       cta: "Get started",
+      edit: {
+        headline: "Welcome back!",
+        subheadline: "Your fellow builders want to know you better — update your profile whenever you like.",
+        cta: "Update profile",
+      },
     },
     about: {
       headline: "Let's get to know you",
       subheadline: "So the community can find you.",
       nameLabel: "Name",
       namePlaceholder: "Your name",
-      slugLabel: "Profile slug",
-      slugDescription: "Your URL will be: /community/your-slug",
+      slugLabel: "Your handle",
+      slugDescription: "Your URL will be: /community/your-handle",
       slugPlaceholder: "jane-doe",
+      handleAvailable: "This handle is available",
+      handleTaken: "This handle is already taken",
+      handleInvalid: "Only lowercase letters, numbers, and hyphens",
       avatarLabel: "Profile photo",
       avatarUploadCta: "Upload photo",
       avatarUploading: "Uploading…",
+      avatarDragDropHint: "Drag & drop or click to upload",
+      avatarFileSizeHint: "JPG, PNG, WebP — max 2MB",
       locationLabel: "Location",
       locationPlaceholder: "San Salvador, El Salvador",
+      taglineLabel: "Tagline",
+      taglinePlaceholder: "E.g. Building with curiosity.",
+      taglineDescription: "A short phrase, slogan or motto that will appear on your public profile.",
+      taglineRequired: "Tagline is required",
       nameRequired: "Name is required",
-      slugRequired: "Slug is required",
+      slugRequired: "Handle is required",
     },
     work: {
       headline: "What brings you here?",
@@ -1207,6 +1450,7 @@ const contentEn: SiteContent = {
       companyLabel: "Company or school (optional)",
       companyPlaceholder: "University, Tech Co…",
       experienceLabel: "Your AI journey",
+      experiencePlaceholder: "Select…",
       experienceOptions: [
         { value: "exploring", label: "Exploring", description: "Just getting started with AI tools" },
         { value: "building", label: "Building", description: "Using AI in projects and experiments" },
@@ -1226,49 +1470,62 @@ const contentEn: SiteContent = {
       lookingForLabel: "What you're looking for",
       availabilityLabel: "Availability",
       interests: [
-        "Agents & Automation",
-        "RAG & Knowledge Bases",
-        "Computer Vision",
-        "NLP & LLMs",
-        "Voice & Audio",
-        "Code Generation",
-        "Data & Analytics",
-        "MLOps & Infrastructure",
-        "Product & UX with AI",
+        { id: "agents-automation", label: "Agents & Automation" },
+        { id: "rag-knowledge-bases", label: "RAG & Knowledge Bases" },
+        { id: "computer-vision", label: "Computer Vision" },
+        { id: "nlp-llms", label: "NLP & LLMs" },
+        { id: "voice-audio", label: "Voice & Audio" },
+        { id: "code-generation", label: "Code Generation" },
+        { id: "data-analytics", label: "Data & Analytics" },
+        { id: "mlops-infrastructure", label: "MLOps & Infrastructure" },
+        { id: "product-ux-ai", label: "Product & UX with AI" },
       ],
       tools: [
-        "ChatGPT",
-        "Claude",
-        "Cursor",
-        "GitHub Copilot",
-        "v0",
-        "Midjourney",
-        "Stable Diffusion",
-        "DALL-E",
-        "OpenAI API",
-        "Anthropic API",
-        "Gemini",
-        "Perplexity",
-        "LangChain",
-        "Hugging Face",
-        "Replit AI",
-        "Vercel AI SDK",
+        { id: "chatgpt", label: "ChatGPT" },
+        { id: "claude", label: "Claude" },
+        { id: "cursor", label: "Cursor" },
+        { id: "github-copilot", label: "GitHub Copilot" },
+        { id: "v0", label: "v0" },
+        { id: "midjourney", label: "Midjourney" },
+        { id: "stable-diffusion", label: "Stable Diffusion" },
+        { id: "dalle", label: "DALL-E" },
+        { id: "openai-api", label: "OpenAI API" },
+        { id: "anthropic-api", label: "Anthropic API" },
+        { id: "gemini", label: "Gemini" },
+        { id: "perplexity", label: "Perplexity" },
+        { id: "langchain", label: "LangChain" },
+        { id: "hugging-face", label: "Hugging Face" },
+        { id: "replit-ai", label: "Replit AI" },
+        { id: "vercel-ai-sdk", label: "Vercel AI SDK" },
       ],
       lookingFor: [
-        "Learning buddies",
-        "Project collaborators",
-        "Mentorship (as mentee)",
-        "Mentorship (as mentor)",
-        "Job opportunities",
-        "Co-founders",
-        "Just exploring",
+        { id: "learning-buddies", label: "Learning buddies" },
+        { id: "project-collaborators", label: "Project collaborators" },
+        { id: "mentorship-mentee", label: "Mentorship (as mentee)" },
+        { id: "mentorship-mentor", label: "Mentorship (as mentor)" },
+        { id: "job-opportunities", label: "Job opportunities" },
+        { id: "co-founders", label: "Co-founders" },
+        { id: "just-exploring", label: "Just exploring" },
       ],
       availability: [
-        "Open to coffee chats",
-        "Open to collaborations",
-        "Available for speaking",
-        "Open to mentoring",
+        { id: "coffee-chats", label: "Open to coffee chats" },
+        { id: "collaborations", label: "Open to collaborations" },
+        { id: "speaking", label: "Available for speaking" },
+        { id: "mentoring", label: "Open to mentoring" },
       ],
+    },
+    interestsExplore: {
+      headline: "What are you exploring?",
+      subheadline: "Topics and tools that interest you.",
+      interestsLabel: "AI topics that interest you",
+      interestsRequired: "Select at least one",
+      toolsLabel: "AI tools you've explored",
+    },
+    interestsConnect: {
+      headline: "How do you connect?",
+      subheadline: "What you're looking for and your availability.",
+      lookingForLabel: "What you're looking for",
+      availabilityLabel: "Availability",
     },
     connect: {
       headline: "Connect",
@@ -1319,12 +1576,19 @@ const contentEn: SiteContent = {
     invalidCodeError: "Invalid code. Please try again.",
   },
   ui: {
+    header: {
+      newPost: "New post",
+      submitProject: "Submit project",
+      myProfile: "My profile",
+      signOut: "Sign out",
+    },
     nav: {
       overview: "Overview",
       community: "Community",
       events: "Events",
       partners: "Partners",
       blog: "Blog",
+      feed: "Showcase",
       join: "Explore the Lab",
       account: "My account",
     },
@@ -1342,7 +1606,7 @@ const contentEn: SiteContent = {
       events: "Events",
       contact: "Contact",
       whatsapp: "WhatsApp",
-      feed: "Feed",
+      feed: "Showcase",
       terms: "Terms",
     },
     hero: { badgeLabel: "Open to the curious" },
@@ -1366,7 +1630,7 @@ const contentEn: SiteContent = {
     },
     testimonials: { badge: "VOICES", title: "What members say" },
     highlights: { badge: "Highlights", whySponsor: "Why sponsor" },
-    ambassador: { github: "GitHub", x: "X", photoPlaceholder: "Ambassador Photo" },
+    founder: { github: "GitHub", x: "X", photoPlaceholder: "Founder Photo" },
     a11y: {
       search: "Search",
       switchToEnglish: "Switch to English",
@@ -1377,6 +1641,32 @@ const contentEn: SiteContent = {
       themeSystem: "System",
     },
     backToHome: "Back to home",
+  },
+  profile: {
+    activity: "Activity",
+    achievements: "Achievements",
+    achievementsEmpty: "No achievements yet",
+    eventsAttended: "Events attended",
+    projects: "Projects",
+    showcaseEmpty: "You haven't submitted any projects yet.",
+    showcaseEmptySubtext: "Share what you're building with the community.",
+    member: "Member",
+    contact: "Contact",
+    editProfile: "Edit profile",
+    about: "About",
+    experience: "Experience",
+    interests: "Interests",
+    tools: "Tools",
+    lookingFor: "Looking for",
+    availability: "Availability",
+    experienceLabels: {
+      beginner: "Beginner",
+      intermediate: "Intermediate",
+      advanced: "Advanced",
+      exploring: "Exploring",
+      building: "Building",
+      shipping: "Shipping",
+    },
   },
 };
 

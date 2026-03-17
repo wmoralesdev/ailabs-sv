@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { MarkdownEditor } from "@/components/ui/markdown-editor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -177,15 +178,14 @@ function ProfileFormInner({ profile }: { profile: ProfileDoc }) {
                 return (
                   <Field data-invalid={isInvalid}>
                     <FieldLabel htmlFor={field.name}>Bio</FieldLabel>
-                    <Textarea
-                      id={field.name}
-                      name={field.name}
+                    <MarkdownEditor
                       value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      aria-invalid={isInvalid}
+                      onChange={(v) => field.handleChange(v)}
                       placeholder="Tell us about yourself…"
-                      className="min-h-[120px]"
+                      rows={5}
+                      writeLabel="Write"
+                      previewLabel="Preview"
+                      emptyPreviewText="Nothing to preview"
                     />
                     {!!isInvalid && <FieldError errors={field.state.meta.errors} />}
                   </Field>

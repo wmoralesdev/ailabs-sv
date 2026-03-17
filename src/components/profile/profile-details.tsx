@@ -1,16 +1,26 @@
 import type { Doc } from "convex/_generated/dataModel";
+import { useI18n } from "@/lib/i18n";
+import { idsToLabels } from "@/lib/onboarding-interests";
 import { DisplayChip } from "@/components/ui/toggle-chip";
 
 type Profile = Doc<"profiles">;
 
-const EXPERIENCE_LABELS: Record<string, string> = {
-  beginner: "Beginner",
-  intermediate: "Intermediate",
-  advanced: "Advanced",
-  exploring: "Exploring",
-  building: "Building",
-  shipping: "Shipping",
-};
+function getExperienceLabel(
+  level: string,
+  labels?: { beginner: string; intermediate: string; advanced: string; exploring: string; building: string; shipping: string }
+): string {
+  if (!labels) return level;
+  const map: Record<string, keyof typeof labels> = {
+    beginner: "beginner",
+    intermediate: "intermediate",
+    advanced: "advanced",
+    exploring: "exploring",
+    building: "building",
+    shipping: "shipping",
+  };
+  const key = map[level];
+  return key ? labels[key] : level;
+}
 
 type Props = {
   profile: Profile;
@@ -44,6 +54,7 @@ function ChipGroup({
 }
 
 export function ProfileDetails({ profile }: Props) {
+  const { t } = useI18n();
   const {
     experienceLevel,
     interests,
@@ -51,6 +62,11 @@ export function ProfileDetails({ profile }: Props) {
     lookingFor,
     availability,
   } = profile;
+
+  const interestsLabels = idsToLabels(interests ?? [], t.onboarding.interests.interests);
+  const toolsLabels = idsToLabels(tools ?? [], t.onboarding.interests.tools);
+  const lookingForLabels = idsToLabels(lookingFor ?? [], t.onboarding.interests.lookingFor);
+  const availabilityLabels = idsToLabels(availability ?? [], t.onboarding.interests.availability);
 
   const hasAnyDetails =
     experienceLevel ||
@@ -68,30 +84,26 @@ export function ProfileDetails({ profile }: Props) {
           {/* Experience */}
           {experienceLevel && (
             <ChipGroup
-              label="Experience"
-              items={[EXPERIENCE_LABELS[experienceLevel] ?? experienceLevel]}
+              label={t.profile?.experience ?? "Experience"}
+              items={[getExperienceLabel(experienceLevel, t.profile?.experienceLabels)]}
               delay={400}
             />
           )}
 
-          {/* Interests */}
-          {(interests?.length ?? 0) > 0 && (
-            <ChipGroup label="Interests" items={interests!} delay={450} />
+          {(interestsLabels.length ?? 0) > 0 && (
+            <ChipGroup label={t.profile?.interests ?? "Interests"} items={interestsLabels} delay={450} />
           )}
 
-          {/* Tools */}
-          {(tools?.length ?? 0) > 0 && (
-            <ChipGroup label="Tools" items={tools!} delay={500} />
+          {(toolsLabels.length ?? 0) > 0 && (
+            <ChipGroup label={t.profile?.tools ?? "Tools"} items={toolsLabels} delay={500} />
           )}
 
-          {/* Looking For */}
-          {(lookingFor?.length ?? 0) > 0 && (
-            <ChipGroup label="Looking For" items={lookingFor!} delay={550} />
+          {(lookingForLabels.length ?? 0) > 0 && (
+            <ChipGroup label={t.profile?.lookingFor ?? "Looking for"} items={lookingForLabels} delay={550} />
           )}
 
-          {/* Availability */}
-          {(availability?.length ?? 0) > 0 && (
-            <ChipGroup label="Availability" items={availability!} delay={600} />
+          {(availabilityLabels.length ?? 0) > 0 && (
+            <ChipGroup label={t.profile?.availability ?? "Availability"} items={availabilityLabels} delay={600} />
           )}
         </div>
       </div>

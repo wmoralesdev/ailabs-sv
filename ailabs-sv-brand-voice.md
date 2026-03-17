@@ -2,6 +2,104 @@
 
 ---
 
+## Brand Identity
+
+### Mission
+
+**What we do**
+
+A community of builders in El Salvador who ask questions, run experiments, and share what they learn.
+
+**How we operate**
+
+- Ask a question → build something to answer it → share what you learn.
+- We ship in public, credit who helped, and move on to the next question.
+- Partners back experiments, learning experiences, and the community's growth.
+
+### Vision
+
+**What we aim for**
+
+- **Long-term:** Latin America should have more of this.
+- **Learning:** The best way to understand AI is to ask your own questions.
+- **Space:** Where questions become projects.
+
+**Brand promise**
+
+> You'll leave with better questions than you came with.
+
+### What We Are
+
+| Dimension | Description |
+|-----------|-------------|
+| **Identity** | Community of curious builders exploring what's possible with AI, based in El Salvador |
+| **Space** | Workshop, lab, space for honest experimentation |
+| **Voice** | Bold, direct, curious, inclusive, grounded |
+| **Operating principle** | Curiosity over credentials |
+| **Mode** | Experimentation first — hands-on by default, open to every format that serves the community |
+| **Access** | Accessible by default — low barriers, no gatekeeping |
+| **Success metric** | Quality of questions explored, not polish of output |
+| **Partnerships** | Honest collaboration — shaped by what serves the community, not by rigid packages or tiers |
+
+### What We Are Not
+
+| Dimension | Description |
+|-----------|-------------|
+| **Not primarily** | A school, consulting firm, or startup — though we may borrow from those formats when they serve our mission |
+| **Not** | An empty aspirational community |
+| **Not driven by** | Rigid curriculum or passive tutorials — we lead with building, but welcome structured knowledge when it helps |
+| **Not** | Corporate, performative, pitch deck |
+| **Not** | Aggressive, arrogant, dismissive |
+| **Not** | Cold, overly terse |
+| **Not** | Aimless, intellectually performative |
+| **Not** | World-class / grandiose |
+| **Not** | Self-deprecating or small-thinking |
+
+### Goals
+
+| Goal | Description |
+|------|-------------|
+| **Curiosity-driven exploration** | Space where builders ask "what if?" and explore AI in El Salvador |
+| **Questions → projects** | Turn questions into projects (Hackathons, Workshops, Demo Days, and any format that fits) |
+| **Community of builders** | Builders who learn by doing and share what they learn |
+| **Accessible by default** | Low barriers, no gatekeeping, no credentialism — curiosity is the only requirement |
+| **Latin America presence** | Extend this model beyond El Salvador |
+| **Partnerships** | Turn ideas into learning experiences with partners who invest in the community's growth |
+| **Connections** | Connect builders who ship, not just talk |
+
+### Values
+
+**Core:** Curiosity · Action · Community · Transparency · Accessibility
+
+**Messaging pillars (in order):**
+
+1. Curiosity is the engine — "Curiosity over credentials"
+2. Experimentation first — hands-on by default, open to every format
+3. Accessible by default — low barriers, no gatekeeping
+4. Questions over answers — better questions matter more than polished answers
+5. AI is the tool, not the identity — curiosity survives any product cycle
+
+### Metrics & Stats
+
+| Metric | Value |
+|--------|-------|
+| Active members | 500+ (+12%) |
+| Events held | 12 |
+| Projects shipped | 20+ |
+| Learning partners | 8 |
+
+### Taglines & Key Phrases
+
+| English | Spanish |
+|---------|---------|
+| Curiosity is what drives us. AI is how we explore. | La curiosidad nos mueve. La IA es como exploramos. |
+| Got questions? Good. | ¿Tienes preguntas? Bien. |
+| Low barriers. No gatekeeping. Just curious people. | Sin barreras. Sin exclusiones. Solo gente curiosa. |
+| Where questions become projects | Donde las preguntas se vuelven proyectos |
+| Open to the curious | Abierto a los curiosos |
+
+---
+
 ## Brand Personality
 
 If AI Labs SV were a person, they'd be the friend who stays up late asking "but what if we tried it this way?" — someone who's deeply knowledgeable but never talks down to you, who celebrates your half-finished experiments as much as your wins, and who'd rather ask a better question than give a polished answer.
@@ -35,9 +133,9 @@ Bold, direct, curious, inclusive, grounded. Never corporate. Never performative.
 
 ### Inclusive
 
-- **We are:** Open, welcoming, anti-gatekeeping. The only entry requirement is genuine curiosity.
+- **We are:** Open, welcoming, anti-gatekeeping. The only entry requirement is genuine curiosity. Credentials are welcome — they're just not required.
 - **We are not:** Lowering standards or being vague about what we value. We're inclusive about *who*, not about *effort*.
-- **This sounds like:** "Free. No gatekeeping. Just curious people."
+- **This sounds like:** "No gatekeeping. Just curious people."
 - **This does NOT sound like:** "Apply to be considered for membership."
 
 ### Grounded
@@ -59,9 +157,9 @@ Developers, designers, and technical people already working in tech who want to 
 
 CTOs, product people, and team leads who want to understand AI through proximity to builders. They attend to absorb and ask questions, not just to present or network.
 
-### Tertiary: Partners, speakers, and sponsors
+### Tertiary: Partners, speakers, educators, and sponsors
 
-Companies and individuals who want access to this community — to recruit from, learn alongside, or align their brand with curiosity-driven building.
+Companies, individuals, and academic institutions who want to engage with this community — to recruit from, learn alongside, teach within, or align their brand with curiosity-driven building.
 
 ### How we speak to all three
 
@@ -75,15 +173,15 @@ In priority order, these are the themes that run through everything we say:
 
 ### 1. Curiosity is the engine
 
-Everything starts with a question. Our community exists because someone asked "what if?" and kept going. Curiosity isn't a nice-to-have trait — it's the core qualification. "Curiosity over credentials" is the operating principle.
+Everything starts with a question. Our community exists because someone asked "what if?" and kept going. Curiosity isn't a nice-to-have trait — it's the core qualification. "Curiosity over credentials" is the operating principle. That means credentials are never required to participate — but they're always welcome when someone wants to share what they know.
 
-### 2. Learning by doing
+### 2. Experimentation first
 
-We don't watch tutorials. We don't sit through lectures. We ask a question, build something to answer it, and share what we learn. Hands-on is the only mode. If it doesn't involve getting your hands dirty, it doesn't belong here.
+We lead with building. Our default mode is hands-on: ask a question, build something to answer it, share what you learn. That's the heartbeat of AI Labs SV. But "experimentation first" is a priority, not a rule. A structured workshop, a guest lecture from a university partner, a presentation that teaches something real — all of that has a place when it serves the community. The filter isn't the format. The filter is: did people leave knowing more than when they arrived?
 
-### 3. Open by default
+### 3. Accessible by default
 
-Free. No gatekeeping. No paywalls, no invite lists, no credentialism. The barrier to entry is genuine curiosity, nothing more. Knowledge is shared, not hoarded.
+No gatekeeping. No credentialism. The barrier to entry is genuine curiosity, nothing more. We keep barriers low — whether that means free events, affordable tickets, or flexible formats. Accessibility is about ensuring that who you are, where you studied, or what title you hold never determines whether you can participate. Some events are free. Some carry a cost to sustain the experience. The commitment to accessibility doesn't change either way.
 
 ### 4. Questions over answers
 
@@ -119,6 +217,7 @@ The voice stays the same. The tone dials up or down depending on context.
 | Sharing failures or learnings | Honest and curious. Failures are content, not embarrassments. |
 | Recruiting partners or sponsors | Confident but never salesy. Lead with the community's value, not metrics. |
 | Onboarding new members | Warm and clear. Make the first step obvious and low-pressure. |
+| Paid event communication | Transparent about the cost and what it enables. The value should be self-evident. Never apologize for charging — explain what the ticket makes possible. |
 | Incident or mistake | Transparent and direct. Own it, explain it, move forward. |
 
 ### The rule
@@ -174,7 +273,7 @@ We break convention when it serves clarity: "No slides. Just real experiments." 
 | Questions | What we start with. Always. |
 | Share | What we do with what we learn. Not "ship" as the primary verb. |
 | The Lab | Our collective workspace — events, projects, and community. |
-| Learning partners | Companies we work with. Not "sponsors" in public-facing copy. |
+| Learning partners | Companies and institutions we work with. Preferred in public-facing copy over "sponsors." |
 
 ### Words we avoid
 
@@ -189,7 +288,7 @@ We break convention when it serves clarity: "No slides. Just real experiments." 
 | Synergy | (Never) | No. |
 | Best practices | "What's working," "what we've learned" | We question practices, we don't follow them blindly. |
 | Content | "Writing," "article," "post," "experiment write-up" | "Content" is what marketers say. We make specific things. |
-| Stakeholders | Name the actual audience | Be specific. "Partners," "members," "the community." |
+| Stakeholders | Name the actual audience | Be specific. "Partners," "builders," "the community." |
 | Ship (as primary success metric) | Share, launch, explore | Shipping is fine as a verb, but it's not our measure of success. Learning is. |
 
 ### Product and brand names
@@ -203,7 +302,7 @@ We break convention when it serves clarity: "No slides. Just real experiments." 
 
 - Use gender-neutral language (they/them for unknown individuals)
 - Avoid ableist language ("crazy," "blind spot," "lame")
-- Use "straightforward" or "clear" instead of "easy" — what's easy varies by person
+- Use "clear" instead of "easy" — what's easy varies by person
 - Avoid culturally specific idioms that don't translate between English and Spanish
 - "Curious people" not "smart people" or "talented people" — curiosity is the qualifier, not ability
 
@@ -215,7 +314,7 @@ AI Labs SV operates in both English and Spanish. The voice stays the same across
 
 ### Principles
 
-- Spanish is the community language — it's how members talk to each other at events, in WhatsApp groups, in real life. Spanish-first for local community content.
+- Spanish is the community language — it's how builders talk to each other at events, in WhatsApp groups, in real life. Spanish-first for local community content.
 - English is the reach language — it's for the website, partners, international visibility, and the broader LatAm audience. English-first for public-facing and partner content.
 - Never translate literally. Adapt. The tone should feel native in both languages, not like a translation.
 
@@ -226,7 +325,7 @@ AI Labs SV operates in both English and Spanish. The voice stays the same across
 | Curiosity is what drives us. AI is how we explore. | La curiosidad nos mueve. La IA es como exploramos. |
 | Open to the curious | Abierto a los curiosos |
 | Got questions? Good. | ¿Tienes preguntas? Bien. |
-| Free. No gatekeeping. Just curious people. | Gratis. Sin barreras. Solo gente curiosa. |
+| Low barriers. No gatekeeping. Just curious people. | Sin barreras. Sin exclusiones. Solo gente curiosa. |
 | Where questions become projects | Donde las preguntas se vuelven proyectos |
 
 ---
@@ -242,3 +341,20 @@ When writing anything for AI Labs SV, run it through these three filters:
 3. **Does it put the community first?** The community is the product. Walter started it, but the community owns it. Copy should spotlight the builders, the experiments, the questions — not the organization.
 
 When in doubt, return to the brand promise: **"You'll leave with better questions than you came with."** If the copy delivers on that feeling, it's working.
+
+---
+
+## Quick Reference: Intro Slides
+
+Use this table for presentations and introductions:
+
+| Slide | Content |
+|-------|---------|
+| **Who we are** | Community of curious builders exploring AI in El Salvador |
+| **Mission** | Ask questions → build → share. Where questions become projects. |
+| **Vision** | Latin America should have more of this. |
+| **What we are** | Lab, workshop, space for honest experimentation |
+| **What we are not** | Primarily a school, startup, or corporate initiative — we lead with building |
+| **Goals** | Curiosity-driven exploration, accessible by default, experimentation first |
+| **Brand promise** | You'll leave with better questions than you came with. |
+| **Tagline** | Curiosity is what drives us. AI is how we explore. |

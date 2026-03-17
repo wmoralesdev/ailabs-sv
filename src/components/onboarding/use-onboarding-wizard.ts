@@ -7,12 +7,14 @@ import { useI18n } from "@/lib/i18n";
 import { api } from "convex/_generated/api";
 import { useState } from "react";
 import type { Doc } from "convex/_generated/dataModel";
+import { normalizeInterestsFromProfile } from "@/lib/onboarding-interests";
 
 export type OnboardingStep =
   | "welcome"
   | "about"
   | "work"
-  | "interests"
+  | "interests-explore"
+  | "interests-connect"
   | "connect"
   | "done";
 
@@ -20,8 +22,9 @@ const STEPS: OnboardingStep[] = [
   "welcome",
   "about",
   "work",
-  "interests",
   "connect",
+  "interests-explore",
+  "interests-connect",
   "done",
 ];
 
@@ -74,7 +77,8 @@ export function useOnboardingWizard({
         "welcome",
         "about",
         "work",
-        "interests",
+        "interests-explore",
+        "interests-connect",
         "connect",
         "done",
       ]),
@@ -82,6 +86,7 @@ export function useOnboardingWizard({
       slug: z.string(),
       avatarUrl: z.string(),
       location: z.string(),
+      tagline: z.string(),
       role: z.string(),
       title: z.string(),
       company: z.string(),
@@ -116,6 +121,28 @@ export function useOnboardingWizard({
             path: ["slug"],
             code: "custom",
             message: "Slug must be lowercase letters, numbers, and hyphens only",
+          });
+        }
+        if (!value.tagline?.trim()) {
+          ctx.addIssue({
+            path: ["tagline"],
+            code: "custom",
+            message: t.onboarding.about.taglineRequired,
+          });
+        }
+        const taglineTrimmed = value.tagline?.trim() ?? "";
+        if (taglineTrimmed && taglineTrimmed.length > 60) {
+          ctx.addIssue({
+            path: ["tagline"],
+            code: "custom",
+            message: "Tagline must be 60 characters or less",
+          });
+        }
+        if (taglineTrimmed && taglineTrimmed.includes("\n")) {
+          ctx.addIssue({
+            path: ["tagline"],
+            code: "custom",
+            message: "Tagline must be a single line",
           });
         }
       }
@@ -153,7 +180,7 @@ export function useOnboardingWizard({
           });
         }
       }
-      if (value.step === "interests") {
+      if (value.step === "interests-explore") {
         if (value.interests.length === 0) {
           ctx.addIssue({
             path: ["interests"],
@@ -171,6 +198,10 @@ export function useOnboardingWizard({
     ? getRoleFromTitle(existingProfile.title, roleOptions)
     : { role: "", title: "" };
 
+  const normalizedInterests = existingProfile
+    ? normalizeInterestsFromProfile(existingProfile)
+    : { interests: [], tools: [], lookingFor: [], availability: [] };
+
   const form = useForm({
     defaultValues: {
       step: "welcome" as OnboardingStep,
@@ -178,15 +209,16 @@ export function useOnboardingWizard({
       slug: existingProfile?.slug ?? suggestSlug(clerkUser?.primaryEmailAddress?.emailAddress),
       avatarUrl: existingProfile?.avatarUrl ?? clerkUser?.imageUrl ?? "",
       location: existingProfile?.location ?? "",
+      tagline: existingProfile?.tagline ?? "",
       role: defaultRole,
       title: defaultTitle,
       company: existingProfile?.company ?? "",
       experienceLevel: (existingProfile?.experienceLevel ?? "building") as "beginner" | "intermediate" | "advanced" | "exploring" | "building" | "shipping",
       bio: existingProfile?.bio ?? "",
-      interests: existingProfile?.interests ?? [],
-      tools: existingProfile?.tools ?? [],
-      lookingFor: existingProfile?.lookingFor ?? [],
-      availability: existingProfile?.availability ?? [],
+      interests: normalizedInterests.interests,
+      tools: normalizedInterests.tools,
+      lookingFor: normalizedInterests.lookingFor,
+      availability: normalizedInterests.availability,
       linkedin: existingProfile?.links?.linkedin ?? "",
       x: existingProfile?.links?.x ?? "",
       contact: existingProfile?.contact ?? "",
@@ -202,14 +234,18 @@ export function useOnboardingWizard({
         return;
       }
       if (value.step === "work") {
-        form.setFieldValue("step", "interests");
-        return;
-      }
-      if (value.step === "interests") {
         form.setFieldValue("step", "connect");
         return;
       }
       if (value.step === "connect") {
+        form.setFieldValue("step", "interests-explore");
+        return;
+      }
+      if (value.step === "interests-explore") {
+        form.setFieldValue("step", "interests-connect");
+        return;
+      }
+      if (value.step === "interests-connect") {
         setIsSavingProfile(true);
         try {
           await upsert({
@@ -230,6 +266,7 @@ export function useOnboardingWizard({
               x: value.x || undefined,
             },
             contact: value.contact || undefined,
+            tagline: value.tagline?.trim() || undefined,
           });
           form.setFieldValue("step", "done");
           onComplete?.(value.slug);

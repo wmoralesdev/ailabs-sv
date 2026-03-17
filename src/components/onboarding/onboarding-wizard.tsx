@@ -1,9 +1,13 @@
 "use client";
 
 import { Link, useRouter } from "@tanstack/react-router";
+import { useStore } from "@tanstack/react-form";
+import { useQuery } from "convex/react";
+import { api } from "convex/_generated/api";
 import { useAuthState } from "@/components/auth/auth-context";
 import { useOnboardingWizard } from "./use-onboarding-wizard";
 import { useI18n } from "@/lib/i18n";
+import { useDebounce } from "@/hooks/use-debounce";
 import {
   Field,
   FieldDescription,
@@ -12,7 +16,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { MarkdownEditor } from "@/components/ui/markdown-editor";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -21,10 +25,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import { Spinner } from "@/components/ui/spinner";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Cancel01Icon, Tick02Icon } from "@hugeicons/core-free-icons";
 import { cn } from "@/lib/utils";
 import { ToggleChip } from "@/components/ui/toggle-chip";
 import { AvatarUpload } from "./avatar-upload";
 import { formatWithBrandText } from "@/components/brand-text";
+import {
+  toolIcons,
+  topicIcons,
+  lookingForIcons,
+  availabilityIcons,
+} from "./tool-icons";
 
 const CARD_CLASS =
   "rounded-2xl border border-border/60 bg-card p-6 shadow-lg shadow-black/10 md:p-8";
@@ -73,7 +91,6 @@ export function OnboardingWizard({
     goNext,
     goBack,
     canGoBack,
-    isSubmitting,
     isSavingProfile,
   } = useOnboardingWizard({
     clerkUser: user ?? null,
@@ -81,8 +98,20 @@ export function OnboardingWizard({
     onComplete: () => router.navigate({ to: onCompleteRedirectTo }),
   });
 
+  const slug = useStore(form.store, (s) => s.values.slug);
+  const tagline = useStore(form.store, (s) => s.values.tagline);
+  const debouncedSlug = useDebounce(slug, 400);
+  const slugValidFormat = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(debouncedSlug);
+  const slugAvailability = useQuery(
+    api.profiles.isSlugAvailable,
+    debouncedSlug && slugValidFormat ? { slug: debouncedSlug } : "skip"
+  );
+  const slugChecking = debouncedSlug && slugValidFormat && slugAvailability === undefined;
+  const slugAvailable = slugAvailability?.available === true;
+  const slugUnavailable = slugAvailability?.available === false;
+
   return (
-    <div className={cn(CARD_CLASS, "mx-auto w-full", currentStep === "interests" ? "max-w-2xl" : "max-w-lg")}>
+    <div className={cn(CARD_CLASS, "mx-auto w-full", (currentStep === "interests-explore" || currentStep === "interests-connect") ? "max-w-2xl" : "max-w-lg")}>
       <StepIndicator currentIndex={stepIndex} totalSteps={totalSteps} />
 
       {currentStep === "welcome" && (
@@ -93,23 +122,38 @@ export function OnboardingWizard({
             className="mx-auto size-16 rounded-full object-cover"
           />
           <div>
-            <h1 className="mb-2 text-2xl font-medium tracking-tight md:text-3xl">
-              {t.onboarding.welcome.headline.split(t.onboarding.welcome.headlineAccent)[0]}
-              <span className="text-primary">
-                {t.onboarding.welcome.headlineAccent}
-              </span>
-              {t.onboarding.welcome.headline.split(t.onboarding.welcome.headlineAccent)[1]}
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              {formatWithBrandText(t.onboarding.welcome.subheadline)}
-            </p>
+            {existingProfile && t.onboarding.welcome.edit ? (
+              <>
+                <h1 className="mb-2 text-2xl font-medium tracking-tight md:text-3xl">
+                  {t.onboarding.welcome.edit.headline}
+                </h1>
+                <p className="text-sm text-muted-foreground">
+                  {formatWithBrandText(t.onboarding.welcome.edit.subheadline)}
+                </p>
+              </>
+            ) : (
+              <>
+                <h1 className="mb-2 text-2xl font-medium tracking-tight md:text-3xl">
+                  {t.onboarding.welcome.headline.split(t.onboarding.welcome.headlineAccent)[0]}
+                  <span className="text-primary">
+                    {t.onboarding.welcome.headlineAccent}
+                  </span>
+                  {t.onboarding.welcome.headline.split(t.onboarding.welcome.headlineAccent)[1]}
+                </h1>
+                <p className="text-sm text-muted-foreground">
+                  {formatWithBrandText(t.onboarding.welcome.subheadline)}
+                </p>
+              </>
+            )}
           </div>
           <Button
             size="lg"
             className="w-full"
             onClick={goNext}
           >
-            {t.onboarding.welcome.cta}
+            {existingProfile && t.onboarding.welcome.edit
+              ? t.onboarding.welcome.edit.cta
+              : t.onboarding.welcome.cta}
           </Button>
         </div>
       )}
@@ -129,6 +173,22 @@ export function OnboardingWizard({
             </p>
           </div>
           <FieldGroup>
+            <form.Field
+              name="avatarUrl"
+              children={(field) => (
+                <AvatarUpload
+                  value={field.state.value}
+                  onChange={(url) => field.handleChange(url)}
+                  label={t.onboarding.about.avatarLabel}
+                  uploadCta={t.onboarding.about.avatarUploadCta}
+                  uploading={t.onboarding.about.avatarUploading}
+                  userId={user?.id ?? ""}
+                  dragDropHint={t.onboarding.about.avatarDragDropHint}
+                  fileSizeHint={t.onboarding.about.avatarFileSizeHint}
+                  required
+                />
+              )}
+            />
             <form.Field
               name="name"
               children={(field) => {
@@ -153,40 +213,76 @@ export function OnboardingWizard({
               name="slug"
               children={(field) => {
                 const isInvalid = field.state.meta.errors?.length;
+                const isInvalidFormat = debouncedSlug && !slugValidFormat && debouncedSlug.length > 0;
+                const showUnavailable = slugUnavailable || isInvalidFormat;
                 return (
-                  <Field data-invalid={!!isInvalid}>
+                  <Field data-invalid={!!isInvalid || !!showUnavailable}>
                     <FieldLabel required>{t.onboarding.about.slugLabel}</FieldLabel>
                     <FieldDescription>
                       {t.onboarding.about.slugDescription}
                     </FieldDescription>
-                    <Input
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) =>
-                        field.handleChange(
-                          e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-")
-                        )
-                      }
-                      placeholder={t.onboarding.about.slugPlaceholder}
-                      aria-invalid={!!isInvalid}
-                      required
-                    />
+                    <InputGroup
+                      className={cn(
+                        "rounded-(--radius) h-9",
+                        showUnavailable && "border-destructive ring-destructive/20 ring-1",
+                        !slugChecking && slugAvailable && "border-green-600 ring-green-600/20 ring-1"
+                      )}
+                    >
+                      <InputGroupInput
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) =>
+                          field.handleChange(
+                            e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-")
+                          )
+                        }
+                        placeholder={t.onboarding.about.slugPlaceholder}
+                        aria-invalid={!!isInvalid || !!showUnavailable}
+                        required
+                      />
+                      <InputGroupAddon align="inline-end" className="pr-2">
+                        {slugChecking && (
+                          <Spinner size="sm" className="text-muted-foreground" />
+                        )}
+                        {!slugChecking && slugAvailable && (
+                          <HugeiconsIcon
+                            icon={Tick02Icon}
+                            className="size-4 text-green-600 dark:text-green-500"
+                            aria-hidden
+                          />
+                        )}
+                        {!slugChecking && showUnavailable && (
+                          <HugeiconsIcon
+                            icon={Cancel01Icon}
+                            className="size-4 text-destructive"
+                            aria-hidden
+                          />
+                        )}
+                      </InputGroupAddon>
+                    </InputGroup>
+                    {/* Handle availability status message */}
+                    {!slugChecking && slugAvailable && (
+                      <p className="flex items-center gap-1.5 text-xs text-green-600 dark:text-green-500 mt-1.5">
+                        <HugeiconsIcon icon={Tick02Icon} className="size-3.5" aria-hidden />
+                        {t.onboarding.about.handleAvailable}
+                      </p>
+                    )}
+                    {!slugChecking && slugUnavailable && !isInvalidFormat && (
+                      <p className="flex items-center gap-1.5 text-xs text-destructive mt-1.5">
+                        <HugeiconsIcon icon={Cancel01Icon} className="size-3.5" aria-hidden />
+                        {t.onboarding.about.handleTaken}
+                      </p>
+                    )}
+                    {!slugChecking && isInvalidFormat && (
+                      <p className="flex items-center gap-1.5 text-xs text-destructive mt-1.5">
+                        <HugeiconsIcon icon={Cancel01Icon} className="size-3.5" aria-hidden />
+                        {t.onboarding.about.handleInvalid}
+                      </p>
+                    )}
                     {!!isInvalid && <FieldError errors={field.state.meta.errors} />}
                   </Field>
                 );
               }}
-            />
-            <form.Field
-              name="avatarUrl"
-              children={(field) => (
-                <AvatarUpload
-                  value={field.state.value}
-                  onChange={(url) => field.handleChange(url)}
-                  label={t.onboarding.about.avatarLabel}
-                  uploadCta={t.onboarding.about.avatarUploadCta}
-                  uploading={t.onboarding.about.avatarUploading}
-                />
-              )}
             />
             <form.Field
               name="location"
@@ -202,6 +298,34 @@ export function OnboardingWizard({
                 </Field>
               )}
             />
+            <form.Field
+              name="tagline"
+              children={(field) => {
+                const isInvalid = field.state.meta.errors?.length;
+                return (
+                  <Field data-invalid={!!isInvalid}>
+                    <FieldLabel required>{t.onboarding.about.taglineLabel}</FieldLabel>
+                    <FieldDescription>
+                      {t.onboarding.about.taglineDescription}
+                    </FieldDescription>
+                    <Input
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) =>
+                        field.handleChange(
+                          e.target.value.replace(/\n/g, " ").slice(0, 60)
+                        )
+                      }
+                      placeholder={t.onboarding.about.taglinePlaceholder}
+                      maxLength={60}
+                      aria-invalid={!!isInvalid}
+                      required
+                    />
+                    {!!isInvalid && <FieldError errors={field.state.meta.errors} />}
+                  </Field>
+                );
+              }}
+            />
           </FieldGroup>
           <div className="flex gap-2 pt-2">
             {canGoBack && (
@@ -209,7 +333,17 @@ export function OnboardingWizard({
                 {t.onboarding.nav.back}
               </Button>
             )}
-            <Button type="submit" className="flex-1">
+            <Button
+              type="submit"
+              className="flex-1"
+              disabled={
+                currentStep === "about" &&
+                (slugChecking ||
+                  slugUnavailable ||
+                  (!!debouncedSlug && !slugValidFormat) ||
+                  !tagline?.trim())
+              }
+            >
               {t.onboarding.nav.continue}
             </Button>
           </div>
@@ -238,10 +372,15 @@ export function OnboardingWizard({
                   <FieldLabel required>{t.onboarding.work.roleLabel}</FieldLabel>
                   <Select
                     value={field.state.value}
-                    onValueChange={(v) => field.handleChange(v)}
+                    onValueChange={(v) => field.handleChange(v ?? "")}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder={t.onboarding.work.rolePlaceholder} />
+                      <SelectValue placeholder={t.onboarding.work.rolePlaceholder}>
+                        {(value: string) => {
+                          const opt = t.onboarding.work.roleOptions.find((o) => o.value === value);
+                          return opt ? opt.label : value ?? "";
+                        }}
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       {t.onboarding.work.roleOptions.map((opt) => (
@@ -309,7 +448,12 @@ export function OnboardingWizard({
                     }
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select…" />
+                      <SelectValue placeholder={t.onboarding.work.experiencePlaceholder}>
+                        {(value: string) => {
+                          const opt = t.onboarding.work.experienceOptions.find((o) => o.value === value);
+                          return opt ? opt.label : value ?? "";
+                        }}
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       {t.onboarding.work.experienceOptions.map((opt) => (
@@ -336,14 +480,14 @@ export function OnboardingWizard({
                 return (
                   <Field data-invalid={!!isInvalid}>
                     <FieldLabel required>{t.onboarding.work.bioLabel}</FieldLabel>
-                    <Textarea
+                    <MarkdownEditor
                       value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
+                      onChange={(v) => field.handleChange(v)}
                       placeholder={t.onboarding.work.bioPlaceholder}
-                      className="min-h-[100px]"
-                      aria-invalid={!!isInvalid}
-                      required
+                      rows={5}
+                      writeLabel={t.resources?.writeLabel ?? "Write"}
+                      previewLabel={t.resources?.previewLabel ?? "Preview"}
+                      emptyPreviewText={t.resources?.previewEmpty ?? "Nothing to preview"}
                     />
                     {!!isInvalid && <FieldError errors={field.state.meta.errors} />}
                   </Field>
@@ -364,7 +508,7 @@ export function OnboardingWizard({
         </form>
       )}
 
-      {currentStep === "interests" && (
+      {currentStep === "interests-explore" && (
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -374,16 +518,16 @@ export function OnboardingWizard({
         >
           <div>
             <h2 className="mb-1 text-xl font-medium">
-              {t.onboarding.interests.headline}
+              {t.onboarding.interestsExplore?.headline ?? t.onboarding.interests.headline}
             </h2>
             <p className="text-sm text-muted-foreground">
-              {t.onboarding.interests.subheadline}
+              {t.onboarding.interestsExplore?.subheadline ?? t.onboarding.interests.subheadline}
             </p>
           </div>
           <FieldGroup className="gap-8">
             <div className="space-y-4">
               <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider text-xs">
-                {t.onboarding.interests.interestsLabel}
+                {t.onboarding.interestsExplore?.interestsLabel ?? t.onboarding.interests.interestsLabel}
               </h3>
               <form.Field
                 name="interests"
@@ -394,13 +538,14 @@ export function OnboardingWizard({
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                         {t.onboarding.interests.interests.map((opt) => (
                           <ToggleChip
-                            key={opt}
-                            label={opt}
-                            selected={field.state.value.includes(opt)}
+                            key={opt.id}
+                            label={opt.label}
+                            icon={topicIcons[opt.id]}
+                            selected={field.state.value.includes(opt.id)}
                             onToggle={() => {
-                              const next = field.state.value.includes(opt)
-                                ? field.state.value.filter((x: string) => x !== opt)
-                                : [...field.state.value, opt];
+                              const next = field.state.value.includes(opt.id)
+                                ? field.state.value.filter((x: string) => x !== opt.id)
+                                : [...field.state.value, opt.id];
                               field.handleChange(next);
                             }}
                           />
@@ -415,7 +560,7 @@ export function OnboardingWizard({
 
             <div className="space-y-4">
               <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider text-xs">
-                {t.onboarding.interests.toolsLabel}
+                {t.onboarding.interestsExplore?.toolsLabel ?? t.onboarding.interests.toolsLabel}
               </h3>
               <form.Field
                 name="tools"
@@ -424,69 +569,14 @@ export function OnboardingWizard({
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                       {t.onboarding.interests.tools.map((opt) => (
                         <ToggleChip
-                          key={opt}
-                          label={opt}
-                          selected={field.state.value.includes(opt)}
+                          key={opt.id}
+                          label={opt.label}
+                          icon={toolIcons[opt.id]}
+                          selected={field.state.value.includes(opt.id)}
                           onToggle={() => {
-                            const next = field.state.value.includes(opt)
-                              ? field.state.value.filter((x: string) => x !== opt)
-                              : [...field.state.value, opt];
-                            field.handleChange(next);
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </Field>
-                )}
-              />
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider text-xs">
-                {t.onboarding.interests.lookingForLabel}
-              </h3>
-              <form.Field
-                name="lookingFor"
-                children={(field) => (
-                  <Field>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                      {t.onboarding.interests.lookingFor.map((opt) => (
-                        <ToggleChip
-                          key={opt}
-                          label={opt}
-                          selected={field.state.value.includes(opt)}
-                          onToggle={() => {
-                            const next = field.state.value.includes(opt)
-                              ? field.state.value.filter((x: string) => x !== opt)
-                              : [...field.state.value, opt];
-                            field.handleChange(next);
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </Field>
-                )}
-              />
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider text-xs">
-                {t.onboarding.interests.availabilityLabel}
-              </h3>
-              <form.Field
-                name="availability"
-                children={(field) => (
-                  <Field>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                      {t.onboarding.interests.availability.map((opt) => (
-                        <ToggleChip
-                          key={opt}
-                          label={opt}
-                          selected={field.state.value.includes(opt)}
-                          onToggle={() => {
-                            const next = field.state.value.includes(opt)
-                              ? field.state.value.filter((x: string) => x !== opt)
-                              : [...field.state.value, opt];
+                            const next = field.state.value.includes(opt.id)
+                              ? field.state.value.filter((x: string) => x !== opt.id)
+                              : [...field.state.value, opt.id];
                             field.handleChange(next);
                           }}
                         />
@@ -505,6 +595,94 @@ export function OnboardingWizard({
             )}
             <Button type="submit" className="flex-1">
               {t.onboarding.nav.continue}
+            </Button>
+          </div>
+        </form>
+      )}
+
+      {currentStep === "interests-connect" && (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            goNext();
+          }}
+          className="space-y-5"
+        >
+          <div>
+            <h2 className="mb-1 text-xl font-medium">
+              {t.onboarding.interestsConnect?.headline ?? t.onboarding.interests.headline}
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              {t.onboarding.interestsConnect?.subheadline ?? t.onboarding.interests.subheadline}
+            </p>
+          </div>
+          <FieldGroup className="gap-8">
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider text-xs">
+                {t.onboarding.interestsConnect?.lookingForLabel ?? t.onboarding.interests.lookingForLabel}
+              </h3>
+              <form.Field
+                name="lookingFor"
+                children={(field) => (
+                  <Field>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                      {t.onboarding.interests.lookingFor.map((opt) => (
+                        <ToggleChip
+                          key={opt.id}
+                          label={opt.label}
+                          icon={lookingForIcons[opt.id]}
+                          selected={field.state.value.includes(opt.id)}
+                          onToggle={() => {
+                            const next = field.state.value.includes(opt.id)
+                              ? field.state.value.filter((x: string) => x !== opt.id)
+                              : [...field.state.value, opt.id];
+                            field.handleChange(next);
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </Field>
+                )}
+              />
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider text-xs">
+                {t.onboarding.interestsConnect?.availabilityLabel ?? t.onboarding.interests.availabilityLabel}
+              </h3>
+              <form.Field
+                name="availability"
+                children={(field) => (
+                  <Field>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                      {t.onboarding.interests.availability.map((opt) => (
+                        <ToggleChip
+                          key={opt.id}
+                          label={opt.label}
+                          icon={availabilityIcons[opt.id]}
+                          selected={field.state.value.includes(opt.id)}
+                          onToggle={() => {
+                            const next = field.state.value.includes(opt.id)
+                              ? field.state.value.filter((x: string) => x !== opt.id)
+                              : [...field.state.value, opt.id];
+                            field.handleChange(next);
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </Field>
+                )}
+              />
+            </div>
+          </FieldGroup>
+          <div className="flex gap-2 pt-2">
+            {canGoBack && (
+              <Button type="button" variant="outline" onClick={goBack}>
+                {t.onboarding.nav.back}
+              </Button>
+            )}
+            <Button type="submit" className="flex-1" loading={isSavingProfile}>
+              {t.onboarding.nav.finish}
             </Button>
           </div>
         </form>
@@ -581,8 +759,8 @@ export function OnboardingWizard({
                 {t.onboarding.nav.back}
               </Button>
             )}
-            <Button type="submit" className="flex-1" loading={isSavingProfile}>
-              {t.onboarding.nav.finish}
+            <Button type="submit" className="flex-1">
+              {t.onboarding.nav.continue}
             </Button>
           </div>
         </form>

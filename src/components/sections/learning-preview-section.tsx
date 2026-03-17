@@ -44,7 +44,7 @@ export function LearningPreviewSection() {
                   <div className="rounded-full bg-background/50 p-3 backdrop-blur-sm">
                     <HugeiconsIcon
                       icon={Icon}
-                      className="size-8 text-foreground/80"
+                      className="size-8 text-foreground/80 marching-ants"
                     />
                   </div>
                 </div>

@@ -1,135 +1,96 @@
+import { useMemo } from "react";
 import { Link } from "@tanstack/react-router";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { CodeIcon } from "@hugeicons/core-free-icons";
 import { useI18n } from "@/lib/i18n";
 import { GithubIcon } from "@/components/ui/github-icon";
 import { LinkedinIcon } from "@/components/ui/linkedin-icon";
 import { XIcon } from "@/components/ui/x-icon";
+import { AilabsLockup } from "@/components/ui/ailabs-lockup";
+
+const FOOTER_WATERMARK_WORDS_EN = [
+  "CURIOUS",
+  "BUILDERS",
+  "WHY?",
+  "SHIP IT",
+  "EXPLORE",
+  "THE LAB",
+  "CREATE",
+  "LEARN",
+];
+
+const FOOTER_WATERMARK_WORDS_ES = [
+  "CURIOSOS",
+  "CONSTRUIR",
+  "¿POR QUÉ?",
+  "LANZAR",
+  "EXPLORA",
+  "EL LAB",
+  "CREAR",
+  "APRENDER",
+];
 
 export function SiteFooter() {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
+  const words = language === "es" ? FOOTER_WATERMARK_WORDS_ES : FOOTER_WATERMARK_WORDS_EN;
+  const watermarkWord = useMemo(
+    () => words[Math.floor(Math.random() * words.length)],
+    [],
+  );
 
   return (
-    <footer className="border-t border-border bg-card pb-10 pt-16">
-      <div className="container mx-auto px-6">
-        <div className="mb-16 grid grid-cols-1 gap-10 md:grid-cols-12">
-          <div className="md:col-span-4">
-            <div className="mb-6 flex items-center gap-3">
-              <Link
-                to="/"
-                className="flex items-center gap-2"
-                aria-label={t.site.name}
-              >
-                <div className="flex h-6 w-6 items-center justify-center rounded bg-foreground text-background">
-                  <HugeiconsIcon icon={CodeIcon} size={14} />
-                </div>
-                <span className="font-display text-lg font-semibold tracking-tight">
-                  <span className="text-primary">ai</span>
-                  <span className="text-foreground">labs</span>
-                  <span className="text-muted-foreground">.sv</span>
-                </span>
-              </Link>
-              <a
-                href="https://www.lem-design.art/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full border border-border/60 bg-muted/40 px-2.5 py-0.5 text-[11px] font-light text-foreground/50 transition-colors hover:border-primary/50 hover:text-foreground/70"
-              >
-                Logo by Melanie Martinez · lem-design.art
-              </a>
-            </div>
-            <p className="mb-6 max-w-xs text-sm font-light leading-relaxed text-foreground/60">
+    <footer className="relative overflow-hidden border-t border-border bg-card pb-10 pt-16">
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0 flex select-none items-center justify-center font-display text-foreground/3"
+        style={{
+          fontSize: "clamp(10rem, 25vw, 20rem)",
+          lineHeight: 1,
+        }}
+      >
+        {watermarkWord}
+      </span>
+      <div className="container relative z-10 mx-auto px-6">
+        <div className="mb-12 grid grid-cols-1 gap-10 md:grid-cols-3">
+          {/* Left zone: Brand */}
+          <div>
+            <Link
+              to="/"
+              className="mb-4 inline-flex items-center"
+              aria-label={t.site.name}
+            >
+              <AilabsLockup className="text-5xl" />
+            </Link>
+            <p className="max-w-xs text-sm font-light leading-relaxed text-foreground/60">
               {t.site.description}
             </p>
-            <div className="flex gap-4">
-              {t.ambassador.socials.twitter ? (
-                <Link
-                  to={t.ambassador.socials.twitter as any}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={t.ui.ambassador.x}
-                  className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-foreground/60 transition-all hover:border-primary hover:text-primary hover:opacity-100"
-                >
-                  <XIcon className="size-4" />
-                </Link>
-              ) : null}
-              {t.ambassador.socials.github ? (
-                <Link
-                  to={t.ambassador.socials.github as any}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={t.ui.ambassador.github}
-                  className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-foreground/60 transition-all hover:border-primary hover:text-primary hover:opacity-100"
-                >
-                  <GithubIcon className="size-4" />
-                </Link>
-              ) : null}
-              {t.ambassador.socials.linkedin ? (
-                <Link
-                  to={t.ambassador.socials.linkedin as any}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn"
-                  className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-foreground/60 transition-all hover:border-primary hover:text-primary hover:opacity-100"
-                >
-                  <LinkedinIcon className="size-4" />
-                </Link>
-              ) : null}
-            </div>
           </div>
 
-          <div className="md:col-span-2">
-            <h4 className="mb-6 text-sm font-medium">{t.ui.footer.organization}</h4>
-            <ul className="space-y-3">
+          {/* Center zone: Flat link list */}
+          <div>
+            <h4 className="mb-4 text-sm font-medium">{t.ui.footer.organization}</h4>
+            <ul className="grid grid-cols-2 gap-x-6 gap-y-2">
               <li>
-                <Link to="/" hash="overview" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
+                <Link to="/" hash="overview" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary">
                   {t.ui.footer.overview}
                 </Link>
               </li>
               <li>
-                <Link to="/" hash="community" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
+                <Link to="/" hash="community" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary">
                   {t.ui.footer.community}
                 </Link>
               </li>
               <li>
-                <Link to="/" hash="events" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
+                <Link to="/" hash="events" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary">
                   {t.ui.footer.events}
                 </Link>
               </li>
               <li>
-                <Link to="/" hash="partners" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
-                  Partners
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="md:col-span-2">
-            <h4 className="mb-6 text-sm font-medium">{t.ui.footer.resources}</h4>
-            <ul className="space-y-3">
-              <li>
-                <Link to="/partners" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
-                  {t.ui.nav.partners}
-                </Link>
-              </li>
-              <li>
-                <Link to="/resources" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
-                  {t.ui.footer.resources}
-                </Link>
-              </li>
-              <li>
-                <Link to="/feed" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
+                <Link to="/feed" search={{ event: undefined, tool: undefined, status: undefined }} className="text-sm font-light text-foreground/60 transition-colors hover:text-primary">
                   {t.ui.footer.feed}
                 </Link>
               </li>
               <li>
-                <Link to="/terms" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
-                  {t.ui.footer.terms}
-                </Link>
-              </li>
-              <li>
-                <Link to="/design-system" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100">
-                  Design System
+                <Link to="/partners" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary">
+                  {t.ui.nav.partners}
                 </Link>
               </li>
               <li>
@@ -137,25 +98,18 @@ export function SiteFooter() {
                   to={t.site.whatsappLink as any}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100"
+                  className="text-sm font-light text-foreground/60 transition-colors hover:text-primary"
                 >
                   {t.ui.footer.whatsapp}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to={`mailto:${t.partner.email}` as any}
-                  className="text-sm font-light text-foreground/60 transition-colors hover:text-primary hover:opacity-100"
-                >
-                  {t.ui.footer.contact}
                 </Link>
               </li>
             </ul>
           </div>
 
-          <div className="md:col-span-4">
-            <h4 className="mb-4 text-sm font-medium">{t.ui.footer.stayUpdated}</h4>
-            <p className="mb-4 text-sm font-light text-foreground/60">{t.ui.footer.newsletterText}</p>
+          {/* Right zone: Newsletter */}
+          <div>
+            <h4 className="mb-2 text-sm font-medium">{t.ui.footer.stayUpdated}</h4>
+            <p className="mb-3 text-sm font-light text-foreground/60">{t.ui.footer.newsletterText}</p>
             <form className="flex flex-col gap-2 sm:flex-row" onSubmit={(event) => event.preventDefault()}>
               <input
                 type="email"
@@ -172,21 +126,67 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-between gap-4 border-t border-border pt-8 md:flex-row">
-          <p className="text-xs font-light text-foreground/40">
+        {/* Bottom bar */}
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-border pt-6 text-xs font-light text-foreground/40 md:flex-row">
+          <p>
             © {new Date().getFullYear()}{" "}
             <span className="font-display">ailabs.sv</span>. {t.ui.footer.madeWith}{" "}
             <span className="mx-0.5 inline-block text-primary">♥</span>{" "}
             {t.ui.footer.inSanSalvador}
           </p>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3">
+            {t.founder.socials.twitter ? (
+              <Link
+                to={t.founder.socials.twitter as any}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={t.ui.founder.x}
+                className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-foreground/40 transition-all hover:border-primary hover:text-primary"
+              >
+                <XIcon className="size-3.5" />
+              </Link>
+            ) : null}
+            {t.founder.socials.github ? (
+              <Link
+                to={t.founder.socials.github as any}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={t.ui.founder.github}
+                className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-foreground/40 transition-all hover:border-primary hover:text-primary"
+              >
+                <GithubIcon className="size-3.5" />
+              </Link>
+            ) : null}
+            {t.founder.socials.linkedin ? (
+              <Link
+                to={t.founder.socials.linkedin as any}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-foreground/40 transition-all hover:border-primary hover:text-primary"
+              >
+                <LinkedinIcon className="size-3.5" />
+              </Link>
+            ) : null}
+          </div>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://www.lem-design.art/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-foreground/70"
+            >
+              Logo by lem-design.art
+            </a>
+            <span className="text-border">·</span>
             <Link
               to={`mailto:${t.partner.email}` as any}
-              className="text-xs font-light text-foreground/40 transition-opacity hover:opacity-100"
+              className="transition-colors hover:text-foreground/70"
             >
               {t.ui.footer.contact}
             </Link>
-            <Link to="/terms" className="text-xs font-light text-foreground/40 transition-opacity hover:opacity-100">
+            <span className="text-border">·</span>
+            <Link to="/terms" className="transition-colors hover:text-foreground/70">
               {t.ui.footer.terms}
             </Link>
           </div>

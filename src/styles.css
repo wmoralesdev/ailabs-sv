@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -155,6 +156,13 @@
     --animate-page-in: page-in 300ms ease-out both;
     --animate-float-soft: float-soft 7s ease-in-out infinite;
     --animate-glow-soft: glow-soft 4s ease-in-out infinite;
+    --animate-marching-ants: marching-ants 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+    --animate-glitch-anim-1: glitch-anim-1 0.4s infinite linear alternate-reverse;
+    --animate-glitch-anim-2: glitch-anim-2 0.6s infinite linear alternate-reverse;
+    @keyframes marching-ants {
+        0% { stroke-dashoffset: 110; }
+        100% { stroke-dashoffset: 0; }
+    }
     @keyframes marquee {
         from { transform: translateX(0); }
         to { transform: translateX(-50%); }
@@ -204,6 +212,22 @@
             opacity: 0.92;
             filter: brightness(1.04);
         }
+    }
+    @keyframes glitch-anim-1 {
+        0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
+        20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+        40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); }
+        60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
+        80% { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 2px); }
+        100% { clip-path: inset(30% 0 50% 0); transform: translate(1px, -1px); }
+    }
+    @keyframes glitch-anim-2 {
+        0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, -1px); }
+        20% { clip-path: inset(30% 0 20% 0); transform: translate(-2px, 1px); }
+        40% { clip-path: inset(70% 0 10% 0); transform: translate(2px, 2px); }
+        60% { clip-path: inset(20% 0 50% 0); transform: translate(-2px, -2px); }
+        80% { clip-path: inset(50% 0 30% 0); transform: translate(1px, 2px); }
+        100% { clip-path: inset(5% 0 80% 0); transform: translate(-1px, -1px); }
     }
 }
 
@@ -269,5 +293,35 @@
     /* Hero top fade overlay (background only) */
     .hero-top-fade {
         background: linear-gradient(to bottom, var(--background) 0%, transparent 30%);
+    }
+    .marching-ants path {
+        stroke-dasharray: 110;
+        animation: var(--animate-marching-ants);
+    }
+    
+    .glitch {
+        position: relative;
+    }
+    .glitch::before,
+    .glitch::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.8;
+    }
+    .glitch::before {
+        left: 2px;
+        text-shadow: -1px 0 red;
+        animation: var(--animate-glitch-anim-1);
+        background: var(--background);
+    }
+    .glitch::after {
+        left: -2px;
+        text-shadow: -1px 0 cyan;
+        animation: var(--animate-glitch-anim-2);
+        background: var(--background);
     }
 }

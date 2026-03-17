@@ -1,17 +1,5 @@
 [
   {
-    "name": "Andrea Gómez",
-    "title": "Senior Frontend Dev",
-    "testimonial": "I came to learn a tool. I left asking better questions about how I build.",
-    "avatar": "/testimonials/andrea-gomez.webp"
-  },
-  {
-    "name": "Carlos Méndez",
-    "title": "CTO @ TechSV",
-    "testimonial": "The best part isn't the AI. It's being around people who actually want to figure things out.",
-    "avatar": "/testimonials/carlos-mendez.webp"
-  },
-  {
     "name": "Gabriel Campos",
     "title": "Frontend Developer",
     "testimonial": "This is the place where developers with the same vision come together and start building together.",

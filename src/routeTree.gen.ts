@@ -12,15 +12,18 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as SignInRouteImport } from './routes/sign-in'
-import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as ShowcaseRouteImport } from './routes/showcase'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as MeRouteImport } from './routes/me'
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as BlogRouteImport } from './routes/blog'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SignInSsoCallbackRouteImport } from './routes/sign-in_.sso-callback'
+import { Route as ShowcaseSubmitRouteImport } from './routes/showcase.submit'
+import { Route as ShowcaseSlugRouteImport } from './routes/showcase.$slug'
 import { Route as CommunitySlugRouteImport } from './routes/community.$slug'
 
 const TermsRoute = TermsRouteImport.update({
@@ -38,9 +41,9 @@ const SignInRoute = SignInRouteImport.update({
   path: '/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ResourcesRoute = ResourcesRouteImport.update({
-  id: '/resources',
-  path: '/resources',
+const ShowcaseRoute = ShowcaseRouteImport.update({
+  id: '/showcase',
+  path: '/showcase',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PartnersRoute = PartnersRouteImport.update({
@@ -73,6 +76,11 @@ const BlogRoute = BlogRouteImport.update({
   path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -83,6 +91,16 @@ const SignInSsoCallbackRoute = SignInSsoCallbackRouteImport.update({
   path: '/sign-in/sso-callback',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShowcaseSubmitRoute = ShowcaseSubmitRouteImport.update({
+  id: '/submit',
+  path: '/submit',
+  getParentRoute: () => ShowcaseRoute,
+} as any)
+const ShowcaseSlugRoute = ShowcaseSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ShowcaseRoute,
+} as any)
 const CommunitySlugRoute = CommunitySlugRouteImport.update({
   id: '/community/$slug',
   path: '/community/$slug',
@@ -91,107 +109,126 @@ const CommunitySlugRoute = CommunitySlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/blog': typeof BlogRoute
   '/design-system': typeof DesignSystemRoute
   '/feed': typeof FeedRoute
   '/me': typeof MeRoute
   '/onboarding': typeof OnboardingRoute
   '/partners': typeof PartnersRoute
-  '/resources': typeof ResourcesRoute
+  '/showcase': typeof ShowcaseRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/terms': typeof TermsRoute
   '/community/$slug': typeof CommunitySlugRoute
+  '/showcase/$slug': typeof ShowcaseSlugRoute
+  '/showcase/submit': typeof ShowcaseSubmitRoute
   '/sign-in/sso-callback': typeof SignInSsoCallbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/blog': typeof BlogRoute
   '/design-system': typeof DesignSystemRoute
   '/feed': typeof FeedRoute
   '/me': typeof MeRoute
   '/onboarding': typeof OnboardingRoute
   '/partners': typeof PartnersRoute
-  '/resources': typeof ResourcesRoute
+  '/showcase': typeof ShowcaseRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/terms': typeof TermsRoute
   '/community/$slug': typeof CommunitySlugRoute
+  '/showcase/$slug': typeof ShowcaseSlugRoute
+  '/showcase/submit': typeof ShowcaseSubmitRoute
   '/sign-in/sso-callback': typeof SignInSsoCallbackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/blog': typeof BlogRoute
   '/design-system': typeof DesignSystemRoute
   '/feed': typeof FeedRoute
   '/me': typeof MeRoute
   '/onboarding': typeof OnboardingRoute
   '/partners': typeof PartnersRoute
-  '/resources': typeof ResourcesRoute
+  '/showcase': typeof ShowcaseRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/terms': typeof TermsRoute
   '/community/$slug': typeof CommunitySlugRoute
+  '/showcase/$slug': typeof ShowcaseSlugRoute
+  '/showcase/submit': typeof ShowcaseSubmitRoute
   '/sign-in_/sso-callback': typeof SignInSsoCallbackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/blog'
     | '/design-system'
     | '/feed'
     | '/me'
     | '/onboarding'
     | '/partners'
-    | '/resources'
+    | '/showcase'
     | '/sign-in'
     | '/sign-up'
     | '/terms'
     | '/community/$slug'
+    | '/showcase/$slug'
+    | '/showcase/submit'
     | '/sign-in/sso-callback'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/blog'
     | '/design-system'
     | '/feed'
     | '/me'
     | '/onboarding'
     | '/partners'
-    | '/resources'
+    | '/showcase'
     | '/sign-in'
     | '/sign-up'
     | '/terms'
     | '/community/$slug'
+    | '/showcase/$slug'
+    | '/showcase/submit'
     | '/sign-in/sso-callback'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/blog'
     | '/design-system'
     | '/feed'
     | '/me'
     | '/onboarding'
     | '/partners'
-    | '/resources'
+    | '/showcase'
     | '/sign-in'
     | '/sign-up'
     | '/terms'
     | '/community/$slug'
+    | '/showcase/$slug'
+    | '/showcase/submit'
     | '/sign-in_/sso-callback'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   BlogRoute: typeof BlogRoute
   DesignSystemRoute: typeof DesignSystemRoute
   FeedRoute: typeof FeedRoute
   MeRoute: typeof MeRoute
   OnboardingRoute: typeof OnboardingRoute
   PartnersRoute: typeof PartnersRoute
-  ResourcesRoute: typeof ResourcesRoute
+  ShowcaseRoute: typeof ShowcaseRouteWithChildren
   SignInRoute: typeof SignInRoute
   SignUpRoute: typeof SignUpRoute
   TermsRoute: typeof TermsRoute
@@ -222,11 +259,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignInRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/resources': {
-      id: '/resources'
-      path: '/resources'
-      fullPath: '/resources'
-      preLoaderRoute: typeof ResourcesRouteImport
+    '/showcase': {
+      id: '/showcase'
+      path: '/showcase'
+      fullPath: '/showcase'
+      preLoaderRoute: typeof ShowcaseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/partners': {
@@ -271,6 +308,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -285,6 +329,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignInSsoCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/showcase/submit': {
+      id: '/showcase/submit'
+      path: '/submit'
+      fullPath: '/showcase/submit'
+      preLoaderRoute: typeof ShowcaseSubmitRouteImport
+      parentRoute: typeof ShowcaseRoute
+    }
+    '/showcase/$slug': {
+      id: '/showcase/$slug'
+      path: '/$slug'
+      fullPath: '/showcase/$slug'
+      preLoaderRoute: typeof ShowcaseSlugRouteImport
+      parentRoute: typeof ShowcaseRoute
+    }
     '/community/$slug': {
       id: '/community/$slug'
       path: '/community/$slug'
@@ -295,15 +353,30 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface ShowcaseRouteChildren {
+  ShowcaseSlugRoute: typeof ShowcaseSlugRoute
+  ShowcaseSubmitRoute: typeof ShowcaseSubmitRoute
+}
+
+const ShowcaseRouteChildren: ShowcaseRouteChildren = {
+  ShowcaseSlugRoute: ShowcaseSlugRoute,
+  ShowcaseSubmitRoute: ShowcaseSubmitRoute,
+}
+
+const ShowcaseRouteWithChildren = ShowcaseRoute._addFileChildren(
+  ShowcaseRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   BlogRoute: BlogRoute,
   DesignSystemRoute: DesignSystemRoute,
   FeedRoute: FeedRoute,
   MeRoute: MeRoute,
   OnboardingRoute: OnboardingRoute,
   PartnersRoute: PartnersRoute,
-  ResourcesRoute: ResourcesRoute,
+  ShowcaseRoute: ShowcaseRouteWithChildren,
   SignInRoute: SignInRoute,
   SignUpRoute: SignUpRoute,
   TermsRoute: TermsRoute,

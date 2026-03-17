@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AmbassadorSection } from "@/components/sections/ambassador-section";
+import { FounderSection } from "@/components/sections/founder-section";
 import { CommunityMembersSection } from "@/components/sections/community-members-section";
 import { EventsSection } from "@/components/sections/events-section";
 import { HeroSection } from "@/components/sections/hero-section";
@@ -31,7 +31,7 @@ function Index() {
         <TestimonialsSection />
         <LearningPreviewSection />
         <EventsSection />
-        <AmbassadorSection />
+        <FounderSection />
         <JoinCtaSection />
         <HighlightsSection />
       </main>

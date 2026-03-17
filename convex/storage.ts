@@ -30,3 +30,31 @@ export const getStorageUrl = mutation({
     return await ctx.storage.getUrl(args.storageId);
   },
 });
+
+/**
+ * Register a user file with path for organization.
+ * Path must be users/{userId}/... and caller must match userId.
+ */
+export const registerUserFile = mutation({
+  args: {
+    storageId: v.id("_storage"),
+    path: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Must be signed in to register files");
+    }
+    const userId = identity.subject;
+    const expectedPrefix = `users/${userId}/`;
+    if (!args.path.startsWith(expectedPrefix)) {
+      throw new Error(`Path must start with ${expectedPrefix}`);
+    }
+    await ctx.db.insert("userFiles", {
+      userId,
+      storageId: args.storageId,
+      path: args.path,
+      createdAt: Date.now(),
+    });
+  },
+});

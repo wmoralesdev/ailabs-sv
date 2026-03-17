@@ -33,9 +33,9 @@ export function ThemeToggle() {
     <DropdownMenu>
       <DropdownMenuTrigger
         aria-label={t.ui.a11y.selectTheme}
-        className={cn(buttonVariants({ variant: "ghost", size: "icon" }), "w-9 px-0")}
+        className={cn(buttonVariants({ variant: "ghost", size: "icon" }), "size-10 px-0")}
       >
-        <HugeiconsIcon icon={triggerIcon} className="size-5 transition-transform" />
+        <HugeiconsIcon icon={triggerIcon} className="size-6 transition-transform" />
         <span className="sr-only">{t.ui.a11y.selectTheme}</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

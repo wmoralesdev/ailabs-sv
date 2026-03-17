@@ -3,6 +3,7 @@ import { ArrowRightIcon } from "@hugeicons/core-free-icons";
 import { Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { AnimatedGrid } from "@/components/ui/animated-grid";
+import { GlitchText } from "@/components/ui/glitch-text";
 
 export function HeroSection() {
   const { t } = useI18n();
@@ -32,7 +33,7 @@ export function HeroSection() {
 
         <h1 className="mb-8 text-4xl font-medium leading-[0.95] tracking-tighter motion-safe:animate-hero-in [animation-delay:140ms] md:text-6xl lg:text-7xl">
           <span className="block text-foreground">{t.hero.headlineLine1}</span>
-          <span className="block text-primary">{t.hero.headlineLine2}</span>
+          <GlitchText phrases={t.hero.headlinePhrases} className="block text-primary" />
         </h1>
 
         <p className="mx-auto mb-10 max-w-2xl text-pretty text-base font-light leading-relaxed text-foreground/60 motion-safe:animate-hero-in [animation-delay:220ms] md:text-lg">

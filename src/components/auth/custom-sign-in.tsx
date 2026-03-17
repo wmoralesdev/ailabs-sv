@@ -100,14 +100,26 @@ export function CustomSignIn({ onStepChange, returnTo }: CustomSignInProps) {
             </FieldGroup>
 
             <div className="flex gap-3">
-              <Button
-                type="submit"
-                className="flex-1"
-                disabled={form.state.isSubmitting || form.state.values.code.length < 6}
-                loading={form.state.isSubmitting}
-              >
-                {form.state.isSubmitting ? t.signIn.verifying : t.signIn.continue}
-              </Button>
+              <form.Subscribe
+                selector={(state) => ({
+                  code: state.values.code,
+                  isSubmitting: state.isSubmitting,
+                })}
+                children={({ code, isSubmitting }) => {
+                  const isDisabled = isSubmitting || code.length < 6;
+
+                  return (
+                    <Button
+                      type="submit"
+                      className="flex-1"
+                      disabled={isDisabled}
+                      loading={isSubmitting}
+                    >
+                      {isSubmitting ? t.signIn.verifying : t.signIn.continue}
+                    </Button>
+                  );
+                }}
+              />
               <Button
                 type="button"
                 variant="ghost"

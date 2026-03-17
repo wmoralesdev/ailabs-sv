@@ -83,6 +83,31 @@ export const getBySlug = query({
 });
 
 /**
+ * Check if a slug is available for use.
+ * Returns available=true if: slug is valid, not taken, or belongs to the current user.
+ * Public - no auth required (but we use auth to allow owner's existing slug).
+ */
+export const isSlugAvailable = query({
+  args: { slug: v.string() },
+  handler: async (ctx, args) => {
+    const slug = args.slug.trim().toLowerCase();
+    const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+    if (!slug || !slugRegex.test(slug)) {
+      return { available: false, reason: "invalid" as const };
+    }
+    const identity = await ctx.auth.getUserIdentity();
+    const userId = identity?.subject ?? null;
+    const existing = await ctx.db
+      .query("profiles")
+      .withIndex("by_slug", (q) => q.eq("slug", slug))
+      .first();
+    if (!existing) return { available: true };
+    if (userId && existing.ownerId === userId) return { available: true };
+    return { available: false, reason: "taken" as const };
+  },
+});
+
+/**
  * Get the current user's profile.
  * Requires auth.
  */
@@ -119,6 +144,7 @@ export const upsertMine = mutation({
     availability: v.optional(v.array(v.string())),
     links: profileLinksValidator,
     contact: v.optional(v.string()),
+    tagline: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -155,6 +181,7 @@ export const upsertMine = mutation({
       availability: args.availability,
       links: args.links,
       contact: args.contact,
+      tagline: args.tagline,
       ownerId: userId,
       createdAt: existing?.createdAt ?? now,
       updatedAt: now,

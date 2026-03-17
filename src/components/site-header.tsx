@@ -1,80 +1,153 @@
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { CodeIcon, Search01Icon } from "@hugeicons/core-free-icons";
+import { Menu01Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
+import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 import { LanguageToggle } from "@/components/language-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { AuthHeaderActions } from "@/components/auth/auth-header-actions";
 import { JoinCtaButton } from "@/components/join-cta-button";
+import { AilabsLockup } from "@/components/ui/ailabs-lockup";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 export function SiteHeader() {
   const { t } = useI18n();
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const navLinks = [
+    { to: "/partners" as const, hash: undefined, label: t.ui.nav.partners },
+    { to: "/showcase" as const, hash: undefined, label: t.ui.nav.feed },
+  ] as const;
 
   return (
     <header
-      className="fixed inset-x-0 top-4 z-50 mx-auto w-[calc(100%-2rem)] max-w-5xl rounded-2xl border border-border/60 bg-background/80 shadow-lg shadow-black/5 backdrop-blur-lg pt-[env(safe-area-inset-top)]"
+      className={cn(
+        "fixed inset-x-0 top-4 z-50 mx-auto pt-[env(safe-area-inset-top)] transition-all duration-300",
+        scrolled ? "w-[calc(100%-2rem)] max-w-3xl" : "w-[calc(100%-2rem)] max-w-5xl",
+      )}
     >
-      <div className="flex h-14 items-center justify-between px-5">
-        {/* Logo */}
-        <Link
-          to="/"
-          className="group flex items-center gap-2"
-          aria-label={t.site.name}
-        >
-          <div className="flex size-8 items-center justify-center rounded-lg bg-foreground text-background">
-            <HugeiconsIcon icon={CodeIcon} size={18} />
-          </div>
-          <span className="font-display text-lg font-semibold tracking-tight">
-            <span className="text-primary">ai</span>
-            <span className="text-foreground">labs</span>
-            <span className="text-muted-foreground">.sv</span>
-          </span>
-        </Link>
+      <div
+        className={cn(
+          "flex h-14 items-center transition-all duration-300 ease-out",
+          scrolled
+            ? "justify-between gap-4 rounded-full border border-background/10 bg-foreground px-5 text-background shadow-xl shadow-black/15"
+            : "justify-between gap-0 border border-transparent bg-transparent px-5 shadow-none",
+        )}
+      >
+        <div className="flex items-center justify-start transition-all duration-300">
+          <Link
+            to="/"
+            className={cn(
+              "group flex items-center gap-2 transition-all duration-300",
+              scrolled && "[--foreground:var(--background)] [--muted-foreground:var(--background)]",
+            )}
+            aria-label={t.site.name}
+          >
+            <AilabsLockup compact={scrolled} className="text-2xl transition-all duration-300" />
+          </Link>
+        </div>
 
-        {/* Center Menu */}
-        <nav className="hidden items-center gap-1 md:flex">
-          <Link
-            to="/"
-            hash="overview"
-            className="rounded-lg px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-foreground"
-          >
-            {t.ui.nav.overview}
-          </Link>
-          <Link
-            to="/"
-            hash="events"
-            className="rounded-lg px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-foreground"
-          >
-            {t.ui.nav.events}
-          </Link>
-          <Link
-            to="/partners"
-            className="rounded-lg px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-foreground"
-          >
-            {t.ui.nav.partners}
-          </Link>
-          <Link
-            to="/blog"
-            className="rounded-lg px-3 py-1.5 text-xs font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-foreground"
-          >
-            {t.ui.nav.blog}
-          </Link>
+        <nav className="hidden items-center gap-1 transition-all duration-300 md:flex flex-1 justify-start ml-4">
+          {navLinks.map((link) => (
+            <Link
+              key={link.label}
+              to={link.to}
+              hash={link.hash}
+              className={cn(
+                "rounded-full px-4 py-2 text-sm font-medium transition-colors",
+                scrolled
+                  ? "text-background/80 hover:bg-background/15 hover:text-background"
+                  : "text-foreground/80 hover:bg-accent hover:text-foreground"
+              )}
+            >
+              {link.label}
+            </Link>
+          ))}
         </nav>
 
-        {/* Right Actions */}
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            className="text-foreground/70 transition-colors hover:text-foreground"
-            aria-label={t.ui.a11y.search}
-          >
-            <HugeiconsIcon icon={Search01Icon} size={18} />
-          </button>
-          <div className="hidden h-4 w-px bg-border sm:block" />
-          <LanguageToggle />
-          <ThemeToggle />
+        <div
+          className={cn(
+            "flex items-center justify-end gap-2 transition-all duration-300",
+            scrolled && "[&_button]:text-background [&_button:hover]:bg-background/15 [&_button:hover]:text-background",
+          )}
+        >
+          <div className="hidden md:flex md:items-center md:gap-2">
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
+          {!scrolled && (
+            <div className="hidden h-4 w-px bg-border opacity-0 transition-opacity duration-300 md:block" />
+          )}
           <AuthHeaderActions />
-          <JoinCtaButton />
+          <JoinCtaButton inverted={scrolled} />
+
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetTrigger
+              className={cn(
+                "flex size-9 items-center justify-center rounded-full transition-colors md:hidden",
+                scrolled
+                  ? "text-background hover:bg-background/20"
+                  : "text-foreground hover:bg-accent",
+              )}
+              aria-label="Open menu"
+            >
+              <HugeiconsIcon icon={Menu01Icon} className="size-5" />
+            </SheetTrigger>
+            <SheetContent side="right">
+              <SheetHeader className="border-b">
+                <AilabsLockup className="text-xl" />
+                <SheetClose
+                  className="flex size-9 items-center justify-center rounded-full text-foreground hover:bg-accent"
+                  aria-label="Close menu"
+                >
+                  <HugeiconsIcon icon={Cancel01Icon} className="size-5" />
+                </SheetClose>
+              </SheetHeader>
+
+              <nav className="flex flex-col gap-1 p-4">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    to={link.to}
+                    hash={link.hash}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="rounded-lg px-3 py-2.5 text-base font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-foreground"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+
+              <div className="mt-auto border-t p-4">
+                <div className="mb-4 flex items-center gap-2">
+                  <LanguageToggle />
+                  <ThemeToggle />
+                </div>
+                <Link
+                  to="/sign-in"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex h-10 w-full items-center justify-center rounded-full bg-foreground text-sm font-medium text-background transition-opacity hover:opacity-90"
+                >
+                  {t.ui.nav.join}
+                </Link>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>

@@ -4,7 +4,9 @@ import { AnimatedGrid } from "@/components/ui/animated-grid";
 import { Button } from "@/components/ui/button";
 import { LinkedinIcon } from "@/components/ui/linkedin-icon";
 import { XIcon } from "@/components/ui/x-icon";
+import { MarkdownPreview } from "@/components/ui/markdown-editor";
 import type { Doc } from "convex/_generated/dataModel";
+import { useI18n } from "@/lib/i18n";
 
 type Profile = Doc<"profiles">;
 
@@ -28,7 +30,8 @@ export function ProfileHero({
   onEdit,
   showContact,
 }: Props) {
-  const { name, title, company, location, avatarUrl, links, contact, bio } =
+  const { t } = useI18n();
+  const { name, title, company, location, tagline, avatarUrl, links, contact, bio } =
     profile;
   const linkedin = links?.linkedin;
   const x = links?.x;
@@ -62,9 +65,9 @@ export function ProfileHero({
 
             {/* Bio below avatar */}
             {bio && (
-              <p className="max-w-sm text-center text-sm font-light leading-relaxed text-foreground/70 motion-safe:animate-hero-in [animation-delay:350ms] md:text-left md:text-base">
-                {bio}
-              </p>
+              <div className="max-w-sm text-center text-sm font-light leading-relaxed text-foreground/70 motion-safe:animate-hero-in [animation-delay:350ms] md:text-left md:text-base">
+                <MarkdownPreview content={bio} className="[&_a]:text-primary" />
+              </div>
             )}
           </div>
 
@@ -74,6 +77,13 @@ export function ProfileHero({
             <h1 className="mb-3 text-4xl font-medium leading-tight tracking-tighter motion-safe:animate-hero-in [animation-delay:140ms] md:text-5xl lg:text-6xl">
               <span className="text-foreground">{name}</span>
             </h1>
+
+            {/* Tagline */}
+            {tagline && (
+              <p className="mb-3 line-clamp-2 text-base font-light italic text-muted-foreground motion-safe:animate-hero-in [animation-delay:160ms] md:text-lg">
+                {tagline}
+              </p>
+            )}
 
             {/* Title @ Company */}
             {(title || company) && (
@@ -119,7 +129,7 @@ export function ProfileHero({
                   href={contactLink}
                   className="flex h-11 items-center justify-center rounded-lg border border-border bg-transparent px-5 text-sm font-medium text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-accent/50 hover:shadow-md"
                 >
-                  Contact
+                  {t.profile?.contact ?? "Contact"}
                 </a>
               )}
               {showEditButton && onEdit && (
@@ -130,7 +140,7 @@ export function ProfileHero({
                   className="h-11 gap-2 px-5"
                 >
                   <HugeiconsIcon icon={PencilEdit01Icon} size={18} />
-                  Edit Profile
+                  {t.profile?.editProfile ?? "Edit profile"}
                 </Button>
               )}
             </div>

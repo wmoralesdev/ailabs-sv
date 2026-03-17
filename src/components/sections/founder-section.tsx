@@ -12,15 +12,15 @@ function getInitials(name: string): string {
   return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
 }
 
-export function AmbassadorSection() {
+export function FounderSection() {
   const { t } = useI18n();
   const [imageFailed, setImageFailed] = useState(false);
-  const imageSrc = t.ambassador.image;
+  const imageSrc = t.founder.image;
   const showPhoto = imageSrc && !imageFailed;
 
   const ctaHref =
-    t.ambassador.socials.website ?? t.ambassador.socials.linkedin ?? "#";
-  const hasSocials = Object.values(t.ambassador.socials).some(Boolean);
+    t.founder.socials.website ?? t.founder.socials.linkedin ?? "#";
+  const hasSocials = Object.values(t.founder.socials).some(Boolean);
 
   return (
     <section className="section-spacing border-y border-border/50 bg-muted/10">
@@ -36,13 +36,13 @@ export function AmbassadorSection() {
               {showPhoto ? (
                 <img
                   src={imageSrc}
-                  alt={t.ambassador.name}
+                  alt={t.founder.name}
                   className="size-full object-cover"
                   onError={() => setImageFailed(true)}
                 />
               ) : (
                 <div className="flex size-full items-center justify-center bg-muted/60 text-5xl font-semibold text-muted-foreground">
-                  {getInitials(t.ambassador.name)}
+                  {getInitials(t.founder.name)}
                 </div>
               )}
             </div>
@@ -50,18 +50,18 @@ export function AmbassadorSection() {
 
           <div className="md:col-span-7 lg:col-span-8">
             <SectionHeader
-              eyebrow={t.ambassador.sectionTitle}
-              title={t.ambassador.name}
+              eyebrow={t.founder.sectionTitle}
+              title={t.founder.name}
               align="left"
               className="[&_h2]:mb-4"
             />
             <p className="mb-4 text-pretty text-lg font-light leading-relaxed text-muted-foreground">
-              {formatWithBrandText(t.ambassador.bio)}
+              {formatWithBrandText(t.founder.bio)}
             </p>
 
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
               <span className="text-xs font-semibold uppercase tracking-wide text-primary">
-                {t.ambassador.role}
+                {t.founder.role}
               </span>
               <span className="text-muted-foreground/60" aria-hidden="true">
                 ·
@@ -72,24 +72,24 @@ export function AmbassadorSection() {
                 rel="noopener noreferrer"
                 className="text-sm font-medium text-primary underline-offset-4 hover:underline"
               >
-                {formatWithBrandText(t.ambassador.cta)}
+                {formatWithBrandText(t.founder.cta)}
               </Link>
               {hasSocials && (
                 <>
                   <span className="text-muted-foreground/60" aria-hidden="true">
                     ·
                   </span>
-                  <SocialLinks socials={t.ambassador.socials} />
+                  <SocialLinks socials={t.founder.socials} />
                 </>
               )}
             </div>
 
             <div className="mt-5">
               <p className="mb-3 text-sm font-medium text-foreground/80">
-                {t.ambassador.purposeFraming}
+                {t.founder.purposeFraming}
               </p>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                {t.ambassador.purposeItems.map((item) => (
+                {t.founder.purposeItems.map((item) => (
                   <li key={item} className="flex gap-2">
                     <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70" />
                     <span>{item}</span>

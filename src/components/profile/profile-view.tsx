@@ -5,8 +5,13 @@ import { Button } from "@/components/ui/button";
 import { LinkedinIcon } from "@/components/ui/linkedin-icon";
 import { XIcon } from "@/components/ui/x-icon";
 import { DisplayChip } from "@/components/ui/toggle-chip";
+import { MarkdownPreview } from "@/components/ui/markdown-editor";
 import { cn } from "@/lib/utils";
 import type { Doc } from "convex/_generated/dataModel";
+import { useI18n } from "@/lib/i18n";
+import { idsToLabels } from "@/lib/onboarding-interests";
+import { ProfileAchievements } from "./profile-achievements";
+import { ProfileShowcase } from "./profile-showcase";
 
 type Profile = Doc<"profiles">;
 
@@ -17,14 +22,22 @@ type Props = {
   onEditProfile?: () => void;
 };
 
-const EXPERIENCE_LABELS: Record<string, string> = {
-  beginner: "Beginner",
-  intermediate: "Intermediate",
-  advanced: "Advanced",
-  exploring: "Exploring",
-  building: "Building",
-  shipping: "Shipping",
-};
+function getExperienceLabel(
+  level: string,
+  labels?: { beginner: string; intermediate: string; advanced: string; exploring: string; building: string; shipping: string }
+): string {
+  if (!labels) return level;
+  const map: Record<string, keyof typeof labels> = {
+    beginner: "beginner",
+    intermediate: "intermediate",
+    advanced: "advanced",
+    exploring: "exploring",
+    building: "building",
+    shipping: "shipping",
+  };
+  const key = map[level];
+  return key ? labels[key] : level;
+}
 
 function contactHref(contact: string): string | undefined {
   if (contact.includes("@")) return `mailto:${contact}`;
@@ -71,11 +84,13 @@ export function ProfileView({
   showContact,
   onEditProfile,
 }: Props) {
+  const { t } = useI18n();
   const {
     name,
     title,
     company,
     location,
+    tagline,
     avatarUrl,
     links,
     contact,
@@ -87,30 +102,33 @@ export function ProfileView({
     availability,
   } = profile;
 
+  const interestsLabels = idsToLabels(interests ?? [], t.onboarding.interests.interests);
+  const toolsLabels = idsToLabels(tools ?? [], t.onboarding.interests.tools);
+  const lookingForLabels = idsToLabels(lookingFor ?? [], t.onboarding.interests.lookingFor);
+  const availabilityLabels = idsToLabels(availability ?? [], t.onboarding.interests.availability);
+
   const linkedin = links?.linkedin;
   const x = links?.x;
   const contactLink = contact && showContact ? contactHref(contact) : undefined;
 
   return (
-    <section className="relative flex flex-1 items-center overflow-hidden">
-      <AnimatedGrid />
-      <div className="hero-top-fade pointer-events-none absolute inset-0 z-2" />
+    <div className="flex flex-1 flex-col">
+      {/* Hero section with bento grid */}
+      <section className="relative overflow-hidden">
+        <AnimatedGrid />
+        <div className="hero-top-fade pointer-events-none absolute inset-0 z-2" />
 
-      <div className="container relative z-10 mx-auto px-6 py-10 md:py-14 lg:py-16">
-        {/* Bento Grid */}
-        <div className="grid gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 lg:gap-6">
-          {/* Avatar Card - spans 1 col on md, 1 col on lg, tall */}
+        <div className="container relative z-10 mx-auto px-6 py-10 md:py-14 lg:py-16">
+          {/* Bento Grid */}
+          <div className="grid gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4 lg:gap-6">
+          {/* Avatar - spans 1 col, square, fills grid placement */}
           <div
             className={cn(
-              CARD_BASE,
-              "flex flex-col items-center justify-center p-6 md:row-span-2 lg:row-span-2",
+              "w-full aspect-square md:row-span-2 md:min-h-0",
               "motion-safe:animate-hero-in [animation-delay:80ms]"
             )}
           >
-            <span className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
-              Profile
-            </span>
-            <div className="mb-4 size-40 overflow-hidden rounded-full border-4 border-primary/20 shadow-xl shadow-primary/10 ring-4 ring-primary/10 md:size-44 lg:size-52">
+            <div className="size-full overflow-hidden rounded-lg border border-border/60 shadow-xl shadow-black/5">
               {avatarUrl ? (
                 <img src={avatarUrl} alt="" className="size-full object-cover" />
               ) : (
@@ -119,33 +137,6 @@ export function ProfileView({
                 </div>
               )}
             </div>
-            {/* Social links under avatar */}
-            {(linkedin || x) && (
-              <div className="flex items-center gap-2">
-                {linkedin && (
-                  <a
-                    href={linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="LinkedIn"
-                    className="flex size-10 items-center justify-center rounded-full border border-border bg-transparent text-foreground/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-accent/50 hover:text-primary"
-                  >
-                    <LinkedinIcon className="size-4" />
-                  </a>
-                )}
-                {x && (
-                  <a
-                    href={x}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="X"
-                    className="flex size-10 items-center justify-center rounded-full border border-border bg-transparent text-foreground/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-accent/50 hover:text-primary"
-                  >
-                    <XIcon className="size-4" />
-                  </a>
-                )}
-              </div>
-            )}
           </div>
 
           {/* Name + Title + Location Card */}
@@ -158,11 +149,16 @@ export function ProfileView({
             )}
           >
             <span className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
-              Member
+              {t.profile?.member ?? "Member"}
             </span>
             <h1 className="mb-2 text-3xl font-medium leading-tight tracking-tighter md:text-4xl">
               <span className="text-foreground">{name}</span>
             </h1>
+            {tagline && (
+              <p className="mb-2 line-clamp-2 text-sm font-light italic text-muted-foreground">
+                {tagline}
+              </p>
+            )}
             {(title || company) && (
               <p className="mb-2 text-base font-light text-muted-foreground md:text-lg">
                 {[title, company].filter(Boolean).join(" @ ")}
@@ -181,7 +177,7 @@ export function ProfileView({
                   href={contactLink}
                   className="flex h-10 items-center justify-center rounded-lg border border-border bg-transparent px-5 text-sm font-medium text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-accent/50 hover:shadow-md"
                 >
-                  Contact
+                  {t.profile?.contact ?? "Contact"}
                 </a>
               )}
               {isOwner && onEditProfile && (
@@ -192,14 +188,14 @@ export function ProfileView({
                   className="h-10 gap-2 px-5"
                 >
                   <HugeiconsIcon icon={PencilEdit01Icon} size={16} />
-                  Edit Profile
+                  {t.profile?.editProfile ?? "Edit profile"}
                 </Button>
               )}
             </div>
           </div>
 
-          {/* Bio Card - wider, next to name card */}
-          {bio && (
+          {/* About Card - bio + socials */}
+          {(bio || linkedin || x) && (
             <div
               className={cn(
                 CARD_BASE,
@@ -208,60 +204,101 @@ export function ProfileView({
               )}
             >
               <span className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
-                About
+                {t.profile?.about ?? "About"}
               </span>
-              <p className="text-pretty text-sm font-light leading-relaxed text-foreground/80">
-                {bio}
-              </p>
+              {bio && (
+                <MarkdownPreview
+                  content={bio}
+                  className="text-pretty text-sm font-light leading-relaxed text-foreground/80 prose-p:my-1.5"
+                />
+              )}
+              {(linkedin || x) && (
+                <div className={cn("flex items-center gap-2", bio && "mt-4")}>
+                  {linkedin && (
+                    <a
+                      href={linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="LinkedIn"
+                      className="flex size-10 items-center justify-center rounded-full border border-border bg-transparent text-foreground/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-accent/50 hover:text-primary"
+                    >
+                      <LinkedinIcon className="size-4" />
+                    </a>
+                  )}
+                  {x && (
+                    <a
+                      href={x}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="X"
+                      className="flex size-10 items-center justify-center rounded-full border border-border bg-transparent text-foreground/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-accent/50 hover:text-primary"
+                    >
+                      <XIcon className="size-4" />
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
           )}
 
           {/* Chip Cards - varying spans */}
           {experienceLevel && (
             <ChipCard
-              label="Experience"
-              items={[EXPERIENCE_LABELS[experienceLevel] ?? experienceLevel]}
+              label={t.profile?.experience ?? "Experience"}
+              items={[getExperienceLabel(experienceLevel, t.profile?.experienceLabels)]}
               delay={260}
             />
           )}
 
-          {(interests?.length ?? 0) > 0 && (
+          {(interestsLabels.length ?? 0) > 0 && (
             <ChipCard
-              label="Interests"
-              items={interests!}
+              label={t.profile?.interests ?? "Interests"}
+              items={interestsLabels}
               className="md:col-span-2 lg:col-span-2"
               delay={320}
             />
           )}
 
-          {(tools?.length ?? 0) > 0 && (
+          {(toolsLabels.length ?? 0) > 0 && (
             <ChipCard
-              label="Tools"
-              items={tools!}
+              label={t.profile?.tools ?? "Tools"}
+              items={toolsLabels}
               className="lg:col-span-2"
               delay={380}
             />
           )}
 
-          {(lookingFor?.length ?? 0) > 0 && (
+          {(lookingForLabels.length ?? 0) > 0 && (
             <ChipCard
-              label="Looking For"
-              items={lookingFor!}
+              label={t.profile?.lookingFor ?? "Looking for"}
+              items={lookingForLabels}
               className="md:col-span-2 lg:col-span-2"
               delay={440}
             />
           )}
 
-          {(availability?.length ?? 0) > 0 && (
+          {(availabilityLabels.length ?? 0) > 0 && (
             <ChipCard
-              label="Availability"
-              items={availability!}
+              label={t.profile?.availability ?? "Availability"}
+              items={availabilityLabels}
               className="lg:col-span-2"
               delay={500}
             />
           )}
+
+          {/* Achievements Card */}
+          <ProfileAchievements
+            className="hidden md:col-span-2 lg:col-span-2"
+            delay={560}
+          />
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Showcase section - outside hero background */}
+      <section className="container mx-auto px-6 pb-16" aria-label="Projects">
+        <ProfileShowcase ownerId={profile.ownerId} isOwner={!!isOwner} />
+      </section>
+    </div>
   );
 }
