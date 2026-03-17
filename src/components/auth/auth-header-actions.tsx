@@ -1,11 +1,13 @@
 "use client";
 
+import { useEffect } from "react";
 import { useRouter } from "@tanstack/react-router";
 import { useClerk } from "@clerk/tanstack-react-start";
 import { useQuery } from "convex/react";
 import { useAuthState } from "@/components/auth/auth-context";
 import { useI18n } from "@/lib/i18n";
 import { api } from "convex/_generated/api";
+import { postDebugLog } from "@/lib/debug-log";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,6 +37,26 @@ export function AuthHeaderActions() {
   const { t } = useI18n();
   const myProfile = useQuery(api.profiles.me);
   const isAdmin = useQuery(api.admin.isCurrentUserAdmin);
+
+  useEffect(() => {
+    // #region agent log
+    postDebugLog({
+      runId: "initial",
+      hypothesisId: "H3",
+      location: "src/components/auth/auth-header-actions.tsx",
+      message: "header query snapshot",
+      data: {
+        path: typeof window === "undefined" ? null : window.location.pathname,
+        authStatus: status,
+        hasUser: Boolean(user),
+        profileState:
+          myProfile === undefined ? "loading" : myProfile ? "present" : "absent",
+        adminState:
+          isAdmin === undefined ? "loading" : isAdmin ? "true" : "false",
+      },
+    });
+    // #endregion
+  }, [isAdmin, myProfile, status, user]);
 
   if (status === "loading") {
     return (
