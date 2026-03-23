@@ -12,7 +12,7 @@ interface ShowcaseSharePromptProps {
 const SHARE_TEMPLATE = (title: string, tagline: string, url: string) =>
   `🚀 Just shipped ${title} — ${tagline}
 
-Built with the @ailaboratorio community
+Built with the @ailabs_sv community
 
 ${url}`;
 
