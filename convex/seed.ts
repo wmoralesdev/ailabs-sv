@@ -21,7 +21,7 @@ type SeedEvent = {
   title: { es: string; en: string };
   description: { es: string; en: string };
   location: { es: string; en: string };
-  tags: string[];
+  tags: Array<string>;
   photoAlbumUrl?: string;
   coverImageId?: Id<"_storage">;
 };
@@ -39,7 +39,7 @@ function formatDateLabel(ms: number, tz: string, locale: "es" | "en"): string {
   }).format(new Date(ms));
 }
 
-const EVENTS: SeedEvent[] = [
+const EVENTS: Array<SeedEvent> = [
   {
     slug: "cursor-meetup-san-salvador-1st-ed",
     rsvpUrl: "https://lu.ma/t9n17knq",

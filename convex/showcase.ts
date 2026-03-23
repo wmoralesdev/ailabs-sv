@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { query, mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { isAdmin } from "./lib/admin";
 
 const statusValidator = v.union(
@@ -112,9 +112,9 @@ export const list = query({
         ...entry,
         author: profiles[i]
           ? {
-              name: profiles[i]!.name,
-              slug: profiles[i]!.slug,
-              avatarUrl: profiles[i]!.avatarUrl,
+              name: profiles[i].name,
+              slug: profiles[i].slug,
+              avatarUrl: profiles[i].avatarUrl,
             }
           : null,
       })),
@@ -198,9 +198,9 @@ export const listByOwner = query({
       ...entry,
       author: profiles[i]
         ? {
-            name: profiles[i]!.name,
-            slug: profiles[i]!.slug,
-            avatarUrl: profiles[i]!.avatarUrl,
+            name: profiles[i].name,
+            slug: profiles[i].slug,
+            avatarUrl: profiles[i].avatarUrl,
           }
         : null,
     }));
@@ -305,7 +305,7 @@ export const create = mutation({
     }
     const collabIds = args.collaboratorIds?.slice(0, 5) ?? [];
 
-    let baseSlug = baseShowcaseSlug(profile.slug, args.title);
+    const baseSlug = baseShowcaseSlug(profile.slug, args.title);
     let slug = baseSlug;
     let attempts = 0;
     let slugAvailable = false;
