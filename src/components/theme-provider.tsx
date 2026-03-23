@@ -13,18 +13,15 @@ type ThemeProviderState = {
   setTheme: (theme: Theme) => void
 }
 
-const initialState: ThemeProviderState = {
-  theme: "system",
-  setTheme: () => null,
-}
-
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
+const ThemeProviderContext = createContext<ThemeProviderState | undefined>(
+  undefined
+)
 
 function getStoredTheme(storageKey: string, fallbackTheme: Theme): Theme {
   if (typeof window === "undefined") return fallbackTheme
 
   const storage = window.localStorage
-  if (!storage || typeof storage.getItem !== "function") return fallbackTheme
+  if (typeof storage.getItem !== "function") return fallbackTheme
 
   const storedTheme = storage.getItem(storageKey)
   if (storedTheme === "light" || storedTheme === "dark" || storedTheme === "system")
@@ -62,15 +59,14 @@ export function ThemeProvider({
 
   const value = {
     theme,
-    setTheme: (theme: Theme) => {
+    setTheme: (nextTheme: Theme) => {
       if (
         typeof window !== "undefined" &&
-        window.localStorage &&
         typeof window.localStorage.setItem === "function"
       ) {
-        window.localStorage.setItem(storageKey, theme)
+        window.localStorage.setItem(storageKey, nextTheme)
       }
-      setTheme(theme)
+      setTheme(nextTheme)
     },
   }
 

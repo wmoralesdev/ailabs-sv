@@ -5,7 +5,11 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
 import { useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import {  useEffect, useMemo, useState } from "react";
+import { ShowcaseCoverUpload } from "./showcase-cover-upload";
+import type {ReactNode} from "react";
+import type { CoverImageValue } from "./showcase-cover-upload";
+import type { SiteContent } from "@/content/site-content";
 import { AnimatedGrid } from "@/components/ui/animated-grid";
 import { BENTO_CARD_CLASS } from "@/lib/bento-card";
 import {
@@ -16,9 +20,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { ShowcaseCoverUpload } from "./showcase-cover-upload";
-import type { CoverImageValue } from "./showcase-cover-upload";
-import type { SiteContent } from "@/content/site-content";
 import {
   Field,
   FieldDescription,

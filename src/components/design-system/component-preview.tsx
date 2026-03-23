@@ -1,6 +1,7 @@
 "use client";
 
-import { Component, type ReactNode } from "react";
+import { Component  } from "react";
+import type {ReactNode} from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -20,7 +21,7 @@ export function ComponentPreview({
   className,
 }: Props) {
   const handleCopy = () => {
-    if (usage && typeof navigator?.clipboard?.writeText === "function") {
+    if (usage && typeof navigator.clipboard.writeText === "function") {
       navigator.clipboard.writeText(usage).catch(() => {});
     }
   };

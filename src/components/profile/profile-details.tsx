@@ -10,16 +10,16 @@ function getExperienceLabel(
   labels?: { beginner: string; intermediate: string; advanced: string; exploring: string; building: string; shipping: string }
 ): string {
   if (!labels) return level;
-  const map: Record<string, keyof typeof labels> = {
+  const map = {
     beginner: "beginner",
     intermediate: "intermediate",
     advanced: "advanced",
     exploring: "exploring",
     building: "building",
     shipping: "shipping",
-  };
-  const key = map[level];
-  return key ? labels[key] : level;
+  } as const;
+  if (!(level in map)) return level;
+  return labels[map[level as keyof typeof map]];
 }
 
 type Props = {
@@ -32,10 +32,10 @@ function ChipGroup({
   delay = 400,
 }: {
   label: string;
-  items: string[];
+  items: Array<string>;
   delay?: number;
 }) {
-  if (!items?.length) return null;
+  if (!items.length) return null;
   return (
     <div
       className="flex flex-col gap-2 motion-safe:animate-hero-in"
@@ -90,19 +90,19 @@ export function ProfileDetails({ profile }: Props) {
             />
           )}
 
-          {(interestsLabels.length ?? 0) > 0 && (
+          {interestsLabels.length > 0 && (
             <ChipGroup label={t.profile?.interests ?? "Interests"} items={interestsLabels} delay={450} />
           )}
 
-          {(toolsLabels.length ?? 0) > 0 && (
+          {toolsLabels.length > 0 && (
             <ChipGroup label={t.profile?.tools ?? "Tools"} items={toolsLabels} delay={500} />
           )}
 
-          {(lookingForLabels.length ?? 0) > 0 && (
+          {lookingForLabels.length > 0 && (
             <ChipGroup label={t.profile?.lookingFor ?? "Looking for"} items={lookingForLabels} delay={550} />
           )}
 
-          {(availabilityLabels.length ?? 0) > 0 && (
+          {availabilityLabels.length > 0 && (
             <ChipGroup label={t.profile?.availability ?? "Availability"} items={availabilityLabels} delay={600} />
           )}
         </div>

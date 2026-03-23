@@ -5,8 +5,18 @@ import { Link, useRouter } from "@tanstack/react-router";
 import { useStore } from "@tanstack/react-form";
 import { useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
-import { useAuthState } from "@/components/auth/auth-context";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Cancel01Icon, Tick02Icon } from "@hugeicons/core-free-icons";
 import { useOnboardingWizard } from "./use-onboarding-wizard";
+import { AvatarUpload } from "./avatar-upload";
+import {
+  availabilityIcons,
+  lookingForIcons,
+  toolIcons,
+  topicIcons,
+} from "./tool-icons";
+import type { Doc } from "convex/_generated/dataModel";
+import { useAuthState } from "@/components/auth/auth-context";
 import { useI18n } from "@/lib/i18n";
 import { useDebounce } from "@/hooks/use-debounce";
 import {
@@ -32,18 +42,9 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { Spinner } from "@/components/ui/spinner";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { Cancel01Icon, Tick02Icon } from "@hugeicons/core-free-icons";
 import { cn } from "@/lib/utils";
 import { ToggleChip } from "@/components/ui/toggle-chip";
-import { AvatarUpload } from "./avatar-upload";
 import { formatWithBrandText } from "@/components/brand-text";
-import {
-  toolIcons,
-  topicIcons,
-  lookingForIcons,
-  availabilityIcons,
-} from "./tool-icons";
 
 const CARD_CLASS =
   "rounded-2xl border border-border/60 bg-card p-6 shadow-lg shadow-black/10 md:p-8";
@@ -79,7 +80,7 @@ function StepIndicator({
 }
 
 type OnboardingWizardProps = {
-  existingProfile?: import("convex/_generated/dataModel").Doc<"profiles"> | null;
+  existingProfile?: Doc<"profiles"> | null;
   onCompleteRedirectTo?: string;
 };
 
@@ -204,7 +205,7 @@ export function OnboardingWizard({
             <form.Field
               name="name"
               children={(field) => {
-                const isInvalid = field.state.meta.errors?.length;
+                const isInvalid = field.state.meta.errors.length;
                 return (
                   <Field data-invalid={!!isInvalid}>
                     <FieldLabel required>{t.onboarding.about.nameLabel}</FieldLabel>
@@ -224,7 +225,7 @@ export function OnboardingWizard({
             <form.Field
               name="slug"
               children={(field) => {
-                const isInvalid = field.state.meta.errors?.length;
+                const isInvalid = field.state.meta.errors.length;
                 const isInvalidFormat = debouncedSlug && !slugValidFormat && debouncedSlug.length > 0;
                 const showUnavailable = slugUnavailable || isInvalidFormat;
                 return (
@@ -313,7 +314,7 @@ export function OnboardingWizard({
             <form.Field
               name="tagline"
               children={(field) => {
-                const isInvalid = field.state.meta.errors?.length;
+                const isInvalid = field.state.meta.errors.length;
                 return (
                   <Field data-invalid={!!isInvalid}>
                     <FieldLabel required>{t.onboarding.about.taglineLabel}</FieldLabel>
@@ -349,11 +350,10 @@ export function OnboardingWizard({
               type="submit"
               className="flex-1"
               disabled={
-                currentStep === "about" &&
-                (slugChecking ||
-                  slugUnavailable ||
-                  (!!debouncedSlug && !slugValidFormat) ||
-                  !tagline?.trim())
+                slugChecking ||
+                slugUnavailable ||
+                (!!debouncedSlug && !slugValidFormat) ||
+                !tagline.trim()
               }
             >
               {t.onboarding.nav.continue}
@@ -390,7 +390,7 @@ export function OnboardingWizard({
                       <SelectValue placeholder={t.onboarding.work.rolePlaceholder}>
                         {(value: string) => {
                           const opt = t.onboarding.work.roleOptions.find((o) => o.value === value);
-                          return opt ? opt.label : value ?? "";
+                          return opt ? opt.label : value;
                         }}
                       </SelectValue>
                     </SelectTrigger>
@@ -412,7 +412,7 @@ export function OnboardingWizard({
                   <form.Field
                     name="title"
                     children={(field) => {
-                      const isInvalid = field.state.meta.errors?.length;
+                      const isInvalid = field.state.meta.errors.length;
                       return (
                         <Field data-invalid={!!isInvalid}>
                           <FieldLabel required>{t.onboarding.work.titleLabel}</FieldLabel>
@@ -463,7 +463,7 @@ export function OnboardingWizard({
                       <SelectValue placeholder={t.onboarding.work.experiencePlaceholder}>
                         {(value: string) => {
                           const opt = t.onboarding.work.experienceOptions.find((o) => o.value === value);
-                          return opt ? opt.label : value ?? "";
+                          return opt ? opt.label : value;
                         }}
                       </SelectValue>
                     </SelectTrigger>
@@ -488,7 +488,7 @@ export function OnboardingWizard({
             <form.Field
               name="bio"
               children={(field) => {
-                const isInvalid = field.state.meta.errors?.length;
+                const isInvalid = field.state.meta.errors.length;
                 return (
                   <Field data-invalid={!!isInvalid}>
                     <FieldLabel required>{t.onboarding.work.bioLabel}</FieldLabel>
@@ -497,9 +497,9 @@ export function OnboardingWizard({
                       onChange={(v) => field.handleChange(v)}
                       placeholder={t.onboarding.work.bioPlaceholder}
                       rows={5}
-                      writeLabel={t.resources?.writeLabel ?? "Write"}
-                      previewLabel={t.resources?.previewLabel ?? "Preview"}
-                      emptyPreviewText={t.resources?.previewEmpty ?? "Nothing to preview"}
+                      writeLabel={t.resources.writeLabel ?? "Write"}
+                      previewLabel={t.resources.previewLabel ?? "Preview"}
+                      emptyPreviewText={t.resources.previewEmpty ?? "Nothing to preview"}
                     />
                     {!!isInvalid && <FieldError errors={field.state.meta.errors} />}
                   </Field>
@@ -544,7 +544,7 @@ export function OnboardingWizard({
               <form.Field
                 name="interests"
                 children={(field) => {
-                  const isInvalid = field.state.meta.errors?.length;
+                  const isInvalid = field.state.meta.errors.length;
                   return (
                     <Field data-invalid={!!isInvalid}>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-2">

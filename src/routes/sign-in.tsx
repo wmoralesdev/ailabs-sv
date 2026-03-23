@@ -3,15 +3,16 @@ import { useEffect, useState } from "react";
 import { ClerkLoaded, ClerkLoading } from "@clerk/tanstack-react-start";
 import { useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
+import { z } from "zod";
+import type {SignInStep} from "@/components/auth/custom-sign-in";
 import { authStateFn } from "@/lib/auth-server";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { useI18n } from "@/lib/i18n";
-import { CustomSignIn, type SignInStep } from "@/components/auth/custom-sign-in";
+import { CustomSignIn  } from "@/components/auth/custom-sign-in";
 import { getSafeReturnTo } from "@/lib/auth-return-to";
 import { useAuthState } from "@/components/auth/auth-context";
 import { AnimatedGrid } from "@/components/ui/animated-grid";
-import { z } from "zod";
 
 const outerCardClass =
   "!bg-card !text-card-foreground rounded-2xl border border-border/60 shadow-lg shadow-black/10";

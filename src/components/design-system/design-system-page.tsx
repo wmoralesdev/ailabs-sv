@@ -1,9 +1,9 @@
 "use client";
 
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
 import { DesignSystemHero } from "./design-system-hero";
 import { ComponentPreview } from "./component-preview";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { SectionHeader } from "@/components/section-header";
@@ -34,7 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ToggleChip, DisplayChip } from "@/components/ui/toggle-chip";
+import { DisplayChip, ToggleChip } from "@/components/ui/toggle-chip";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";

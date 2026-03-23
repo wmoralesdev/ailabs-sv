@@ -1,11 +1,11 @@
-import { useI18n } from "@/lib/i18n";
-import { SectionHeader } from "@/components/section-header";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   FlashIcon,
-  Wrench01Icon,
   Presentation01Icon,
+  Wrench01Icon,
 } from "@hugeicons/core-free-icons";
+import { useI18n } from "@/lib/i18n";
+import { SectionHeader } from "@/components/section-header";
 
 export function WhatHappensHereSection() {
   const { t } = useI18n();

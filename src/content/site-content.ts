@@ -22,7 +22,7 @@ export interface SiteContent {
   hero: {
     headlineLine1: string;
     headlineLine2: string;
-    headlinePhrases: string[];
+    headlinePhrases: Array<string>;
     subheadline: string;
     primaryCta: string;
     secondaryCta: string;
@@ -148,7 +148,7 @@ export interface SiteContent {
     hero: {
       badge: string;
       headlineLine1: string;
-      headlinePhrases: string[];
+      headlinePhrases: Array<string>;
       subheadline: string;
       primaryCta: string;
       secondaryCta: string;
@@ -284,7 +284,7 @@ export interface SiteContent {
     hero: {
       badge: string;
       headlineLine1: string;
-      headlinePhrases: string[];
+      headlinePhrases: Array<string>;
       subheadline: string;
       primaryCta: string;
       secondaryCta: string;
@@ -428,14 +428,14 @@ export interface SiteContent {
       subheadline: string;
       roleLabel: string;
       rolePlaceholder: string;
-      roleOptions: { value: string; label: string }[];
+      roleOptions: Array<{ value: string; label: string }>;
       titleLabel: string;
       titlePlaceholder: string;
       companyLabel: string;
       companyPlaceholder: string;
       experienceLabel: string;
       experiencePlaceholder: string;
-      experienceOptions: { value: string; label: string; description?: string }[];
+      experienceOptions: Array<{ value: string; label: string; description?: string }>;
       bioLabel: string;
       bioPlaceholder: string;
       titleRequired: string;
@@ -449,10 +449,10 @@ export interface SiteContent {
       toolsLabel: string;
       lookingForLabel: string;
       availabilityLabel: string;
-      interests: { id: string; label: string }[];
-      tools: { id: string; label: string }[];
-      lookingFor: { id: string; label: string }[];
-      availability: { id: string; label: string }[];
+      interests: Array<{ id: string; label: string }>;
+      tools: Array<{ id: string; label: string }>;
+      lookingFor: Array<{ id: string; label: string }>;
+      availability: Array<{ id: string; label: string }>;
     };
     interestsExplore?: {
       headline: string;
@@ -548,7 +548,7 @@ export interface SiteContent {
       whatsapp: string;
       feed: string;
       terms: string;
-      watermarkWords: string[];
+      watermarkWords: Array<string>;
     };
     hero: { badgeLabel: string };
     communityMembers: { badge: string; title: string; desc: string; emptyState: string };

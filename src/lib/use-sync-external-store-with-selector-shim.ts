@@ -8,21 +8,21 @@ import {
 
 type Subscribe = (onStoreChange: () => void) => () => void
 
-type Inst<Selection> = {
+type Inst<TSelection> = {
   hasValue: boolean
-  value: Selection | null
+  value: TSelection | null
 }
 
 // React 19 already exposes useSyncExternalStore, so we only need the selector
 // memoization behavior from the shim package in an ESM-safe form for Vite.
-export function useSyncExternalStoreWithSelector<Snapshot, Selection>(
+export function useSyncExternalStoreWithSelector<TSnapshot, TSelection>(
   subscribe: Subscribe,
-  getSnapshot: () => Snapshot,
-  getServerSnapshot: (() => Snapshot) | undefined,
-  selector: (snapshot: Snapshot) => Selection,
-  isEqual?: (a: Selection, b: Selection) => boolean,
-): Selection {
-  const instRef = useRef<Inst<Selection> | null>(null)
+  getSnapshot: () => TSnapshot,
+  getServerSnapshot: (() => TSnapshot) | undefined,
+  selector: (snapshot: TSnapshot) => TSelection,
+  isEqual?: (a: TSelection, b: TSelection) => boolean,
+): TSelection {
+  const instRef = useRef<Inst<TSelection> | null>(null)
 
   if (instRef.current === null) {
     instRef.current = { hasValue: false, value: null }
@@ -32,17 +32,17 @@ export function useSyncExternalStoreWithSelector<Snapshot, Selection>(
 
   const [getSelectionSnapshot, getServerSelectionSnapshot] = useMemo(() => {
     let hasMemo = false
-    let memoizedSnapshot!: Snapshot
-    let memoizedSelection!: Selection
+    let memoizedSnapshot!: TSnapshot
+    let memoizedSelection!: TSelection
 
-    const memoizedSelector = (nextSnapshot: Snapshot) => {
+    const memoizedSelector = (nextSnapshot: TSnapshot) => {
       if (!hasMemo) {
         hasMemo = true
         memoizedSnapshot = nextSnapshot
         const nextSelection = selector(nextSnapshot)
 
         if (isEqual !== undefined && inst.hasValue) {
-          const currentSelection = inst.value as Selection
+          const currentSelection = inst.value as TSelection
           if (isEqual(currentSelection, nextSelection)) {
             memoizedSelection = currentSelection
             return currentSelection

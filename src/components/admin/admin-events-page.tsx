@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useQuery, useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
@@ -13,6 +13,8 @@ import {
   UnfoldMoreIcon,
   ViewOffIcon,
 } from "@hugeicons/core-free-icons";
+import { AdminEventForm  } from "./admin-event-form";
+import type {EventDoc} from "./admin-event-form";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -40,7 +42,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { AdminEventForm, type EventDoc } from "./admin-event-form";
 import { cn } from "@/lib/utils";
 
 const SV_TZ = "America/El_Salvador";
@@ -271,7 +272,10 @@ export function AdminEventsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {sortedEvents.map((event) => (
+              {sortedEvents.map((event) => {
+                const countryLabel =
+                  event.country != null ? event.country.en : undefined;
+                return (
                 <TableRow
                   key={event._id}
                   onClick={() => openEdit(event)}
@@ -296,17 +300,15 @@ export function AdminEventsPage() {
                   </TableCell>
                   <TableCell>{formatSvDate(event.startAt)}</TableCell>
                   <TableCell>
-                    {event.country?.en ?? event.country?.es ? (
+                    {countryLabel ? (
                       <Badge
                         variant="outline"
                         className={cn(
                           "text-[10px]",
-                          COUNTRY_BADGE_CLASS[
-                            event.country?.en ?? event.country?.es ?? ""
-                          ]
+                          COUNTRY_BADGE_CLASS[countryLabel]
                         )}
                       >
-                        {event.country?.en ?? event.country?.es}
+                        {countryLabel}
                       </Badge>
                     ) : (
                       "—"
@@ -399,7 +401,8 @@ export function AdminEventsPage() {
                     </div>
                   </TableCell>
                 </TableRow>
-              ))}
+                );
+              })}
             </TableBody>
           </Table>
         </div>

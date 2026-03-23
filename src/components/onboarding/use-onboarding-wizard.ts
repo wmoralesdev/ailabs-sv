@@ -3,10 +3,10 @@
 import { useForm, useStore } from "@tanstack/react-form";
 import { useMutation } from "convex/react";
 import { z } from "zod";
-import { useI18n } from "@/lib/i18n";
 import { api } from "convex/_generated/api";
 import { useState } from "react";
 import type { Doc } from "convex/_generated/dataModel";
+import { useI18n } from "@/lib/i18n";
 import { normalizeInterestsFromProfile } from "@/lib/onboarding-interests";
 
 export type OnboardingStep =
@@ -18,7 +18,7 @@ export type OnboardingStep =
   | "connect"
   | "done";
 
-const STEPS: OnboardingStep[] = [
+const STEPS: Array<OnboardingStep> = [
   "welcome",
   "about",
   "work",
@@ -56,7 +56,7 @@ interface UseOnboardingWizardOptions {
 
 function getRoleFromTitle(
   title: string,
-  roleOptions: { value: string; label: string }[]
+  roleOptions: Array<{ value: string; label: string }>
 ): { role: string; title: string } {
   const match = roleOptions.find((o) => o.label === title);
   if (match) return { role: match.value, title: match.label };
@@ -123,14 +123,14 @@ export function useOnboardingWizard({
             message: "Slug must be lowercase letters, numbers, and hyphens only",
           });
         }
-        if (!value.tagline?.trim()) {
+        if (!value.tagline.trim()) {
           ctx.addIssue({
             path: ["tagline"],
             code: "custom",
             message: t.onboarding.about.taglineRequired,
           });
         }
-        const taglineTrimmed = value.tagline?.trim() ?? "";
+        const taglineTrimmed = value.tagline.trim();
         if (taglineTrimmed && taglineTrimmed.length > 60) {
           ctx.addIssue({
             path: ["tagline"],
@@ -213,14 +213,14 @@ export function useOnboardingWizard({
       role: defaultRole,
       title: defaultTitle,
       company: existingProfile?.company ?? "",
-      experienceLevel: (existingProfile?.experienceLevel ?? "building") as "beginner" | "intermediate" | "advanced" | "exploring" | "building" | "shipping",
+      experienceLevel: (existingProfile?.experienceLevel ?? "building"),
       bio: existingProfile?.bio ?? "",
       interests: normalizedInterests.interests,
       tools: normalizedInterests.tools,
       lookingFor: normalizedInterests.lookingFor,
       availability: normalizedInterests.availability,
-      linkedin: existingProfile?.links?.linkedin ?? "",
-      x: existingProfile?.links?.x ?? "",
+      linkedin: existingProfile?.links.linkedin ?? "",
+      x: existingProfile?.links.x ?? "",
       contact: existingProfile?.contact ?? "",
     },
     validators: { onSubmit: onboardingSchema },
@@ -266,7 +266,7 @@ export function useOnboardingWizard({
               x: value.x || undefined,
             },
             contact: value.contact || undefined,
-            tagline: value.tagline?.trim() || undefined,
+            tagline: value.tagline.trim() || undefined,
           });
           form.setFieldValue("step", "done");
           onComplete?.(value.slug);
@@ -277,7 +277,7 @@ export function useOnboardingWizard({
     },
   });
 
-  const step = useStore(form.store, (state) => state.values.step as OnboardingStep);
+  const step = useStore(form.store, (state) => state.values.step);
   const currentIndex = STEPS.indexOf(step);
 
   const goNext = () => {

@@ -1,12 +1,13 @@
-import type { ReactNode } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   AiBrainIcon,
+  AiChat02Icon,
   Analytics02Icon,
   CloudServerIcon,
   CodeIcon,
   Coffee01Icon,
   Compass01Icon,
+  Database01Icon,
   Handshake,
   MentorIcon,
   Mic01Icon,
@@ -19,9 +20,8 @@ import {
   UserSearchIcon,
   VisionIcon,
   WorkHistoryIcon,
-  Database01Icon,
-  AiChat02Icon,
 } from "@hugeicons/core-free-icons";
+import type { ReactNode } from "react";
 
 // SVG Logo imports
 import { Openai } from "@/components/ui/svgs/openai";

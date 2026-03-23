@@ -39,7 +39,7 @@ export function ProfileShowcase({ ownerId, isOwner }: ProfileShowcaseProps) {
             search={{ edit: undefined }}
             className="inline-flex items-center justify-center rounded-lg border border-primary bg-primary/10 px-5 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-primary/20"
           >
-            {t.ui?.header?.submitProject ?? "Submit project"}
+            {t.ui.header?.submitProject ?? "Submit project"}
           </Link>
         </div>
       );

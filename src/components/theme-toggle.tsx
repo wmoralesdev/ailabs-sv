@@ -1,5 +1,5 @@
 import { HugeiconsIcon } from "@hugeicons/react"
-import { Moon02Icon, Sun03Icon, ComputerIcon } from "@hugeicons/core-free-icons"
+import { ComputerIcon, Moon02Icon, Sun03Icon } from "@hugeicons/core-free-icons"
 import { useEffect, useState } from "react"
 import { useTheme } from "@/components/theme-provider"
 import { useI18n } from "@/lib/i18n"

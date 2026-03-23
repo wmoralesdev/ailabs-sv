@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Copy01Icon } from "@hugeicons/core-free-icons";
+import { Button } from "@/components/ui/button";
 
 interface ShowcaseSharePromptProps {
   title: string;

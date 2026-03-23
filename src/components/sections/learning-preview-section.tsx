@@ -1,13 +1,13 @@
 import { useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
-import { useI18n } from "@/lib/i18n";
-import { SectionHeader } from "@/components/section-header";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   CodeIcon,
   FlashIcon,
   Presentation01Icon,
 } from "@hugeicons/core-free-icons";
+import { useI18n } from "@/lib/i18n";
+import { SectionHeader } from "@/components/section-header";
 import { Spinner } from "@/components/ui/spinner";
 
 const LAB_PREVIEW_ICONS = [CodeIcon, FlashIcon, Presentation01Icon];

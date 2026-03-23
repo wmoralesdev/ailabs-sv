@@ -3,9 +3,9 @@
 import { useRouter } from "@tanstack/react-router";
 import { useClerk } from "@clerk/tanstack-react-start";
 import { useQuery } from "convex/react";
+import { api } from "convex/_generated/api";
 import { useAuthState } from "@/components/auth/auth-context";
 import { useI18n } from "@/lib/i18n";
-import { api } from "convex/_generated/api";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -54,12 +54,12 @@ export function AuthHeaderActions() {
     null;
 
   const providerAvatarUrl =
-    (user as unknown as { externalAccounts?: { provider?: string; imageUrl?: string }[] })
-      ?.externalAccounts?.find(
+    (user as unknown as { externalAccounts?: Array<{ provider?: string; imageUrl?: string }> })
+      .externalAccounts?.find(
         (a) => (a.provider === "google" || a.provider === "github") && !!a.imageUrl
       )?.imageUrl ?? null;
 
-  const clerkHasImage = (user as unknown as { hasImage?: boolean })?.hasImage ?? false;
+  const clerkHasImage = (user as unknown as { hasImage?: boolean }).hasImage ?? false;
   const clerkRealAvatarUrl = clerkHasImage ? user?.imageUrl ?? null : null;
   const oauthAvatarUrl =
     providerAvatarUrl && (!user?.imageUrl || providerAvatarUrl !== user.imageUrl || clerkHasImage)

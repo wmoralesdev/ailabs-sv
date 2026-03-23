@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export function useDragScroll<T extends HTMLElement>(speed = 0.6) {
   const ref = useRef<T>(null);

@@ -3,8 +3,9 @@ import { Link } from "@tanstack/react-router";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRightIcon, RocketIcon } from "@hugeicons/core-free-icons";
 import { api } from "convex/_generated/api";
-import { ShowcaseCard, type ShowcaseCardEntry } from "./showcase-card";
+import { ShowcaseCard  } from "./showcase-card";
 import { ShowcaseFilters } from "./showcase-filters";
+import type {ShowcaseCardEntry} from "./showcase-card";
 import { useAuthState } from "@/components/auth/auth-context";
 import { Spinner } from "@/components/ui/spinner";
 import { useI18n } from "@/lib/i18n";
@@ -44,7 +45,7 @@ export function ShowcaseGrid({ search, className }: ShowcaseGridProps) {
   const featured = items.filter((i) => i.featured);
   const rest = items.filter((i) => !i.featured);
 
-  const eventOptions = [...new Set(items.map((i) => i.event).filter(Boolean))] as string[];
+  const eventOptions = [...new Set(items.map((i) => i.event).filter(Boolean))] as Array<string>;
 
   return (
     <div className={cn("flex flex-col gap-8", className)}>
@@ -135,7 +136,7 @@ function toCardEntry(item: {
   tagline: string;
   coverImageUrl: string;
   event?: string;
-  toolsUsed?: string[];
+  toolsUsed?: Array<string>;
   status: "shipped" | "in_progress" | "concept";
   author: { name: string; slug: string; avatarUrl?: string } | null;
 }): ShowcaseCardEntry {

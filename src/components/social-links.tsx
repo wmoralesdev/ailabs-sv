@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 import { GithubIcon } from "@/components/ui/github-icon";
 import { LinkedinIcon } from "@/components/ui/linkedin-icon";
 import { XIcon } from "@/components/ui/x-icon";
 import { cn } from "@/lib/utils";
-import type { ReactNode } from "react";
 
 type Socials = {
   twitter?: string;

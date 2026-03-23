@@ -3,7 +3,6 @@
 import { useMemo, useState, useTransition } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
-import type { Doc, Id } from "convex/_generated/dataModel";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ArrowDown01Icon,
@@ -11,6 +10,7 @@ import {
   Delete01Icon,
   PencilEdit01Icon,
 } from "@hugeicons/core-free-icons";
+import type { Doc, Id } from "convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {

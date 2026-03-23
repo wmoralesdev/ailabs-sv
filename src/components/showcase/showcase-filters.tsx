@@ -14,7 +14,7 @@ type ShowcaseSearch = {
 
 interface ShowcaseFiltersProps {
   search: ShowcaseSearch;
-  eventOptions?: string[];
+  eventOptions?: Array<string>;
   className?: string;
 }
 
@@ -26,7 +26,7 @@ export function ShowcaseFilters({
   const navigate = useNavigate();
   const { t } = useI18n();
   const L = t.showcaseList;
-  const toolLabels = idsToLabels(TOOL_IDS as unknown as string[], t.onboarding.interests.tools);
+  const toolLabels = idsToLabels(TOOL_IDS as unknown as Array<string>, t.onboarding.interests.tools);
 
   const statusOptions = [
     { value: "shipped" as const, label: L.statusShipped },

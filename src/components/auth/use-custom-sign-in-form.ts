@@ -99,7 +99,7 @@ export function useCustomSignInForm({
             : undefined;
 
           const identifierNotFound = errors?.some(
-            (e) => e?.code === "form_identifier_not_found"
+            (e) => e.code === "form_identifier_not_found"
           );
 
           // If the email doesn't exist yet, automatically start sign-up with email OTP.

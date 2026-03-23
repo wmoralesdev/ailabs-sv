@@ -1,5 +1,8 @@
 import { HugeiconsIcon } from "@hugeicons/react";
 import { MapPinIcon, PencilEdit01Icon } from "@hugeicons/core-free-icons";
+import { ProfileAchievements } from "./profile-achievements";
+import { ProfileShowcase } from "./profile-showcase";
+import type { Doc } from "convex/_generated/dataModel";
 import { AnimatedGrid } from "@/components/ui/animated-grid";
 import { Button } from "@/components/ui/button";
 import { LinkedinIcon } from "@/components/ui/linkedin-icon";
@@ -8,11 +11,8 @@ import { DisplayChip } from "@/components/ui/toggle-chip";
 import { MarkdownPreview } from "@/components/ui/markdown-editor";
 import { BENTO_CARD_CLASS } from "@/lib/bento-card";
 import { cn } from "@/lib/utils";
-import type { Doc } from "convex/_generated/dataModel";
 import { useI18n } from "@/lib/i18n";
 import { idsToLabels } from "@/lib/onboarding-interests";
-import { ProfileAchievements } from "./profile-achievements";
-import { ProfileShowcase } from "./profile-showcase";
 
 type Profile = Doc<"profiles">;
 
@@ -28,16 +28,16 @@ function getExperienceLabel(
   labels?: { beginner: string; intermediate: string; advanced: string; exploring: string; building: string; shipping: string }
 ): string {
   if (!labels) return level;
-  const map: Record<string, keyof typeof labels> = {
+  const map = {
     beginner: "beginner",
     intermediate: "intermediate",
     advanced: "advanced",
     exploring: "exploring",
     building: "building",
     shipping: "shipping",
-  };
-  const key = map[level];
-  return key ? labels[key] : level;
+  } as const;
+  if (!(level in map)) return level;
+  return labels[map[level as keyof typeof map]];
 }
 
 function contactHref(contact: string): string | undefined {
@@ -54,11 +54,11 @@ function ChipCard({
   delay = 0,
 }: {
   label: string;
-  items: string[];
+  items: Array<string>;
   className?: string;
   delay?: number;
 }) {
-  if (!items?.length) return null;
+  if (!items.length) return null;
   return (
     <div
       className={cn(BENTO_CARD_CLASS, "flex flex-col gap-3 p-5", className, "motion-safe:animate-hero-in")}
@@ -105,8 +105,8 @@ export function ProfileView({
   const lookingForLabels = idsToLabels(lookingFor ?? [], t.onboarding.interests.lookingFor);
   const availabilityLabels = idsToLabels(availability ?? [], t.onboarding.interests.availability);
 
-  const linkedin = links?.linkedin;
-  const x = links?.x;
+  const linkedin = links.linkedin;
+  const x = links.x;
   const contactLink = contact && showContact ? contactHref(contact) : undefined;
 
   return (
@@ -248,7 +248,7 @@ export function ProfileView({
             />
           )}
 
-          {(interestsLabels.length ?? 0) > 0 && (
+          {interestsLabels.length > 0 && (
             <ChipCard
               label={t.profile?.interests ?? "Interests"}
               items={interestsLabels}
@@ -257,7 +257,7 @@ export function ProfileView({
             />
           )}
 
-          {(toolsLabels.length ?? 0) > 0 && (
+          {toolsLabels.length > 0 && (
             <ChipCard
               label={t.profile?.tools ?? "Tools"}
               items={toolsLabels}
@@ -266,7 +266,7 @@ export function ProfileView({
             />
           )}
 
-          {(lookingForLabels.length ?? 0) > 0 && (
+          {lookingForLabels.length > 0 && (
             <ChipCard
               label={t.profile?.lookingFor ?? "Looking for"}
               items={lookingForLabels}
@@ -275,7 +275,7 @@ export function ProfileView({
             />
           )}
 
-          {(availabilityLabels.length ?? 0) > 0 && (
+          {availabilityLabels.length > 0 && (
             <ChipCard
               label={t.profile?.availability ?? "Availability"}
               items={availabilityLabels}

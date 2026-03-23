@@ -1,16 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "convex/_generated/api";
 import type { Id } from "convex/_generated/dataModel";
+import type {CoverImageValue} from "@/components/showcase/showcase-cover-upload";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import {
-  ShowcaseCoverUpload,
-  type CoverImageValue,
+  
+  ShowcaseCoverUpload
 } from "@/components/showcase/showcase-cover-upload";
 import {
   Select,
@@ -56,7 +57,7 @@ export type EventDoc = {
   slug: string;
   published: boolean;
   type: (typeof EVENT_TYPES)[number];
-  tags: string[];
+  tags: Array<string>;
   isVirtual?: boolean;
   partner?: string;
   country?: { es: string; en: string };

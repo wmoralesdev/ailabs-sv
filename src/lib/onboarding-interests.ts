@@ -2,7 +2,7 @@ import { content } from "@/content/site-content";
 
 type Option = { id: string; label: string };
 
-function buildLabelToIdMap(opts: Option[]): Map<string, string> {
+function buildLabelToIdMap(opts: Array<Option>): Map<string, string> {
   const m = new Map<string, string>();
   for (const o of opts) {
     m.set(o.id, o.id);
@@ -11,7 +11,7 @@ function buildLabelToIdMap(opts: Option[]): Map<string, string> {
   return m;
 }
 
-function normalizeToIds(stored: string[] | undefined, optsEs: Option[], optsEn: Option[]): string[] {
+function normalizeToIds(stored: Array<string> | undefined, optsEs: Array<Option>, optsEn: Array<Option>): Array<string> {
   if (!stored?.length) return [];
   const map = new Map([...buildLabelToIdMap(optsEs), ...buildLabelToIdMap(optsEn)]);
   const seen = new Set<string>();
@@ -25,21 +25,21 @@ function normalizeToIds(stored: string[] | undefined, optsEs: Option[], optsEn: 
 }
 
 /** Map stored IDs (or legacy labels) to localized labels for display. */
-export function idsToLabels(items: string[], opts: Option[]): string[] {
+export function idsToLabels(items: Array<string>, opts: Array<Option>): Array<string> {
   const byId = new Map(opts.map((o) => [o.id, o.label]));
   return items.map((v) => byId.get(v) ?? v);
 }
 
 export function normalizeInterestsFromProfile(profile: {
-  interests?: string[];
-  tools?: string[];
-  lookingFor?: string[];
-  availability?: string[];
+  interests?: Array<string>;
+  tools?: Array<string>;
+  lookingFor?: Array<string>;
+  availability?: Array<string>;
 }): {
-  interests: string[];
-  tools: string[];
-  lookingFor: string[];
-  availability: string[];
+  interests: Array<string>;
+  tools: Array<string>;
+  lookingFor: Array<string>;
+  availability: Array<string>;
 } {
   const es = content.es.onboarding.interests;
   const en = content.en.onboarding.interests;

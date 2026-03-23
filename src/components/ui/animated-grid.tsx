@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useMotionValue, motion, useTransform } from "motion/react";
+import { motion, useMotionValue, useTransform } from "motion/react";
 
 interface AnimatedGridProps {
   /** Grid cell size in pixels (default: 40) */

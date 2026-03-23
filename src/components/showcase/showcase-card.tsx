@@ -21,7 +21,7 @@ export type ShowcaseCardEntry = {
   tagline: string;
   coverImageUrl: string;
   event?: string;
-  toolsUsed?: string[];
+  toolsUsed?: Array<string>;
   status: "shipped" | "in_progress" | "concept";
   author: {
     name: string;

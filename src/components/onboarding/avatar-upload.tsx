@@ -1,14 +1,14 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "convex/_generated/api";
-import { Id } from "convex/_generated/dataModel";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Upload04Icon, UserCircleIcon } from "@hugeicons/core-free-icons";
+import type { Id } from "convex/_generated/dataModel";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { Upload04Icon, UserCircleIcon } from "@hugeicons/core-free-icons";
 
 const MAX_SIZE_MB = 2;
 const ACCEPT = "image/jpeg,image/png,image/webp";
@@ -119,8 +119,8 @@ export function AvatarUpload({
       e.preventDefault();
       e.stopPropagation();
       setIsDragging(false);
-      const file = e.dataTransfer.files?.[0];
-      if (file) processFile(file);
+      const { files } = e.dataTransfer;
+      if (files.length > 0) processFile(files[0]);
     },
     [processFile]
   );

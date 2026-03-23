@@ -1,11 +1,11 @@
 import { HugeiconsIcon } from "@hugeicons/react";
 import { MapPinIcon, PencilEdit01Icon } from "@hugeicons/core-free-icons";
+import type { Doc } from "convex/_generated/dataModel";
 import { AnimatedGrid } from "@/components/ui/animated-grid";
 import { Button } from "@/components/ui/button";
 import { LinkedinIcon } from "@/components/ui/linkedin-icon";
 import { XIcon } from "@/components/ui/x-icon";
 import { MarkdownPreview } from "@/components/ui/markdown-editor";
-import type { Doc } from "convex/_generated/dataModel";
 import { useI18n } from "@/lib/i18n";
 
 type Profile = Doc<"profiles">;
@@ -33,8 +33,8 @@ export function ProfileHero({
   const { t } = useI18n();
   const { name, title, company, location, tagline, avatarUrl, links, contact, bio } =
     profile;
-  const linkedin = links?.linkedin;
-  const x = links?.x;
+  const linkedin = links.linkedin;
+  const x = links.x;
   const contactLink = contact && showContact ? contactHref(contact) : undefined;
 
   return (

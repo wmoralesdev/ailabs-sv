@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute  } from "@tanstack/react-router";
 import { useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
 import { SiteHeader } from "@/components/site-header";
@@ -6,7 +6,6 @@ import { SiteFooter } from "@/components/site-footer";
 import { ProfileView } from "@/components/profile/profile-view";
 import { Spinner } from "@/components/ui/spinner";
 import { useAuthState } from "@/components/auth/auth-context";
-import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/community/$slug")({
   component: CommunityProfilePage,

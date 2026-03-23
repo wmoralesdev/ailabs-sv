@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
-import { useQuery, useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { useNavigate } from "@tanstack/react-router";
 import { api } from "convex/_generated/api";
 import { z } from "zod";
@@ -57,8 +57,8 @@ function ProfileFormInner({ profile }: { profile: ProfileDoc }) {
       title: profile.title,
       bio: profile.bio,
       avatarUrl: profile.avatarUrl ?? "",
-      linkedin: profile.links?.linkedin ?? "",
-      x: profile.links?.x ?? "",
+      linkedin: profile.links.linkedin ?? "",
+      x: profile.links.x ?? "",
       contact: profile.contact ?? "",
     },
     validators: { onSubmit: profileSchema },

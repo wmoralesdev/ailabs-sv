@@ -15,7 +15,7 @@ export function ProfileAchievements({ className, delay = 0 }: ProfileAchievement
   const { t } = useI18n();
 
   // TODO: In the future, this will receive events data from props or query
-  const events: unknown[] = [];
+  const events: Array<unknown> = [];
 
   return (
     <div

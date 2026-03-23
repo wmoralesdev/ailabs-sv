@@ -16,7 +16,7 @@ export function BrandText({ className }: { className?: string }) {
 export function formatWithBrandText(
   text: string,
   className?: string
-): (string | ReactElement)[] {
+): Array<string | ReactElement> {
   const parts = text.split(/(Ai \/abs|ailabs\.sv)/);
   return parts.flatMap((part, i) =>
     part === "Ai /abs" || part === "ailabs.sv"

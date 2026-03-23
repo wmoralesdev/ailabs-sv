@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { ClerkProvider } from '@clerk/tanstack-react-start'
 import { esES } from '@clerk/localizations'
+import { Analytics } from '@vercel/analytics/react'
 import appCss from '../styles.css?url'
 import { I18nProvider } from '@/lib/i18n'
 import { ThemeProvider } from '@/components/theme-provider'
@@ -9,7 +10,6 @@ import { LangSync } from '@/components/lang-sync'
 import { ConvexProvider } from '@/components/convex-provider'
 import { AuthProvider } from '@/components/auth/auth-context'
 import { getSiteOrigin } from '@/lib/site-url'
-import { Analytics } from '@vercel/analytics/react'
 
 const clerkPublishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY as string
 
