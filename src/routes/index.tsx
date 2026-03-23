@@ -6,6 +6,7 @@ import { HeroSection } from "@/components/sections/hero-section";
 import { HighlightsSection } from "@/components/sections/highlights-section";
 import { JoinCtaSection } from "@/components/sections/join-cta-section";
 import { LearningPreviewSection } from "@/components/sections/learning-preview-section";
+import { CommunityProofBentoSection } from "@/components/sections/community-proof-bento-section";
 import { StatsSection } from "@/components/sections/stats-section";
 import { TestimonialsSection } from "@/components/sections/testimonials-section";
 import { WhatHappensHereSection } from "@/components/sections/what-happens-here-section";
@@ -25,6 +26,7 @@ function Index() {
         <main className="pt-24">
         <HeroSection />
         <StatsSection />
+        <CommunityProofBentoSection />
         <WhySection />
         <WhatHappensHereSection />
         <CommunityMembersSection />
