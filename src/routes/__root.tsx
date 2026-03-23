@@ -9,6 +9,7 @@ import { LangSync } from '@/components/lang-sync'
 import { ConvexProvider } from '@/components/convex-provider'
 import { AuthProvider } from '@/components/auth/auth-context'
 import { getSiteOrigin } from '@/lib/site-url'
+import { Analytics } from '@vercel/analytics/react'
 
 const clerkPublishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY as string
 
@@ -138,6 +139,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             },
           ]}
         /> */}
+        <Analytics
+          mode={import.meta.env.PROD ? 'production' : 'development'}
+        />
         <Scripts />
       </body>
     </html>
