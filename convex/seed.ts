@@ -384,3 +384,70 @@ export const seedEvents = internalMutation({
     return { inserted, deleted: existing.length };
   },
 });
+
+const LAB_CARDS_SEED: Array<{
+  title: { es: string; en: string };
+  description: { es: string; en: string };
+  dateLabel: { es: string; en: string };
+}> = [
+  {
+    title: {
+      es: "Construyendo con agentes de IA",
+      en: "Building with AI agents",
+    },
+    description: {
+      es: "Cómo pasamos de prototipos de LLM a agentes que realmente funcionan en producción.",
+      en: "How we went from LLM prototypes to agents that actually work in production.",
+    },
+    dateLabel: { es: "Febrero 2026", en: "February 2026" },
+  },
+  {
+    title: {
+      es: "Cursor + v0: el stack de los curiosos",
+      en: "Cursor + v0: the curious builder's stack",
+    },
+    description: {
+      es: "Por qué estas herramientas cambiaron la forma en que prototipeamos — y qué aprendimos en el camino.",
+      en: "Why these tools changed how we prototype — and what we learned along the way.",
+    },
+    dateLabel: { es: "Enero 2026", en: "January 2026" },
+  },
+  {
+    title: {
+      es: "Las preguntas que nadie hace",
+      en: "The questions nobody asks",
+    },
+    description: {
+      es: "Tres experimentos que fallaron, y por qué importan más que los que funcionaron.",
+      en: "Three experiments that failed, and why they matter more than the ones that worked.",
+    },
+    dateLabel: { es: "Diciembre 2025", en: "December 2025" },
+  },
+];
+
+/**
+ * Inserts default lab cards only when `labCards` is empty (safe for existing deployments).
+ */
+export const seedLabCardsIfEmpty = internalMutation({
+  args: {},
+  handler: async (ctx) => {
+    const existing = await ctx.db.query("labCards").collect();
+    if (existing.length > 0) {
+      return { skipped: true as const, count: existing.length };
+    }
+    const now = Date.now();
+    let order = 0;
+    for (const c of LAB_CARDS_SEED) {
+      await ctx.db.insert("labCards", {
+        order: order++,
+        published: true,
+        title: c.title,
+        description: c.description,
+        dateLabel: c.dateLabel,
+        createdAt: now,
+        updatedAt: now,
+      });
+    }
+    return { skipped: false as const, inserted: LAB_CARDS_SEED.length };
+  },
+});

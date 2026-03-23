@@ -125,4 +125,23 @@ export default defineSchema({
   })
     .index("by_slug", ["slug"])
     .index("by_published_startAt", ["published", "startAt"]),
+
+  labCards: defineTable({
+    order: v.number(),
+    published: v.boolean(),
+    title: v.object({
+      es: v.string(),
+      en: v.string(),
+    }),
+    description: v.object({
+      es: v.string(),
+      en: v.string(),
+    }),
+    dateLabel: v.object({
+      es: v.string(),
+      en: v.string(),
+    }),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }).index("by_order", ["order"]),
 });

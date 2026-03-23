@@ -12,9 +12,11 @@ import type * as admin from "../admin.js";
 import type * as auth from "../auth.js";
 import type * as events from "../events.js";
 import type * as http from "../http.js";
+import type * as learning_lab from "../learning_lab.js";
 import type * as lib_admin from "../lib/admin.js";
 import type * as profiles from "../profiles.js";
 import type * as seed from "../seed.js";
+import type * as seeded_shuffle from "../seeded_shuffle.js";
 import type * as showcase from "../showcase.js";
 import type * as storage from "../storage.js";
 
@@ -29,9 +31,11 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   events: typeof events;
   http: typeof http;
+  learning_lab: typeof learning_lab;
   "lib/admin": typeof lib_admin;
   profiles: typeof profiles;
   seed: typeof seed;
+  seeded_shuffle: typeof seeded_shuffle;
   showcase: typeof showcase;
   storage: typeof storage;
 }>;

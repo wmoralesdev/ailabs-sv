@@ -8,15 +8,49 @@ const statusValidator = v.union(
   v.literal("concept")
 );
 
-function slugFromTitle(title: string): string {
-  return title
+const SHOWCASE_SLUG_MAX_LEN = 120;
+
+/** URL-safe segment: lowercase, hyphens, alphanumerics only. */
+function slugSegment(raw: string): string {
+  return raw
     .trim()
     .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, "")
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-")
-    .slice(0, 60)
     .replace(/^-|-$/g, "");
+}
+
+function slugFromTitle(title: string): string {
+  const s = slugSegment(title);
+  return s.slice(0, 60).replace(/^-|-$/g, "") || "";
+}
+
+/**
+ * Stable public URL: `<profile-slug>-<project-slug>` (unique per showcaseEntries.by_slug).
+ */
+function baseShowcaseSlug(profileSlug: string, title: string): string {
+  const userPart = slugSegment(profileSlug) || "builder";
+  const titlePart = slugFromTitle(title) || "project";
+  const prefix = `${userPart}-`;
+  const reserve = 10;
+  const maxTitleChars = Math.max(
+    12,
+    SHOWCASE_SLUG_MAX_LEN - prefix.length - reserve
+  );
+  const trimmedTitle =
+    titlePart.length > maxTitleChars
+      ? titlePart.slice(0, maxTitleChars).replace(/-+$/g, "")
+      : titlePart;
+  let combined = `${prefix}${trimmedTitle}`
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+  if (combined.length > SHOWCASE_SLUG_MAX_LEN) {
+    combined = combined
+      .slice(0, SHOWCASE_SLUG_MAX_LEN)
+      .replace(/-+$/g, "");
+  }
+  return combined || `${userPart}-project`;
 }
 
 function randomSuffix(): string {
@@ -174,6 +208,36 @@ export const listByOwner = query({
 });
 
 /**
+ * Preview the URL slug for a title (create flow). Uses the same base rule as `create`.
+ * Auth + profile required; returns null when not signed in or no profile.
+ */
+export const previewSlugForTitle = query({
+  args: { title: v.string() },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    const userId = identity?.subject;
+    if (!userId) return null;
+
+    const profile = await ctx.db
+      .query("profiles")
+      .withIndex("by_owner", (q) => q.eq("ownerId", userId))
+      .first();
+    if (!profile) return null;
+
+    const trimmed = args.title.trim();
+    if (!trimmed || trimmed.length > 80) return null;
+
+    const base = baseShowcaseSlug(profile.slug, trimmed);
+    const existing = await ctx.db
+      .query("showcaseEntries")
+      .withIndex("by_slug", (q) => q.eq("slug", base))
+      .first();
+
+    return { slug: base, baseIsTaken: !!existing };
+  },
+});
+
+/**
  * Check if a slug is available for showcase entries.
  */
 export const isSlugAvailable = query({
@@ -241,18 +305,29 @@ export const create = mutation({
     }
     const collabIds = args.collaboratorIds?.slice(0, 5) ?? [];
 
-    let baseSlug = slugFromTitle(args.title);
-    if (!baseSlug) baseSlug = "project";
+    let baseSlug = baseShowcaseSlug(profile.slug, args.title);
     let slug = baseSlug;
     let attempts = 0;
-    while (attempts < 10) {
+    let slugAvailable = false;
+    while (attempts < 20) {
       const taken = await ctx.db
         .query("showcaseEntries")
         .withIndex("by_slug", (q) => q.eq("slug", slug))
         .first();
-      if (!taken) break;
-      slug = `${baseSlug}-${randomSuffix()}`;
+      if (!taken) {
+        slugAvailable = true;
+        break;
+      }
+      const suffix = randomSuffix();
+      const withSuffix = `${baseSlug}-${suffix}`.replace(/-+/g, "-");
+      slug =
+        withSuffix.length > SHOWCASE_SLUG_MAX_LEN
+          ? `${baseSlug.slice(0, SHOWCASE_SLUG_MAX_LEN - suffix.length - 1)}-${suffix}`
+          : withSuffix;
       attempts++;
+    }
+    if (!slugAvailable) {
+      throw new Error("Could not allocate a unique URL. Try a different title.");
     }
 
     const now = Date.now();

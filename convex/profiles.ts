@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
+import { seededShuffle } from "./seeded_shuffle";
 
 const profileLinksValidator = v.object({
   linkedin: v.optional(v.string()),
@@ -57,6 +58,33 @@ export const list = query({
       profiles: result.page,
       nextCursor: result.isDone ? null : result.continueCursor,
     };
+  },
+});
+
+/**
+ * Public profiles for landing “Curious Ones” marquee.
+ * Order is a deterministic shuffle of `(seed, current table rows)` — no Math.random in the handler.
+ */
+export const publicSpotlight = query({
+  args: {
+    limit: v.number(),
+    seed: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const limit = Math.min(Math.max(1, Math.floor(args.limit)), 24);
+    const seed = Math.floor(args.seed);
+    const all = await ctx.db.query("profiles").collect();
+    const mapped = all.map((p) => ({
+      slug: p.slug,
+      name: p.name,
+      title: p.title,
+      bio: p.bio,
+      tagline: p.tagline,
+      avatarUrl: p.avatarUrl,
+      links: p.links,
+    }));
+    const shuffled = seededShuffle(mapped, seed);
+    return shuffled.slice(0, limit);
   },
 });
 
