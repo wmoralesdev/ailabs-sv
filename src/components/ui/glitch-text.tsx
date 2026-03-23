@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface GlitchTextProps {
@@ -14,9 +14,15 @@ export function GlitchText({
   intervalMs = 3500,
   glitchDurationMs = 500,
 }: GlitchTextProps) {
-  const [index, setIndex] = useState(0);
+  const phraseIndexRef = useRef(0);
   const [isGlitching, setIsGlitching] = useState(false);
-  const [displayedText, setDisplayedText] = useState(phrases[0]);
+  const [displayedText, setDisplayedText] = useState(() => phrases?.[0] ?? "");
+
+  useEffect(() => {
+    phraseIndexRef.current = 0;
+    setDisplayedText(phrases?.[0] ?? "");
+    setIsGlitching(false);
+  }, [phrases]);
 
   useEffect(() => {
     if (!phrases || phrases.length <= 1) return;
@@ -27,11 +33,9 @@ export function GlitchText({
 
       // Change text mid-glitch
       setTimeout(() => {
-        setIndex((prev) => {
-          const nextIndex = (prev + 1) % phrases.length;
-          setDisplayedText(phrases[nextIndex]);
-          return nextIndex;
-        });
+        const nextIndex = (phraseIndexRef.current + 1) % phrases.length;
+        phraseIndexRef.current = nextIndex;
+        setDisplayedText(phrases[nextIndex]);
       }, glitchDurationMs / 2);
 
       // End glitch effect
