@@ -180,14 +180,14 @@ export function AdminEventsPage() {
 
   if (events === undefined) {
     return (
-      <div className="container mx-auto flex flex-1 items-center justify-center px-4 py-12">
+      <div className="flex min-h-[200px] flex-1 items-center justify-center py-12">
         <p className="text-muted-foreground">Loading events…</p>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto max-w-6xl px-4 py-8">
+    <div className="py-8">
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>

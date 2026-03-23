@@ -5,7 +5,7 @@ import { authStateFn } from "@/lib/auth-server";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { RequireAuth } from "@/components/auth/require-auth";
-import { AdminEventsPage } from "@/components/admin/admin-events-page";
+import { AdminLayout } from "@/components/admin/admin-layout";
 import { Spinner } from "@/components/ui/spinner";
 import { buttonVariants } from "@/components/ui/button";
 
@@ -13,13 +13,13 @@ export const Route = createFileRoute("/admin")({
   beforeLoad: async () => {
     const { isAuthenticated } = await authStateFn();
     if (!isAuthenticated) {
-      throw redirect({ to: "/sign-in", search: { returnTo: "/admin" } });
+      throw redirect({ to: "/sign-in", search: { returnTo: "/admin/events" } });
     }
   },
-  component: AdminPage,
+  component: AdminShell,
 });
 
-function AdminPage() {
+function AdminShell() {
   const isAdmin = useQuery(api.admin.isCurrentUserAdmin);
 
   return (
@@ -39,7 +39,7 @@ function AdminPage() {
               </Link>
             </div>
           ) : (
-            <AdminEventsPage />
+            <AdminLayout />
           )}
         </main>
         <SiteFooter />
