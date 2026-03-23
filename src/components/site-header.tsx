@@ -143,7 +143,7 @@ export function SiteHeader() {
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex h-10 w-full items-center justify-center rounded-full bg-foreground text-sm font-medium text-background transition-opacity hover:opacity-90"
                 >
-                  {t.ui.nav.join}
+                  {t.signIn.title}
                 </Link>
               </div>
             </SheetContent>

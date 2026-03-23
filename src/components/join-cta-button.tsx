@@ -29,7 +29,7 @@ export function JoinCtaButton({ inverted, compact }: JoinCtaButtonProps) {
           : "bg-foreground text-background hover:opacity-90",
       )}
     >
-      {t.ui.nav.join}
+      {t.signIn.title}
     </Link>
   );
 }
