@@ -2,7 +2,9 @@ import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
+import { z } from "zod";
 import { authStateFn } from "@/lib/auth-server";
+import { getSafeReturnTo } from "@/lib/auth-return-to";
 import { RequireAuth } from "@/components/auth/require-auth";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -10,13 +12,24 @@ import { AnimatedGrid } from "@/components/ui/animated-grid";
 import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
 
 export const Route = createFileRoute("/onboarding")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    mode: (search.mode as string) ?? undefined,
+  validateSearch: z.object({
+    mode: z.string().optional(),
+    returnTo: z.string().optional(),
   }),
-  beforeLoad: async () => {
+  beforeLoad: async ({ search }) => {
     const { isAuthenticated } = await authStateFn();
     if (!isAuthenticated) {
-      throw redirect({ to: "/sign-in", search: { returnTo: "/onboarding" } });
+      const params = new URLSearchParams();
+      if (search.mode) params.set("mode", search.mode);
+      const safeReturnTo = getSafeReturnTo(search.returnTo);
+      if (safeReturnTo) params.set("returnTo", safeReturnTo);
+      const onboardingPath =
+        params.size > 0 ? `/onboarding?${params.toString()}` : "/onboarding";
+      const signInReturn = getSafeReturnTo(onboardingPath) ?? "/onboarding";
+      throw redirect({
+        to: "/sign-in",
+        search: { returnTo: signInReturn },
+      });
     }
   },
   component: OnboardingPage,
@@ -24,8 +37,9 @@ export const Route = createFileRoute("/onboarding")({
 
 function OnboardingPage() {
   const router = useRouter();
-  const { mode } = Route.useSearch();
+  const { mode, returnTo } = Route.useSearch();
   const isEditMode = mode === "edit";
+  const safeReturnTo = getSafeReturnTo(returnTo);
   const myProfile = useQuery(api.profiles.me);
 
   useEffect(() => {
@@ -67,7 +81,9 @@ function OnboardingPage() {
               <div className="container relative z-10 mx-auto px-6">
                 <OnboardingWizard
                   existingProfile={isEditMode ? myProfile ?? undefined : undefined}
-                  onCompleteRedirectTo={isEditMode ? "/me" : "/"}
+                  onCompleteRedirectTo={
+                    isEditMode ? "/me" : safeReturnTo ?? "/"
+                  }
                 />
               </div>
             </section>

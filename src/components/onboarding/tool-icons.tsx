@@ -41,46 +41,31 @@ import { HuggingFace } from "@/components/ui/svgs/huggingFace";
 import { Replit } from "@/components/ui/svgs/replit";
 import { Vercel } from "@/components/ui/svgs/vercel";
 import { VercelDark } from "@/components/ui/svgs/vercel-dark";
-
-/**
- * Wrapper for dark/light mode SVG components
- */
-function DarkLightIcon({
-  light,
-  dark,
-}: {
-  light: ReactNode;
-  dark: ReactNode;
-}) {
-  return (
-    <>
-      <span className="dark:hidden">{light}</span>
-      <span className="hidden dark:block">{dark}</span>
-    </>
-  );
-}
+import { DarkLightSvg } from "@/components/ui/dark-light-svg";
 
 /**
  * Tool icons mapping (tool ID -> ReactNode)
  * Used for the "AI tools you've explored" section
  */
 export const toolIcons: Record<string, ReactNode> = {
-  chatgpt: <DarkLightIcon light={<Openai />} dark={<OpenaiDark />} />,
-  claude: <DarkLightIcon light={<AnthropicBlack />} dark={<AnthropicWhite />} />,
-  cursor: <DarkLightIcon light={<CursorLight />} dark={<CursorDark />} />,
-  "github-copilot": <DarkLightIcon light={<Copilot />} dark={<CopilotDark />} />,
-  v0: <DarkLightIcon light={<V0Light />} dark={<V0Dark />} />,
+  chatgpt: <DarkLightSvg Light={Openai} Dark={OpenaiDark} />,
+  claude: <DarkLightSvg Light={AnthropicBlack} Dark={AnthropicWhite} />,
+  cursor: <DarkLightSvg Light={CursorLight} Dark={CursorDark} />,
+  "github-copilot": <DarkLightSvg Light={Copilot} Dark={CopilotDark} />,
+  v0: <DarkLightSvg Light={V0Light} Dark={V0Dark} />,
   midjourney: null, // No logo available on svgl
   "stable-diffusion": <StabilityAi />,
-  dalle: <DarkLightIcon light={<Openai />} dark={<OpenaiDark />} />,
-  "openai-api": <DarkLightIcon light={<Openai />} dark={<OpenaiDark />} />,
-  "anthropic-api": <DarkLightIcon light={<AnthropicBlack />} dark={<AnthropicWhite />} />,
+  dalle: <DarkLightSvg Light={Openai} Dark={OpenaiDark} />,
+  "openai-api": <DarkLightSvg Light={Openai} Dark={OpenaiDark} />,
+  "anthropic-api": (
+    <DarkLightSvg Light={AnthropicBlack} Dark={AnthropicWhite} />
+  ),
   gemini: <Gemini />,
   perplexity: <Perplexity />,
   langchain: null, // No logo available on svgl
   "hugging-face": <HuggingFace />,
   "replit-ai": <Replit />,
-  "vercel-ai-sdk": <DarkLightIcon light={<Vercel />} dark={<VercelDark />} />,
+  "vercel-ai-sdk": <DarkLightSvg Light={Vercel} Dark={VercelDark} />,
 };
 
 /**

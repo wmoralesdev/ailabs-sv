@@ -3,10 +3,8 @@
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Award01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { useI18n } from "@/lib/i18n";
+import { BENTO_CARD_CLASS } from "@/lib/bento-card";
 import { cn } from "@/lib/utils";
-
-const CARD_BASE =
-  "rounded-2xl border border-border/60 bg-card/80 backdrop-blur-sm shadow-lg shadow-black/5 transition-all duration-300 hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5";
 
 type ProfileAchievementsProps = {
   className?: string;
@@ -22,7 +20,7 @@ export function ProfileAchievements({ className, delay = 0 }: ProfileAchievement
   return (
     <div
       className={cn(
-        CARD_BASE,
+        BENTO_CARD_CLASS,
         "flex flex-col p-5",
         className,
         "motion-safe:animate-hero-in"

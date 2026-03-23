@@ -17,6 +17,10 @@ type MarkdownEditorProps = {
   emptyPreviewText?: string;
   className?: string;
   disabled?: boolean;
+  /** Use monospace in Write mode (e.g. Markdown source). */
+  monospaceWrite?: boolean;
+  /** Grow Write/Preview area to fill a flex parent (e.g. bento tile). */
+  fillHeight?: boolean;
 };
 
 export function MarkdownEditor({
@@ -30,21 +34,30 @@ export function MarkdownEditor({
   emptyPreviewText = "Nothing to preview",
   className,
   disabled,
+  monospaceWrite = false,
+  fillHeight = false,
 }: MarkdownEditorProps) {
   const [mode, setMode] = useState<"write" | "preview">("write");
 
   return (
-    <div className={cn("space-y-2", className)}>
+    <div
+      className={cn(
+        fillHeight ? "flex min-h-0 flex-1 flex-col gap-2" : "space-y-2",
+        className
+      )}
+    >
       {/* Toggle tabs using line variant */}
-      <Tabs
-        value={mode}
-        onValueChange={(v) => setMode(v as "write" | "preview")}
-      >
-        <TabsList variant="line">
-          <TabsTrigger value="write">{writeLabel}</TabsTrigger>
-          <TabsTrigger value="preview">{previewLabel}</TabsTrigger>
-        </TabsList>
-      </Tabs>
+      <div className={cn(fillHeight && "shrink-0")}>
+        <Tabs
+          value={mode}
+          onValueChange={(v) => setMode(v as "write" | "preview")}
+        >
+          <TabsList variant="line">
+            <TabsTrigger value="write">{writeLabel}</TabsTrigger>
+            <TabsTrigger value="preview">{previewLabel}</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
 
       {/* Content */}
       {mode === "write" ? (
@@ -53,12 +66,23 @@ export function MarkdownEditor({
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           maxLength={maxLength}
-          rows={rows}
+          rows={fillHeight ? 1 : rows}
           disabled={disabled}
-          className="resize-none"
+          className={cn(
+            "resize-none",
+            fillHeight && "min-h-[10rem] flex-1",
+            monospaceWrite && "font-mono text-sm leading-relaxed"
+          )}
         />
       ) : (
-        <div className="min-h-[100px] rounded-lg border border-border bg-muted/30 p-3">
+        <div
+          className={cn(
+            "rounded-lg border border-border bg-muted/30 p-3",
+            fillHeight
+              ? "min-h-0 flex-1 overflow-y-auto"
+              : "min-h-[100px]"
+          )}
+        >
           {value.trim() ? (
             <MarkdownPreview content={value} />
           ) : (
@@ -69,7 +93,12 @@ export function MarkdownEditor({
 
       {/* Character count (write mode only) */}
       {mode === "write" && maxLength && (
-        <div className="text-right text-xs text-muted-foreground">
+        <div
+          className={cn(
+            "text-right text-xs text-muted-foreground",
+            fillHeight && "shrink-0"
+          )}
+        >
           {value.length}/{maxLength}
         </div>
       )}

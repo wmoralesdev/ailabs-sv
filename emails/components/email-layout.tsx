@@ -38,9 +38,9 @@ export function EmailLayout({ children, previewText }: EmailLayoutProps) {
           {/* Header with brand */}
           <Section style={styles.header}>
             <Text style={styles.brandText}>
-              <span style={styles.brandAi}>ai</span>
-              <span style={styles.brandLabs}>labs.</span>
-              <span style={styles.brandSv}>sv</span>
+              <span style={styles.brandAi}>Ai</span>
+              <span style={styles.brandSlash}> /</span>
+              <span style={styles.brandLabs}>abs</span>
             </Text>
           </Section>
 
@@ -52,9 +52,9 @@ export function EmailLayout({ children, previewText }: EmailLayoutProps) {
           {/* Footer */}
           <Section style={styles.footer}>
             <Text style={styles.tagline}>
-              <span style={styles.brandAi}>ai</span>
-              <span style={styles.brandLabs}>labs.</span>
-              <span style={styles.brandSv}>sv</span>
+              <span style={styles.brandAi}>Ai</span>
+              <span style={styles.brandSlash}> /</span>
+              <span style={styles.brandLabs}>abs</span>
             </Text>
 
             {/* Social links */}
@@ -81,7 +81,7 @@ export function EmailLayout({ children, previewText }: EmailLayoutProps) {
             </Section>
 
             <Text style={styles.copyright}>
-              © {new Date().getFullYear()} ailabs.sv — San Salvador, El Salvador
+              © {new Date().getFullYear()} Ai /abs — San Salvador, El Salvador
             </Text>
           </Section>
         </Container>
@@ -122,11 +122,11 @@ const styles = {
   brandAi: {
     color: "#7c3aed",
   },
+  brandSlash: {
+    color: "#9ca3af",
+  },
   brandLabs: {
     color: "#0f0f0f",
-  },
-  brandSv: {
-    color: "#9ca3af",
   },
   content: {
     padding: "0 32px 32px",

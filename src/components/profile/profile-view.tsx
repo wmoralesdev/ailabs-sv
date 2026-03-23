@@ -6,6 +6,7 @@ import { LinkedinIcon } from "@/components/ui/linkedin-icon";
 import { XIcon } from "@/components/ui/x-icon";
 import { DisplayChip } from "@/components/ui/toggle-chip";
 import { MarkdownPreview } from "@/components/ui/markdown-editor";
+import { BENTO_CARD_CLASS } from "@/lib/bento-card";
 import { cn } from "@/lib/utils";
 import type { Doc } from "convex/_generated/dataModel";
 import { useI18n } from "@/lib/i18n";
@@ -46,9 +47,6 @@ function contactHref(contact: string): string | undefined {
   return undefined;
 }
 
-const CARD_BASE =
-  "rounded-2xl border border-border/60 bg-card/80 backdrop-blur-sm shadow-lg shadow-black/5 transition-all duration-300 hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5";
-
 function ChipCard({
   label,
   items,
@@ -63,7 +61,7 @@ function ChipCard({
   if (!items?.length) return null;
   return (
     <div
-      className={cn(CARD_BASE, "flex flex-col gap-3 p-5", className, "motion-safe:animate-hero-in")}
+      className={cn(BENTO_CARD_CLASS, "flex flex-col gap-3 p-5", className, "motion-safe:animate-hero-in")}
       style={{ animationDelay: `${delay}ms` }}
     >
       <span className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
@@ -142,7 +140,7 @@ export function ProfileView({
           {/* Name + Title + Location Card */}
           <div
             className={cn(
-              CARD_BASE,
+              BENTO_CARD_CLASS,
               "flex flex-col justify-center p-6",
               bio ? "md:col-span-1 lg:col-span-1" : "md:col-span-2 lg:col-span-3",
               "motion-safe:animate-hero-in [animation-delay:140ms]"
@@ -198,7 +196,7 @@ export function ProfileView({
           {(bio || linkedin || x) && (
             <div
               className={cn(
-                CARD_BASE,
+                BENTO_CARD_CLASS,
                 "flex flex-col p-6 md:col-span-1 lg:col-span-2",
                 "motion-safe:animate-hero-in [animation-delay:200ms]"
               )}

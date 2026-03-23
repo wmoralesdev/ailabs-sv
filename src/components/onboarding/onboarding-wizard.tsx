@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Link, useRouter } from "@tanstack/react-router";
 import { useStore } from "@tanstack/react-form";
 import { useQuery } from "convex/react";
@@ -47,6 +48,13 @@ import {
 const CARD_CLASS =
   "rounded-2xl border border-border/60 bg-card p-6 shadow-lg shadow-black/10 md:p-8";
 
+const WELCOME_HOSTS = {
+  walter: { src: "/images/walter-morales.webp", name: "Walter" },
+  daniela: { src: "/images/daniela-huezo.webp", name: "Daniela" },
+} as const;
+
+type WelcomeHostKey = keyof typeof WELCOME_HOSTS;
+
 function StepIndicator({
   currentIndex,
   totalSteps,
@@ -83,6 +91,12 @@ export function OnboardingWizard({
   const router = useRouter();
   const { t } = useI18n();
 
+  const [welcomeHostKey, setWelcomeHostKey] = useState<WelcomeHostKey | null>(null);
+  useEffect(() => {
+    setWelcomeHostKey(Math.random() < 0.5 ? "walter" : "daniela");
+  }, []);
+  const welcomeHost = WELCOME_HOSTS[welcomeHostKey ?? "walter"];
+
   const {
     form,
     currentStep,
@@ -117,7 +131,7 @@ export function OnboardingWizard({
       {currentStep === "welcome" && (
         <div className="space-y-6 text-center">
           <img
-            src="/images/walter-morales.webp"
+            src={welcomeHost.src}
             alt=""
             className="mx-auto size-16 rounded-full object-cover"
           />
@@ -134,11 +148,9 @@ export function OnboardingWizard({
             ) : (
               <>
                 <h1 className="mb-2 text-2xl font-medium tracking-tight md:text-3xl">
-                  {t.onboarding.welcome.headline.split(t.onboarding.welcome.headlineAccent)[0]}
-                  <span className="text-primary">
-                    {t.onboarding.welcome.headlineAccent}
-                  </span>
-                  {t.onboarding.welcome.headline.split(t.onboarding.welcome.headlineAccent)[1]}
+                  {t.onboarding.welcome.welcomeHostLeadPrefix}
+                  <span className="text-primary">{welcomeHost.name}</span>
+                  {t.onboarding.welcome.welcomeHostLeadSuffix}
                 </h1>
                 <p className="text-sm text-muted-foreground">
                   {formatWithBrandText(t.onboarding.welcome.subheadline)}

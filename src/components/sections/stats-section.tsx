@@ -54,9 +54,8 @@ function StatCell({
   const display = useCountUp(value, animate, 1000);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-1 border-border/50 px-4 py-6 md:flex-1 md:border-r md:last:border-r-0"
-    >
-      <div className="flex items-baseline gap-2">
+    <div className="flex min-w-0 flex-col items-center justify-center gap-1 border-border/50 px-4 py-6 text-center md:border-r md:last:border-r-0">
+      <div className="flex w-full max-w-full flex-wrap items-baseline justify-center gap-2">
         <span className="font-mono text-2xl font-medium tabular-nums text-foreground md:text-3xl">
           {display}
         </span>
@@ -66,7 +65,7 @@ function StatCell({
           </span>
         ) : null}
       </div>
-      <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+      <span className="text-xs font-medium uppercase leading-snug tracking-wider text-muted-foreground">
         {label}
       </span>
     </div>

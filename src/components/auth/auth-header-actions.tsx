@@ -103,7 +103,7 @@ export function AuthHeaderActions() {
         {isAdmin === true && (
           <DropdownMenuItem
             onClick={() => {
-              router.navigate({ to: "/admin" }).catch(() => {});
+              router.navigate({ to: "/admin/events" }).catch(() => {});
             }}
           >
             Admin

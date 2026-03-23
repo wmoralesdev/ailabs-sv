@@ -20,7 +20,7 @@ export function WhatHappensHereSection() {
           title={t.lab.heading}
           align="left"
         />
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {t.lab.cards.map((card, index) => {
             const Icon = ICONS[index % ICONS.length];
             return (

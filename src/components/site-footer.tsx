@@ -5,36 +5,17 @@ import { GithubIcon } from "@/components/ui/github-icon";
 import { LinkedinIcon } from "@/components/ui/linkedin-icon";
 import { XIcon } from "@/components/ui/x-icon";
 import { AilabsLockup } from "@/components/ui/ailabs-lockup";
-
-const FOOTER_WATERMARK_WORDS_EN = [
-  "CURIOUS",
-  "BUILDERS",
-  "WHY?",
-  "SHIP IT",
-  "EXPLORE",
-  "THE LAB",
-  "CREATE",
-  "LEARN",
-];
-
-const FOOTER_WATERMARK_WORDS_ES = [
-  "CURIOSOS",
-  "CONSTRUIR",
-  "¿POR QUÉ?",
-  "LANZAR",
-  "EXPLORA",
-  "EL LAB",
-  "CREAR",
-  "APRENDER",
-];
+import { BrandText } from "@/components/brand-text";
 
 export function SiteFooter() {
   const { t, language } = useI18n();
-  const words = language === "es" ? FOOTER_WATERMARK_WORDS_ES : FOOTER_WATERMARK_WORDS_EN;
-  const watermarkWord = useMemo(
-    () => words[Math.floor(Math.random() * words.length)],
-    [],
-  );
+  const watermarkWord = useMemo(() => {
+    const words = t.ui.footer.watermarkWords;
+    return words[Math.floor(Math.random() * words.length)];
+  }, [language, t.ui.footer.watermarkWords]);
+
+  // Footer icons: primary public contact (Walter). `founders.people` order is fixed in site-content.
+  const primarySocials = t.founders.people[0].socials;
 
   return (
     <footer className="relative overflow-hidden border-t border-border bg-card pb-10 pt-16">
@@ -84,7 +65,7 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link to="/feed" search={{ event: undefined, tool: undefined, status: undefined }} className="text-sm font-light text-foreground/60 transition-colors hover:text-primary">
+                <Link to="/showcase" search={{ event: undefined, tool: undefined, status: undefined }} className="text-sm font-light text-foreground/60 transition-colors hover:text-primary">
                   {t.ui.footer.feed}
                 </Link>
               </li>
@@ -130,14 +111,14 @@ export function SiteFooter() {
         <div className="flex flex-col items-center justify-between gap-4 border-t border-border pt-6 text-xs font-light text-foreground/40 md:flex-row">
           <p>
             © {new Date().getFullYear()}{" "}
-            <span className="font-display">ailabs.sv</span>. {t.ui.footer.madeWith}{" "}
+            <BrandText />. {t.ui.footer.madeWith}{" "}
             <span className="mx-0.5 inline-block text-primary">♥</span>{" "}
             {t.ui.footer.inSanSalvador}
           </p>
           <div className="flex items-center gap-3">
-            {t.founder.socials.twitter ? (
+            {primarySocials.twitter ? (
               <Link
-                to={t.founder.socials.twitter as any}
+                to={primarySocials.twitter as any}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={t.ui.founder.x}
@@ -146,9 +127,9 @@ export function SiteFooter() {
                 <XIcon className="size-3.5" />
               </Link>
             ) : null}
-            {t.founder.socials.github ? (
+            {primarySocials.github ? (
               <Link
-                to={t.founder.socials.github as any}
+                to={primarySocials.github as any}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={t.ui.founder.github}
@@ -157,9 +138,9 @@ export function SiteFooter() {
                 <GithubIcon className="size-3.5" />
               </Link>
             ) : null}
-            {t.founder.socials.linkedin ? (
+            {primarySocials.linkedin ? (
               <Link
-                to={t.founder.socials.linkedin as any}
+                to={primarySocials.linkedin as any}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"

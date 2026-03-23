@@ -12,21 +12,37 @@ type Socials = {
   website?: string;
 };
 
+type LinkVariant = "default" | "minimal";
+
 type Props = {
   socials: Socials;
   className?: string;
   iconClassName?: string;
+  /** Flat circles, muted gray icons — for Curious Ones and similar. */
+  variant?: LinkVariant;
+};
+
+const iconLinkVariants: Record<
+  LinkVariant,
+  string
+> = {
+  default:
+    "inline-flex size-9 items-center justify-center rounded-full border border-border bg-background/60 text-foreground/70 shadow-sm transition-[border-color,background-color,color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-accent hover:text-primary hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+  minimal:
+    "inline-flex size-9 items-center justify-center rounded-full border border-border/60 bg-transparent text-muted-foreground shadow-none transition-colors duration-200 hover:border-border hover:bg-transparent hover:text-foreground/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 };
 
 function IconLink({
   href,
   label,
   children,
+  variant,
   className,
 }: {
   href: string;
   label: string;
   children: ReactNode;
+  variant: LinkVariant;
   className?: string;
 }) {
   return (
@@ -35,10 +51,7 @@ function IconLink({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className={cn(
-        "inline-flex size-9 items-center justify-center rounded-full border border-border bg-background/60 text-foreground/70 shadow-sm transition-[border-color,background-color,color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-accent hover:text-primary hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        className
-      )}
+      className={cn(iconLinkVariants[variant], className)}
     >
       <span className="sr-only">{label}</span>
       {children}
@@ -65,7 +78,19 @@ function GlobeIcon({ className }: { className?: string }) {
   );
 }
 
-export function SocialLinks({ socials, className, iconClassName }: Props) {
+const minimalKeyOrder: Partial<Record<keyof Socials, number>> = {
+  twitter: 0,
+  linkedin: 1,
+  github: 2,
+  website: 3,
+};
+
+export function SocialLinks({
+  socials,
+  className,
+  iconClassName,
+  variant = "default",
+}: Props) {
   const items: Array<{
     key: keyof Socials;
     href?: string;
@@ -98,14 +123,25 @@ export function SocialLinks({ socials, className, iconClassName }: Props) {
     },
   ];
 
-  const visible = items.filter((item) => Boolean(item.href));
+  let visible = items.filter((item) => Boolean(item.href));
+  if (variant === "minimal" && visible.length > 1) {
+    visible = [...visible].sort(
+      (a, b) =>
+        (minimalKeyOrder[a.key] ?? 99) - (minimalKeyOrder[b.key] ?? 99),
+    );
+  }
   if (visible.length === 0) return null;
 
   return (
     <div className={cn("flex items-center gap-2", className)}>
       {visible.map((item) =>
         item.href ? (
-          <IconLink key={item.key} href={item.href} label={item.label}>
+          <IconLink
+            key={item.key}
+            href={item.href}
+            label={item.label}
+            variant={variant}
+          >
             {item.icon}
           </IconLink>
         ) : null

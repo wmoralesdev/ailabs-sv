@@ -26,7 +26,7 @@ export function ToggleChip({
       type="button"
       onClick={onToggle}
       className={cn(
-        "flex h-full items-center justify-center gap-1.5 rounded-full border px-3 py-1.5 text-center text-sm font-medium transition-all shadow-sm",
+        "inline-flex shrink-0 items-center justify-center gap-1.5 rounded-full border px-3 py-1.5 text-center text-sm font-medium transition-all shadow-sm",
         selected
           ? "border-primary bg-primary/10 text-primary"
           : "border-border bg-transparent text-muted-foreground hover:border-primary/30 hover:bg-muted/50"
