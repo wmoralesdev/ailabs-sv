@@ -1,6 +1,18 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import { useState } from "react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useMutation } from "convex/react";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { PencilEdit01Icon, Link01Icon, CodeIcon } from "@hugeicons/core-free-icons";
+import {
+  CodeIcon,
+  Delete01Icon,
+  Link01Icon,
+  PencilEdit01Icon,
+} from "@hugeicons/core-free-icons";
+import { api } from "convex/_generated/api";
+import { ShowcaseSharePrompt } from "./showcase-share-prompt";
+import type { Id } from "convex/_generated/dataModel";
 import { DisplayChip } from "@/components/ui/toggle-chip";
 import { MarkdownPreview } from "@/components/ui/markdown-editor";
 import { toolIcons } from "@/components/onboarding/tool-icons";
@@ -8,7 +20,17 @@ import { idsToLabels } from "@/lib/onboarding-interests";
 import { useI18n } from "@/lib/i18n";
 import { useAuthState } from "@/components/auth/auth-context";
 import { Button } from "@/components/ui/button";
-import { ShowcaseSharePrompt } from "./showcase-share-prompt";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 const STATUS_LABELS: Record<string, string> = {
@@ -29,7 +51,7 @@ export type ShowcaseDetailEntry = {
   repoUrl?: string;
   socialPostUrl?: string;
   event?: string;
-  toolsUsed?: string[];
+  toolsUsed?: Array<string>;
   status: "shipped" | "in_progress" | "concept";
   createdAt: number;
   author: { name: string; slug: string; avatarUrl?: string } | null;
@@ -42,8 +64,17 @@ interface ShowcaseDetailProps {
 
 export function ShowcaseDetail({ entry }: ShowcaseDetailProps) {
   const { t } = useI18n();
+  const d = t.showcaseDetail;
+  const navigate = useNavigate();
+  const removeEntry = useMutation(api.showcase.remove);
   const { user } = useAuthState();
   const isOwner = !!user && user.id === entry.ownerId;
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteTitleConfirm, setDeleteTitleConfirm] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const titleMatches =
+    deleteTitleConfirm.trim().length > 0 &&
+    deleteTitleConfirm.trim() === entry.title.trim();
   const toolsLabels = idsToLabels(
     entry.toolsUsed ?? [],
     t.onboarding.interests.tools
@@ -51,6 +82,22 @@ export function ShowcaseDetail({ entry }: ShowcaseDetailProps) {
   const entryUrl = typeof window !== "undefined"
     ? `${window.location.origin}/showcase/${entry.slug}`
     : "";
+
+  const handleDelete = async () => {
+    if (!titleMatches || isDeleting) return;
+    setIsDeleting(true);
+    try {
+      await removeEntry({ id: entry._id as Id<"showcaseEntries"> });
+      setDeleteOpen(false);
+      setDeleteTitleConfirm("");
+      navigate({
+        to: "/showcase",
+        search: { event: undefined, tool: undefined, status: undefined },
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   return (
     <article className="mx-auto max-w-4xl">
@@ -114,15 +161,27 @@ export function ShowcaseDetail({ entry }: ShowcaseDetailProps) {
             {new Date(entry.createdAt).toLocaleDateString()}
           </time>
           {isOwner && (
-            <Link
-              to="/showcase/submit"
-              search={{ edit: entry.slug }}
-            >
-              <Button variant="outline" size="sm" className="gap-2">
-                <HugeiconsIcon icon={PencilEdit01Icon} size={14} />
-                Edit
+            <>
+              <Link
+                to="/showcase/submit"
+                search={{ edit: entry.slug }}
+              >
+                <Button variant="outline" size="sm" className="gap-2">
+                  <HugeiconsIcon icon={PencilEdit01Icon} size={14} />
+                  Edit
+                </Button>
+              </Link>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="gap-2 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                onClick={() => setDeleteOpen(true)}
+              >
+                <HugeiconsIcon icon={Delete01Icon} size={14} />
+                {d.deleteProject}
               </Button>
-            </Link>
+            </>
           )}
         </div>
       </div>
@@ -231,6 +290,54 @@ export function ShowcaseDetail({ entry }: ShowcaseDetailProps) {
           />
         </div>
       )}
+
+      <AlertDialog
+        open={deleteOpen}
+        onOpenChange={(open) => {
+          setDeleteOpen(open);
+          if (!open) setDeleteTitleConfirm("");
+        }}
+      >
+        <AlertDialogContent className="sm:max-w-md">
+          <AlertDialogHeader>
+            <AlertDialogTitle>{d.deleteDialogTitle}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {d.deleteDialogDescription}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="grid gap-2 py-2 text-left">
+            <label
+              htmlFor="showcase-delete-title-confirm"
+              className="text-sm font-medium text-foreground"
+            >
+              {d.deleteTypeTitleLabel}
+            </label>
+            <Input
+              id="showcase-delete-title-confirm"
+              value={deleteTitleConfirm}
+              onChange={(e) => setDeleteTitleConfirm(e.target.value)}
+              autoComplete="off"
+              placeholder={entry.title}
+              aria-invalid={deleteTitleConfirm.length > 0 && !titleMatches}
+            />
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isDeleting}>
+              {d.deleteCancel}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              disabled={!titleMatches || isDeleting}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={(e) => {
+                e.preventDefault();
+                void handleDelete();
+              }}
+            >
+              {isDeleting ? d.deleting : d.deleteConfirm}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </article>
   );
 }

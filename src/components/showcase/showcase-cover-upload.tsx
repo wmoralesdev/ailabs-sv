@@ -1,14 +1,14 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "convex/_generated/api";
-import type { Id } from "convex/_generated/dataModel";
-import { Field, FieldLabel } from "@/components/ui/field";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Image01Icon, Upload04Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Upload04Icon, Image01Icon } from "@hugeicons/core-free-icons";
+import type { Id } from "convex/_generated/dataModel";
+import { Button } from "@/components/ui/button";
+import { Field, FieldLabel } from "@/components/ui/field";
+import { cn } from "@/lib/utils";
 
 const MAX_SIZE_MB = 3;
 const ACCEPT = "image/jpeg,image/png,image/webp";
@@ -28,8 +28,16 @@ interface ShowcaseCoverUploadProps {
   uploading: string;
   dragDropHint?: string;
   fileSizeHint?: string;
+  /** Shown when file exceeds max size (ignored when noMaxSize). */
+  errorMaxSize?: string;
+  /** Shown when file type is not accepted. */
+  errorFileType?: string;
+  /** Shown when upload request fails. */
+  errorUploadFailed?: string;
   required?: boolean;
   noMaxSize?: boolean;
+  /** When true, omit the visible label (e.g. parent section already has a heading). */
+  hideLabel?: boolean;
 }
 
 export function ShowcaseCoverUpload({
@@ -40,8 +48,12 @@ export function ShowcaseCoverUpload({
   uploading,
   dragDropHint = "Drag & drop or click to upload",
   fileSizeHint = `${ACCEPT_EXTENSIONS.join(", ")} — max ${MAX_SIZE_MB}MB. ${RECOMMENDED_ASPECT} recommended for social previews.`,
+  errorMaxSize = `Max size ${MAX_SIZE_MB}MB`,
+  errorFileType = "Use JPG, PNG or WebP",
+  errorUploadFailed = "Upload failed. Try again.",
   required = false,
   noMaxSize = false,
+  hideLabel = false,
 }: ShowcaseCoverUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -55,11 +67,11 @@ export function ShowcaseCoverUpload({
     async (file: File) => {
       setError(null);
       if (!noMaxSize && file.size > MAX_SIZE_MB * 1024 * 1024) {
-        setError(`Max size ${MAX_SIZE_MB}MB`);
+        setError(errorMaxSize);
         return;
       }
-      if (!ACCEPT.split(",").some((t) => file.type === t.trim())) {
-        setError("Use JPG, PNG or WebP");
+      if (!ACCEPT.split(",").some((mime) => file.type === mime.trim())) {
+        setError(errorFileType);
         return;
       }
 
@@ -76,13 +88,21 @@ export function ShowcaseCoverUpload({
         const url = await getStorageUrl({ storageId });
         if (url) onChange({ storageId, url });
       } catch {
-        setError("Upload failed. Try again.");
+        setError(errorUploadFailed);
       } finally {
         setIsUploading(false);
         if (inputRef.current) inputRef.current.value = "";
       }
     },
-    [generateUploadUrl, getStorageUrl, onChange, noMaxSize]
+    [
+      generateUploadUrl,
+      getStorageUrl,
+      onChange,
+      noMaxSize,
+      errorMaxSize,
+      errorFileType,
+      errorUploadFailed,
+    ]
   );
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,15 +127,17 @@ export function ShowcaseCoverUpload({
       e.preventDefault();
       e.stopPropagation();
       setIsDragging(false);
-      const file = e.dataTransfer.files?.[0];
-      if (file) processFile(file);
+      const file = e.dataTransfer.files.item(0);
+      if (file !== null) {
+        processFile(file);
+      }
     },
     [processFile]
   );
 
   return (
     <Field>
-      <FieldLabel required={required}>{label}</FieldLabel>
+      {!hideLabel && <FieldLabel required={required}>{label}</FieldLabel>}
       <div className="flex flex-col gap-4">
         {/* Preview: 1200x630 aspect ratio */}
         <div
@@ -169,7 +191,7 @@ export function ShowcaseCoverUpload({
             accept={ACCEPT}
             onChange={handleFileSelect}
             className="hidden"
-            aria-label={uploadCta}
+            aria-label={hideLabel ? `${label}. ${uploadCta}` : uploadCta}
           />
 
           <HugeiconsIcon

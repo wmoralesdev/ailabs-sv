@@ -1,14 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
 import { ShowcaseDetail } from "@/components/showcase/showcase-detail";
 import { Spinner } from "@/components/ui/spinner";
-import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/showcase/$slug")({
   head: ({ params }) => ({
     meta: [
-      { title: `${params.slug} | ailabs.sv Showcase` },
+      { title: `${params.slug} | Ai /abs Showcase` },
     ],
   }),
   component: ShowcaseDetailPage,
@@ -35,7 +34,7 @@ function ShowcaseDetailPage() {
           No showcase entry with that slug exists.
         </p>
         <Link
-          to="/feed"
+          to="/showcase"
           search={{ event: undefined, tool: undefined, status: undefined }}
           className="rounded-lg border border-border bg-transparent px-6 py-2 font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-accent/50"
         >

@@ -1,15 +1,25 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
+import { useEffect, useMemo } from "react";
+import { useQuery } from "convex/react";
+import { z } from "zod";
+import { api } from "convex/_generated/api";
 import { ShowcaseForm } from "@/components/showcase/showcase-form";
 import { authStateFn } from "@/lib/auth-server";
+import { getSafeReturnTo } from "@/lib/auth-return-to";
+import { Spinner } from "@/components/ui/spinner";
 
 export const Route = createFileRoute("/showcase/submit")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    edit: (search.edit as string) || undefined,
+  validateSearch: z.object({
+    edit: z.string().optional(),
   }),
-  beforeLoad: async () => {
+  beforeLoad: async ({ search }) => {
     const { isAuthenticated } = await authStateFn();
     if (!isAuthenticated) {
-      throw redirect({ to: "/sign-in", search: { returnTo: "/showcase/submit" } });
+      const raw = search.edit
+        ? `/showcase/submit?edit=${encodeURIComponent(search.edit)}`
+        : "/showcase/submit";
+      const returnTo = getSafeReturnTo(raw) ?? "/showcase/submit";
+      throw redirect({ to: "/sign-in", search: { returnTo } });
     }
   },
   component: ShowcaseSubmitPage,
@@ -17,9 +27,33 @@ export const Route = createFileRoute("/showcase/submit")({
 
 function ShowcaseSubmitPage() {
   const { edit } = Route.useSearch();
-  return (
-    <div className="container mx-auto px-6">
-      <ShowcaseForm editSlug={edit} />
-    </div>
-  );
+  const router = useRouter();
+  const myProfile = useQuery(api.profiles.me);
+
+  const returnToPath = useMemo(() => {
+    const raw = edit
+      ? `/showcase/submit?edit=${encodeURIComponent(edit)}`
+      : "/showcase/submit";
+    return getSafeReturnTo(raw) ?? "/showcase/submit";
+  }, [edit]);
+
+  useEffect(() => {
+    if (myProfile === undefined) return;
+    if (myProfile === null) {
+      router.navigate({
+        to: "/onboarding",
+        search: { returnTo: returnToPath },
+      });
+    }
+  }, [myProfile, router, returnToPath]);
+
+  if (myProfile === undefined || myProfile === null) {
+    return (
+      <div className="container mx-auto flex justify-center px-6 py-16">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
+  return <ShowcaseForm editSlug={edit} />;
 }
