@@ -2,31 +2,35 @@ import { createFileRoute } from "@tanstack/react-router";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ArrowRightIcon,
-  Tick02Icon,
   FlashIcon,
-  Wrench01Icon,
   Presentation01Icon,
+  Tick02Icon,
+  Wrench01Icon,
 } from "@hugeicons/core-free-icons";
 import { useI18n } from "@/lib/i18n";
-import { AnimatedGrid } from "@/components/ui/animated-grid";
+import {
+  CURSOR_PARTNER_IMG,
+  V0_PARTNER_IMG,
+  partnerRasterMarkClasses,
+} from "@/lib/partner-image-paths";
+import { cn } from "@/lib/utils";
+import { CommunityProofBentoSection } from "@/components/sections/community-proof-bento-section";
 import { SectionHeader } from "@/components/section-header";
 import { SiteHeader } from "@/components/site-header";
+import { AnimatedGrid } from "@/components/ui/animated-grid";
+import { GlitchText } from "@/components/ui/glitch-text";
 import { SiteFooter } from "@/components/site-footer";
 import { Convex } from "@/components/ui/svgs/convex";
-import { CursorLight } from "@/components/ui/svgs/cursor-light";
 import { Supabase } from "@/components/ui/svgs/supabase";
 import { Vercel } from "@/components/ui/svgs/vercel";
-import { V0Light } from "@/components/ui/svgs/v0-light";
 
 const PARTNER_ICONS: Record<
   string,
   React.ComponentType<React.SVGProps<SVGSVGElement>>
 > = {
-  Cursor: CursorLight,
   Vercel,
   Supabase,
   Convex,
-  v0: V0Light,
 };
 
 const WAYS_TO_HELP_ICONS = [FlashIcon, Wrench01Icon, Presentation01Icon];
@@ -64,7 +68,8 @@ function PartnersPage() {
               </div>
 
               <h1 className="mb-8 text-4xl font-medium leading-[0.95] tracking-tighter motion-safe:animate-hero-in [animation-delay:140ms] md:text-6xl lg:text-7xl">
-                <span className="block text-foreground">{p.hero.headlineLine1}<span className="text-primary">{p.hero.headlineLine2}</span></span>
+                <span className="block text-foreground">{p.hero.headlineLine1}</span>
+                <GlitchText phrases={p.hero.headlinePhrases} className="block text-primary" />
               </h1>
 
               <p className="mx-auto mb-10 max-w-2xl text-pretty text-base font-light leading-relaxed text-foreground/60 motion-safe:animate-hero-in [animation-delay:220ms] md:text-lg">
@@ -92,6 +97,8 @@ function PartnersPage() {
               </p>
             </div>
           </section>
+
+          <CommunityProofBentoSection id="community-proof-partners" />
 
           {/* What partnering means - matches why-section */}
           <section className="section-spacing border-y border-border/50 bg-muted/10">
@@ -131,6 +138,73 @@ function PartnersPage() {
               />
               <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
                 {t.ecosystem.partners.map((partner) => {
+                  const linkClassName =
+                    "group flex items-center grayscale text-muted-foreground transition-all duration-300 hover:grayscale-0 hover:text-primary";
+
+                  if (partner.name === "Cursor") {
+                    return (
+                      <a
+                        key={partner.name}
+                        href={partner.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={partner.name}
+                        className={linkClassName}
+                      >
+                        <img
+                          src={CURSOR_PARTNER_IMG.light}
+                          alt=""
+                          aria-hidden
+                          className={cn(
+                            partnerRasterMarkClasses.base,
+                            partnerRasterMarkClasses.cursorLight,
+                          )}
+                        />
+                        <img
+                          src={CURSOR_PARTNER_IMG.dark}
+                          alt=""
+                          aria-hidden
+                          className={cn(
+                            partnerRasterMarkClasses.base,
+                            partnerRasterMarkClasses.cursorDark,
+                          )}
+                        />
+                      </a>
+                    );
+                  }
+
+                  if (partner.name === "v0") {
+                    return (
+                      <a
+                        key={partner.name}
+                        href={partner.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={partner.name}
+                        className={linkClassName}
+                      >
+                        <img
+                          src={V0_PARTNER_IMG.light}
+                          alt=""
+                          aria-hidden
+                          className={cn(
+                            partnerRasterMarkClasses.base,
+                            partnerRasterMarkClasses.v0Light,
+                          )}
+                        />
+                        <img
+                          src={V0_PARTNER_IMG.dark}
+                          alt=""
+                          aria-hidden
+                          className={cn(
+                            partnerRasterMarkClasses.base,
+                            partnerRasterMarkClasses.v0Dark,
+                          )}
+                        />
+                      </a>
+                    );
+                  }
+
                   const Icon = PARTNER_ICONS[partner.name];
                   return (
                     <a
@@ -139,9 +213,12 @@ function PartnersPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={partner.name}
-                      className="group flex items-center grayscale text-muted-foreground transition-all duration-300 hover:grayscale-0 hover:text-primary"
+                      className={linkClassName}
                     >
-                      {Icon ? (
+                      {
+                        // Defensive: text-only partners not in PARTNER_ICONS
+                        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- future partners may omit SVG marks
+                        Icon ? (
                         <Icon
                           aria-hidden
                           className="size-10 opacity-80 transition-opacity group-hover:opacity-100 md:size-12"
