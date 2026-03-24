@@ -14,7 +14,7 @@ export function JoinCtaButton({ inverted, compact }: JoinCtaButtonProps) {
   const { t } = useI18n();
   const { status } = useAuthState();
 
-  if (status !== "signed_out") {
+  if (status === "signed_in") {
     return null;
   }
 
