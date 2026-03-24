@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "@tanstack/react-router";
 import { useAuthState } from "@/components/auth/auth-context";
+import { Spinner } from "@/components/ui/spinner";
 
 function getCurrentReturnTo() {
   if (typeof window === "undefined") return "/";
@@ -27,7 +28,11 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
   }, [router, status]);
 
   if (status === "loading") {
-    return null;
+    return (
+      <div className="flex min-h-dvh flex-1 items-center justify-center bg-background">
+        <Spinner size="lg" />
+      </div>
+    );
   }
 
   if (status !== "signed_in") {
