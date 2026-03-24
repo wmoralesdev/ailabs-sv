@@ -3,7 +3,6 @@
 import { createContext, useContext, useMemo } from "react";
 import { useConvexAuth } from "convex/react";
 import { useUser } from "@clerk/tanstack-react-start";
-import { Spinner } from "@/components/ui/spinner";
 
 type AuthStatus = "loading" | "signed_in" | "signed_out";
 
@@ -43,16 +42,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       user: user ?? null,
     };
   }, [isConvexLoading, isClerkLoaded, isAuthenticated, user]);
-
-  if (value.status === "loading") {
-    return (
-      <AuthContext.Provider value={value}>
-        <div className="fixed inset-0 flex items-center justify-center bg-background">
-          <Spinner size="lg" />
-        </div>
-      </AuthContext.Provider>
-    );
-  }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
