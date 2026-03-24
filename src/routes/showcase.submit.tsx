@@ -6,6 +6,7 @@ import { api } from "convex/_generated/api";
 import { ShowcaseForm } from "@/components/showcase/showcase-form";
 import { authStateFn } from "@/lib/auth-server";
 import { getSafeReturnTo } from "@/lib/auth-return-to";
+import { RequireAuth } from "@/components/auth/require-auth";
 import { Spinner } from "@/components/ui/spinner";
 
 export const Route = createFileRoute("/showcase/submit")({
@@ -47,13 +48,15 @@ function ShowcaseSubmitPage() {
     }
   }, [myProfile, router, returnToPath]);
 
-  if (myProfile === undefined || myProfile === null) {
-    return (
-      <div className="container mx-auto flex justify-center px-6 py-16">
-        <Spinner size="lg" />
-      </div>
-    );
-  }
-
-  return <ShowcaseForm editSlug={edit} />;
+  return (
+    <RequireAuth>
+      {myProfile === undefined || myProfile === null ? (
+        <div className="container mx-auto flex justify-center px-6 py-16">
+          <Spinner size="lg" />
+        </div>
+      ) : (
+        <ShowcaseForm editSlug={edit} />
+      )}
+    </RequireAuth>
+  );
 }
