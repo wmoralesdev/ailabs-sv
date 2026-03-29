@@ -1,5 +1,21 @@
 {
   "mcpServers": {
+    "ailabs-events": {
+      "command": "pnpm",
+      "args": ["exec", "tsx", "scripts/mcp-events-server.ts"],
+      "env": {
+        "CONVEX_HTTP_URL": "https://rapid-eel-420.convex.site",
+        "ADMIN_MCP_SECRET": "9a2104d348fe81abb04edefbbbe1bc50cac55dbef1149b471003b361f6b8a883"
+      }
+    },
+    "ailabs-events-prod": {
+      "command": "pnpm",
+      "args": ["exec", "tsx", "scripts/mcp-events-server.ts"],
+      "env": {
+        "CONVEX_HTTP_URL": "https://brilliant-marmot-918.convex.site",
+        "ADMIN_MCP_SECRET": "9a2104d348fe81abb04edefbbbe1bc50cac55dbef1149b471003b361f6b8a883"
+      }
+    },
     "convex": {
       "command": "npx",
       "args": [
