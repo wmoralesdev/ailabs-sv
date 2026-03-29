@@ -7,6 +7,8 @@ import {
   Tick02Icon,
   Wrench01Icon,
 } from "@hugeicons/core-free-icons";
+import { seoCopyEs } from "@/content/seo-copy";
+import { buildSeoMeta } from "@/lib/seo-meta";
 import { useI18n } from "@/lib/i18n";
 import {
   CURSOR_PARTNER_IMG,
@@ -36,6 +38,14 @@ const PARTNER_ICONS: Record<
 const WAYS_TO_HELP_ICONS = [FlashIcon, Wrench01Icon, Presentation01Icon];
 
 export const Route = createFileRoute("/partners")({
+  head: () => {
+    const { meta, links } = buildSeoMeta({
+      path: "/partners",
+      title: seoCopyEs.partners.title,
+      description: seoCopyEs.partners.description,
+    });
+    return { meta, links };
+  },
   component: PartnersPage,
 });
 

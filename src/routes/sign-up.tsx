@@ -1,15 +1,28 @@
 import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SignUp } from "@clerk/tanstack-react-start";
 import { dark } from "@clerk/themes";
 import { useConvexAuth, useQuery  } from "convex/react";
 import { api } from "convex/_generated/api";
 import { authStateFn } from "@/lib/auth-server";
+import { TurnstileGate } from "@/components/auth/turnstile-gate";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { useTheme } from "@/components/theme-provider";
+import { isTurnstileConfigured } from "@/lib/turnstile-config";
+import { seoCopyEs } from "@/content/seo-copy";
+import { buildSeoMeta } from "@/lib/seo-meta";
 
 export const Route = createFileRoute("/sign-up")({
+  head: () => {
+    const { meta, links } = buildSeoMeta({
+      path: "/sign-up",
+      title: seoCopyEs.signUp.title,
+      description: seoCopyEs.signUp.description,
+      noIndex: true,
+    });
+    return { meta, links };
+  },
   beforeLoad: async () => {
     const { isAuthenticated } = await authStateFn();
     if (isAuthenticated) {
@@ -20,6 +33,7 @@ export const Route = createFileRoute("/sign-up")({
 });
 
 function SignUpPage() {
+  const [turnstileOk, setTurnstileOk] = useState(() => !isTurnstileConfigured());
   const { theme } = useTheme();
   const router = useRouter();
   const { isAuthenticated } = useConvexAuth();
@@ -70,11 +84,14 @@ function SignUpPage() {
             <div className="container relative z-10 mx-auto px-6">
               <div className="mx-auto max-w-md">
                 <div className="glass rounded-2xl border border-border/60 p-6 shadow-lg shadow-black/5 md:p-8">
-                  <SignUp
-                    appearance={clerkAppearance}
-                    signInUrl="/sign-in"
-                    fallbackRedirectUrl="/"
-                  />
+                  <TurnstileGate onVerified={() => setTurnstileOk(true)} />
+                  {turnstileOk ? (
+                    <SignUp
+                      appearance={clerkAppearance}
+                      signInUrl="/sign-in"
+                      fallbackRedirectUrl="/"
+                    />
+                  ) : null}
                 </div>
               </div>
             </div>

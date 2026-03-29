@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { seoCopyEs } from "@/content/seo-copy";
+import { buildHomeJsonLd, buildSeoMeta } from "@/lib/seo-meta";
 import { FounderSection } from "@/components/sections/founder-section";
 import { CommunityMembersSection } from "@/components/sections/community-members-section";
 import { EventsSection } from "@/components/sections/events-section";
@@ -15,6 +17,20 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
 export const Route = createFileRoute("/")({
+  head: () => {
+    const { meta, links } = buildSeoMeta({
+      path: "/",
+      title: seoCopyEs.home.title,
+      description: seoCopyEs.home.description,
+    });
+    return {
+      meta: [
+        ...meta,
+        { "script:ld+json": buildHomeJsonLd() },
+      ],
+      links,
+    };
+  },
   component: Index,
 });
 

@@ -1,7 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import type { SignInStep } from "@/components/auth/use-custom-sign-in-form";
 import { useCustomSignInForm } from "@/components/auth/use-custom-sign-in-form";
+import { TurnstileGate } from "@/components/auth/turnstile-gate";
+import { isTurnstileConfigured } from "@/lib/turnstile-config";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,9 +29,11 @@ interface CustomSignInProps {
 
 export function CustomSignIn({ onStepChange, returnTo }: CustomSignInProps) {
   const { t } = useI18n();
+  const [turnstileOk, setTurnstileOk] = useState(() => !isTurnstileConfigured());
   const { form, isLoaded, signInWithOAuth, handleCancel } = useCustomSignInForm({
     onStepChange,
     returnTo,
+    turnstileOk,
   });
 
   if (!isLoaded) {
@@ -165,13 +170,16 @@ export function CustomSignIn({ onStepChange, returnTo }: CustomSignInProps) {
               />
             </FieldGroup>
 
+            <TurnstileGate onVerified={() => setTurnstileOk(true)} />
+
             <form.Subscribe
               selector={(state) => ({
                 email: state.values.email,
                 isSubmitting: state.isSubmitting,
               })}
               children={({ email, isSubmitting }) => {
-                const isDisabled = isSubmitting || email.trim().length === 0;
+                const isDisabled =
+                  isSubmitting || email.trim().length === 0 || !turnstileOk;
 
                 return (
                   <Button
@@ -202,7 +210,7 @@ export function CustomSignIn({ onStepChange, returnTo }: CustomSignInProps) {
                 variant="outline"
                 type="button"
                 onClick={() => signInWithOAuth("oauth_google")}
-                disabled={form.state.isSubmitting}
+                disabled={form.state.isSubmitting || !turnstileOk}
                 className="w-full"
               >
                 <Google className="mr-2 size-4" aria-hidden />
@@ -212,7 +220,7 @@ export function CustomSignIn({ onStepChange, returnTo }: CustomSignInProps) {
                 variant="outline"
                 type="button"
                 onClick={() => signInWithOAuth("oauth_github")}
-                disabled={form.state.isSubmitting}
+                disabled={form.state.isSubmitting || !turnstileOk}
                 className="w-full"
               >
                 <span className="mr-2 inline-flex shrink-0">

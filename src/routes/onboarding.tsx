@@ -10,8 +10,19 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { AnimatedGrid } from "@/components/ui/animated-grid";
 import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
+import { seoCopyEs } from "@/content/seo-copy";
+import { buildSeoMeta } from "@/lib/seo-meta";
 
 export const Route = createFileRoute("/onboarding")({
+  head: () => {
+    const { meta, links } = buildSeoMeta({
+      path: "/onboarding",
+      title: seoCopyEs.onboarding.title,
+      description: seoCopyEs.onboarding.description,
+      noIndex: true,
+    });
+    return { meta, links };
+  },
   validateSearch: z.object({
     mode: z.string().optional(),
     returnTo: z.string().optional(),

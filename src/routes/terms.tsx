@@ -1,10 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { seoCopyEs } from "@/content/seo-copy";
+import { buildSeoMeta } from "@/lib/seo-meta";
 import { useI18n } from "@/lib/i18n";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { formatWithBrandText } from "@/components/brand-text";
 
 export const Route = createFileRoute("/terms")({
+  head: () => {
+    const { meta, links } = buildSeoMeta({
+      path: "/terms",
+      title: seoCopyEs.terms.title,
+      description: seoCopyEs.terms.description,
+    });
+    return { meta, links };
+  },
   component: TermsPage,
 });
 

@@ -10,11 +10,12 @@ import { LangSync } from '@/components/lang-sync'
 import { ConvexProvider } from '@/components/convex-provider'
 import { AuthProvider } from '@/components/auth/auth-context'
 import { getSiteOrigin } from '@/lib/site-url'
+import { seoCopyEs } from '@/content/seo-copy'
 
 const clerkPublishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY as string
 
-const defaultDescription =
-  "A community of curious builders exploring what's possible with AI. Starting in El Salvador."
+const defaultDescription = seoCopyEs.home.description
+const defaultTitle = seoCopyEs.home.title
 
 export const Route = createRootRoute({
   head: () => {
@@ -29,7 +30,7 @@ export const Route = createRootRoute({
           content: 'width=device-width, initial-scale=1',
         },
         {
-          title: 'Ai /abs',
+          title: defaultTitle,
         },
         {
           name: 'description',
@@ -41,7 +42,7 @@ export const Route = createRootRoute({
         },
         {
           property: 'og:title',
-          content: 'Ai /abs',
+          content: defaultTitle,
         },
         {
           property: 'og:description',
@@ -53,7 +54,7 @@ export const Route = createRootRoute({
         },
         {
           property: 'og:image:alt',
-          content: 'Ai /abs — community of AI builders in El Salvador',
+          content: 'Ai /abs — comunidad de builders de IA en El Salvador',
         },
         {
           name: 'twitter:card',
@@ -61,7 +62,7 @@ export const Route = createRootRoute({
         },
         {
           name: 'twitter:title',
-          content: 'Ai /abs',
+          content: defaultTitle,
         },
         {
           name: 'twitter:description',

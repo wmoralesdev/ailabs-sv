@@ -1,3 +1,13 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Disallow: /admin
+Disallow: /sign-in
+Disallow: /sign-up
+Disallow: /onboarding
+Disallow: /me
+Disallow: /showcase/submit
+Disallow: /design-system
+Disallow: /blog
+Disallow: /sign-in_
+
+Sitemap: https://ailabs.sv/sitemap.xml

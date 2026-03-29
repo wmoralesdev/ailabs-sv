@@ -8,8 +8,8 @@ import {
 } from "@hugeicons/core-free-icons";
 import { useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
+import type { SiteContent } from "@/content/site-content";
 import { useI18n } from "@/lib/i18n";
-import { useDragScroll } from "@/hooks/use-drag-scroll";
 import { SectionHeader } from "@/components/section-header";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
@@ -27,6 +27,101 @@ import { formatWithBrandText } from "@/components/brand-text";
 const PAST_IMAGE_PLACEHOLDER =
   "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop";
 
+type PastEventForGallery = {
+  id: string;
+  title: string;
+  imageUrl: string | null;
+  date: string;
+  country?: string | null;
+  partner?: string | null;
+  isVirtual: boolean;
+  recapUrl?: string | null;
+  photoAlbumUrl?: string | null;
+};
+
+function PastEventCard({
+  event,
+  t,
+}: {
+  event: PastEventForGallery;
+  t: Pick<SiteContent, "events">;
+}) {
+  return (
+    <article
+      className="group relative aspect-[3/2] w-[420px] shrink-0 overflow-hidden rounded-2xl shadow-sm grayscale transition-[filter,transform,box-shadow] duration-500 hover:grayscale-0 hover:z-10 hover:shadow-lg motion-safe:hover:-translate-y-0.5"
+    >
+      <img
+        src={event.imageUrl ?? PAST_IMAGE_PLACEHOLDER}
+        alt={event.title}
+        draggable={false}
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+      <div className="absolute inset-x-0 top-0 h-20 bg-linear-to-b from-black/60 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/50 to-transparent" />
+      <div className="absolute left-4 top-4 z-10 flex items-center gap-1.5">
+        {event.partner && (
+          <span className="rounded-full border border-white/30 bg-black/50 px-2.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur-md">
+            {event.partner}
+          </span>
+        )}
+        {event.isVirtual && (
+          <span className="rounded-full border border-white/30 bg-black/50 px-2.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur-md">
+            {t.events.virtualLabel}
+          </span>
+        )}
+      </div>
+      <div className="absolute bottom-0 left-0 z-10 w-full p-4 text-white">
+        <div className="mb-1.5 flex items-center gap-2">
+          <span className="text-[11px] font-medium uppercase tracking-widest text-white/70">
+            {event.date}
+          </span>
+          {event.country && (
+            <span className="rounded-full border border-white/30 bg-black/40 px-2.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur-md">
+              {event.country}
+            </span>
+          )}
+        </div>
+        <h4 className="mb-2 text-base font-semibold leading-snug text-white">
+          {formatWithBrandText(event.title)}
+        </h4>
+        <div className="flex items-center gap-3">
+          {event.recapUrl && (
+            <a
+              href={event.recapUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs text-white/80 transition-colors duration-300 hover:text-white"
+            >
+              {t.events.recapButton}
+              <HugeiconsIcon
+                icon={ArrowRightIcon}
+                className="size-3 transition-transform duration-300 motion-safe:group-hover:translate-x-0.5"
+              />
+            </a>
+          )}
+          {event.recapUrl && event.photoAlbumUrl && (
+            <span className="text-white/30">·</span>
+          )}
+          {event.photoAlbumUrl && (
+            <a
+              href={event.photoAlbumUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs text-white/80 transition-colors duration-300 hover:text-white"
+            >
+              {t.events.albumButton}
+              <HugeiconsIcon
+                icon={Image01Icon}
+                className="size-3 transition-transform duration-300 motion-safe:group-hover:translate-x-0.5"
+              />
+            </a>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}
+
 export function EventsSection() {
   const { t, language } = useI18n();
   const result = useQuery(api.events.listForHomepage, {
@@ -34,15 +129,6 @@ export function EventsSection() {
     upcomingLimit: 10,
     pastLimit: 12,
   });
-  const {
-    ref: galleryRef,
-    isDragging,
-    onMouseDown,
-    onMouseMove,
-    onMouseUp,
-    onMouseLeave,
-  } = useDragScroll<HTMLDivElement>();
-
   if (result === undefined) {
     return (
       <section id="events" className="section-spacing border-y border-border/50">
@@ -186,96 +272,20 @@ export function EventsSection() {
 
         <div className="mt-12">
           {past.length > 0 ? (
-            <div
-              ref={galleryRef}
-              onMouseDown={onMouseDown}
-              onMouseMove={onMouseMove}
-              onMouseUp={onMouseUp}
-              onMouseLeave={onMouseLeave}
-              className={cn(
-                "flex gap-4 overflow-x-auto px-6 scrollbar-hide select-none",
-                isDragging ? "cursor-grabbing" : "cursor-grab"
-              )}
-            >
-              {[...past, ...past].map((event, i) => (
-                <article
-                  key={`${event.id}-${i}`}
-                  className="group relative aspect-[3/2] w-[420px] shrink-0 overflow-hidden rounded-2xl shadow-sm grayscale transition-[filter,transform,box-shadow] duration-500 hover:grayscale-0 hover:z-10 hover:shadow-lg motion-safe:hover:-translate-y-0.5"
-                >
-                  <img
-                    src={event.imageUrl ?? PAST_IMAGE_PLACEHOLDER}
-                    alt={event.title}
-                    draggable={false}
-                    className="pointer-events-none absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            <div className="overflow-hidden py-4">
+              <div
+                className={cn(
+                  "flex gap-4 whitespace-nowrap px-6 motion-reduce:overflow-x-auto motion-reduce:animate-none motion-reduce:scrollbar-hide animate-marquee hover:paused"
+                )}
+              >
+                {[...past, ...past].map((event, index) => (
+                  <PastEventCard
+                    key={`${event.id}-${index}`}
+                    event={event}
+                    t={t}
                   />
-                  {/* Top gradient for badge readability */}
-                  <div className="absolute inset-x-0 top-0 h-20 bg-linear-to-b from-black/60 to-transparent" />
-                  {/* Bottom gradient */}
-                  <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/50 to-transparent" />
-                  {/* Top badges */}
-                  <div className="absolute left-4 top-4 z-10 flex items-center gap-1.5">
-                    {event.partner && (
-                      <span className="rounded-full border border-white/30 bg-black/50 px-2.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur-md">
-                        {event.partner}
-                      </span>
-                    )}
-                    {event.isVirtual && (
-                      <span className="rounded-full border border-white/30 bg-black/50 px-2.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur-md">
-                        {t.events.virtualLabel}
-                      </span>
-                    )}
-                  </div>
-                  {/* Bottom content */}
-                  <div className="absolute bottom-0 left-0 z-10 w-full p-4 text-white">
-                    <div className="mb-1.5 flex items-center gap-2">
-                      <span className="text-[11px] font-medium uppercase tracking-widest text-white/70">
-                        {event.date}
-                      </span>
-                      {event.country && (
-                        <span className="rounded-full border border-white/30 bg-black/40 px-2.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur-md">
-                          {event.country}
-                        </span>
-                      )}
-                    </div>
-                    <h4 className="mb-2 text-base font-semibold leading-snug text-white">
-                      {formatWithBrandText(event.title)}
-                    </h4>
-                    <div className="flex items-center gap-3">
-                      {event.recapUrl && (
-                        <a
-                          href={event.recapUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-xs text-white/80 transition-colors duration-300 hover:text-white"
-                        >
-                          {t.events.recapButton}
-                          <HugeiconsIcon
-                            icon={ArrowRightIcon}
-                            className="size-3 transition-transform duration-300 motion-safe:group-hover:translate-x-0.5"
-                          />
-                        </a>
-                      )}
-                      {event.recapUrl && event.photoAlbumUrl && (
-                        <span className="text-white/30">·</span>
-                      )}
-                      {event.photoAlbumUrl && (
-                        <a
-                          href={event.photoAlbumUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-xs text-white/80 transition-colors duration-300 hover:text-white"
-                        >
-                          {t.events.albumButton}
-                          <HugeiconsIcon
-                            icon={Image01Icon}
-                            className="size-3 transition-transform duration-300 motion-safe:group-hover:translate-x-0.5"
-                          />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </article>
-              ))}
+                ))}
+              </div>
             </div>
           ) : (
             <div className="rounded-2xl border border-dashed border-border bg-card/40 px-6 py-12 text-center text-muted-foreground">

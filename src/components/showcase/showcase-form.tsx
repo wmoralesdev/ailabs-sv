@@ -5,11 +5,12 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
 import { useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
-import {  useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ShowcaseCoverUpload } from "./showcase-cover-upload";
 import type {ReactNode} from "react";
 import type { CoverImageValue } from "./showcase-cover-upload";
 import type { SiteContent } from "@/content/site-content";
+import { TurnstileGate } from "@/components/auth/turnstile-gate";
 import { AnimatedGrid } from "@/components/ui/animated-grid";
 import { BENTO_CARD_CLASS } from "@/lib/bento-card";
 import {
@@ -33,6 +34,7 @@ import { ToggleChip } from "@/components/ui/toggle-chip";
 import { TOOL_IDS } from "@/content/onboarding-interest-ids";
 import { toolIcons } from "@/components/onboarding/tool-icons";
 import { useI18n } from "@/lib/i18n";
+import { isTurnstileConfigured } from "@/lib/turnstile-config";
 
 const TOOL_ID_SET = new Set<string>(TOOL_IDS);
 const TOOLS_MAX = 25;
@@ -265,6 +267,12 @@ function ShowcaseFormImpl({ editSlug }: ShowcaseFormProps) {
   };
 
   const s = t.showcaseSubmit;
+  const needsTurnstile = !editSlug && isTurnstileConfigured();
+  const [turnstileOk, setTurnstileOk] = useState(() => !needsTurnstile);
+  useEffect(() => {
+    setTurnstileOk(!needsTurnstile);
+  }, [needsTurnstile]);
+  const submitBlocked = needsTurnstile && !turnstileOk;
   const [addToolOpen, setAddToolOpen] = useState(false);
   const [addToolDraft, setAddToolDraft] = useState("");
   const [addToolError, setAddToolError] = useState<string | null>(null);
@@ -627,8 +635,11 @@ function ShowcaseFormImpl({ editSlug }: ShowcaseFormProps) {
               )}
               style={{ animationDelay: "440ms" }}
             >
+              {needsTurnstile ? (
+                <TurnstileGate onVerified={() => setTurnstileOk(true)} />
+              ) : null}
               <div className="flex flex-wrap gap-3">
-                <Button type="submit" disabled={form.state.isSubmitting}>
+                <Button type="submit" disabled={form.state.isSubmitting || submitBlocked}>
                   {form.state.isSubmitting
                     ? s.saving
                     : editSlug

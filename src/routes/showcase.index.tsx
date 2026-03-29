@@ -1,6 +1,8 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRightIcon } from "@hugeicons/core-free-icons";
+import { seoCopyEs } from "@/content/seo-copy";
+import { buildSeoMeta } from "@/lib/seo-meta";
 import { ShowcaseGrid } from "@/components/showcase/showcase-grid";
 import { AnimatedGrid } from "@/components/ui/animated-grid";
 import { GlitchText } from "@/components/ui/glitch-text";
@@ -8,6 +10,14 @@ import { useAuthState } from "@/components/auth/auth-context";
 import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/showcase/")({
+  head: () => {
+    const { meta, links } = buildSeoMeta({
+      path: "/showcase",
+      title: seoCopyEs.showcaseIndex.title,
+      description: seoCopyEs.showcaseIndex.description,
+    });
+    return { meta, links };
+  },
   validateSearch: (search: Record<string, unknown>) => ({
     event: (search.event as string) || undefined,
     tool: (search.tool as string) || undefined,

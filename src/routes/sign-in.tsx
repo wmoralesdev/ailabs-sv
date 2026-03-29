@@ -13,11 +13,22 @@ import { CustomSignIn  } from "@/components/auth/custom-sign-in";
 import { getSafeReturnTo } from "@/lib/auth-return-to";
 import { useAuthState } from "@/components/auth/auth-context";
 import { AnimatedGrid } from "@/components/ui/animated-grid";
+import { seoCopyEs } from "@/content/seo-copy";
+import { buildSeoMeta } from "@/lib/seo-meta";
 
 const outerCardClass =
   "!bg-card !text-card-foreground rounded-2xl border border-border/60 shadow-lg shadow-black/10";
 
 export const Route = createFileRoute("/sign-in")({
+  head: () => {
+    const { meta, links } = buildSeoMeta({
+      path: "/sign-in",
+      title: seoCopyEs.signIn.title,
+      description: seoCopyEs.signIn.description,
+      noIndex: true,
+    });
+    return { meta, links };
+  },
   validateSearch: z.object({
     returnTo: z.string().optional(),
   }),

@@ -5,6 +5,7 @@ import { useMutation } from "convex/react";
 import { api } from "convex/_generated/api";
 import type { Id } from "convex/_generated/dataModel";
 import type {CoverImageValue} from "@/components/showcase/showcase-cover-upload";
+import type { EventType } from "@/lib/event-sv-datetime";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,43 +21,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-const EVENT_TYPES = [
-  "Meetup",
-  "Workshop",
-  "Social",
-  "Conference",
-  "Hackathon",
-] as const;
-
-const SV_TZ = "America/El_Salvador";
-
-function utcToSvLocal(ms: number): string {
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: SV_TZ,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).formatToParts(new Date(ms));
-  const get = (type: string) =>
-    parts.find((p) => p.type === type)?.value ?? "00";
-  const hour = get("hour") === "24" ? "00" : get("hour");
-  return `${get("year")}-${get("month")}-${get("day")}T${hour}:${get("minute")}`;
-}
-
-// El Salvador is always UTC-6 (no DST)
-function svLocalToUtc(str: string): number {
-  return new Date(str + "-06:00").getTime();
-}
+import {
+  EVENT_TYPES,
+  SV_TZ,
+  svLocalToUtc,
+  utcToSvLocal,
+} from "@/lib/event-sv-datetime";
 
 export type EventDoc = {
   _id: Id<"events">;
   slug: string;
   published: boolean;
-  type: (typeof EVENT_TYPES)[number];
+  type: EventType;
   tags: Array<string>;
   isVirtual?: boolean;
   partner?: string;
@@ -105,7 +81,7 @@ export function AdminEventForm({
   const [slug, setSlug] = useState("");
   const [published, setPublished] = useState(false);
   const [isVirtual, setIsVirtual] = useState(false);
-  const [type, setType] = useState<(typeof EVENT_TYPES)[number]>("Meetup");
+  const [type, setType] = useState<EventType>("Meetup");
   const [partner, setPartner] = useState("");
 
   const [startAtStr, setStartAtStr] = useState("");
@@ -257,7 +233,7 @@ export function AdminEventForm({
           <FieldLabel>Type</FieldLabel>
           <Select
             value={type}
-            onValueChange={(v) => setType(v as (typeof EVENT_TYPES)[number])}
+            onValueChange={(v) => setType(v as EventType)}
           >
             <SelectTrigger className="w-full">
               <SelectValue />

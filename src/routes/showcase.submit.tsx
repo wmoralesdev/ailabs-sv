@@ -8,8 +8,19 @@ import { authStateFn } from "@/lib/auth-server";
 import { getSafeReturnTo } from "@/lib/auth-return-to";
 import { RequireAuth } from "@/components/auth/require-auth";
 import { Spinner } from "@/components/ui/spinner";
+import { seoCopyEs } from "@/content/seo-copy";
+import { buildSeoMeta } from "@/lib/seo-meta";
 
 export const Route = createFileRoute("/showcase/submit")({
+  head: () => {
+    const { meta, links } = buildSeoMeta({
+      path: "/showcase/submit",
+      title: seoCopyEs.showcaseSubmit.title,
+      description: seoCopyEs.showcaseSubmit.description,
+      noIndex: true,
+    });
+    return { meta, links };
+  },
   validateSearch: z.object({
     edit: z.string().optional(),
   }),

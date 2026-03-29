@@ -279,8 +279,19 @@ export interface SiteContent {
     saveChanges: string;
     saving: string;
     cancel: string;
+    securityCheckRequired: string;
   };
   showcasePage: {
+    hero: {
+      badge: string;
+      headlineLine1: string;
+      headlinePhrases: Array<string>;
+      subheadline: string;
+      primaryCta: string;
+      secondaryCta: string;
+    };
+  };
+  adminPage: {
     hero: {
       badge: string;
       headlineLine1: string;
@@ -514,6 +525,8 @@ export interface SiteContent {
     sendCodeError: string;
     signInIncomplete: string;
     invalidCodeError: string;
+    turnstileRequired: string;
+    turnstileVerifyFailed: string;
   };
   ui: {
     header?: {
@@ -960,6 +973,7 @@ const contentEs: SiteContent = {
     saveChanges: "Guardar cambios",
     saving: "Guardando…",
     cancel: "Cancelar",
+    securityCheckRequired: "Completa la verificación de seguridad antes de enviar.",
   },
   showcasePage: {
     hero: {
@@ -976,6 +990,22 @@ const contentEs: SiteContent = {
         "Demos, hackathons y experimentos de builders en El Salvador. Explora, inspírate y comparte el tuyo.",
       primaryCta: "Enviar proyecto",
       secondaryCta: "Colaborar con nosotros",
+    },
+  },
+  adminPage: {
+    hero: {
+      badge: "Admin",
+      headlineLine1: "Panel ",
+      headlinePhrases: [
+        "Eventos.",
+        "From the Lab.",
+        "Vitrina.",
+        "Publicación.",
+      ],
+      subheadline:
+        "Eventos, Lab y contenido público. Las pestañas abajo son las herramientas.",
+      primaryCta: "Ver vitrina",
+      secondaryCta: "Inicio",
     },
   },
   showcaseList: {
@@ -1256,6 +1286,9 @@ const contentEs: SiteContent = {
     sendCodeError: "No pudimos enviar el código. Intenta de nuevo.",
     signInIncomplete: "No se pudo completar el inicio de sesión.",
     invalidCodeError: "Código inválido. Intenta de nuevo.",
+    turnstileRequired: "Completa la verificación de seguridad primero.",
+    turnstileVerifyFailed:
+      "No pudimos validar la verificación en el servidor. En Convex, TURNSTILE_SECRET debe corresponder al mismo site key que VITE_TURNSTILE_SITE_KEY (par de pruebas o de producción de Cloudflare).",
   },
   ui: {
     header: {
@@ -1724,6 +1757,7 @@ const contentEn: SiteContent = {
     saveChanges: "Save changes",
     saving: "Saving…",
     cancel: "Cancel",
+    securityCheckRequired: "Complete the security check before submitting.",
   },
   showcasePage: {
     hero: {
@@ -1740,6 +1774,22 @@ const contentEn: SiteContent = {
         "Demos, hackathons, and experiments from builders in El Salvador. Explore, get inspired, and share yours.",
       primaryCta: "Submit a project",
       secondaryCta: "Partner with us",
+    },
+  },
+  adminPage: {
+    hero: {
+      badge: "Admin",
+      headlineLine1: "Console ",
+      headlinePhrases: [
+        "Events.",
+        "From the Lab.",
+        "Showcase.",
+        "Publishing.",
+      ],
+      subheadline:
+        "Events, Lab, and public content. The tabs below are the tools.",
+      primaryCta: "View showcase",
+      secondaryCta: "Home",
     },
   },
   showcaseList: {
@@ -2020,6 +2070,9 @@ const contentEn: SiteContent = {
     sendCodeError: "We couldn't send the code. Please try again.",
     signInIncomplete: "We couldn't complete sign in.",
     invalidCodeError: "Invalid code. Please try again.",
+    turnstileRequired: "Complete the security check first.",
+    turnstileVerifyFailed:
+      "We could not verify the check on the server. Set TURNSTILE_SECRET in Convex to the secret that pairs with your VITE_TURNSTILE_SITE_KEY (Cloudflare test keys together, or production keys together).",
   },
   ui: {
     header: {

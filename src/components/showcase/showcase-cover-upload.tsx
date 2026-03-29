@@ -9,8 +9,9 @@ import type { Id } from "convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { cn } from "@/lib/utils";
+import { MAX_COVER_SIZE_MB } from "@/lib/cover-upload-limits";
 
-const MAX_SIZE_MB = 3;
+const MAX_SIZE_MB = MAX_COVER_SIZE_MB;
 const ACCEPT = "image/jpeg,image/png,image/webp";
 const ACCEPT_EXTENSIONS = ["JPG", "PNG", "WebP"];
 const RECOMMENDED_ASPECT = "1200×630";

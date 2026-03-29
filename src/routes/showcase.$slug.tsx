@@ -3,13 +3,36 @@ import { useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
 import { ShowcaseDetail } from "@/components/showcase/showcase-detail";
 import { Spinner } from "@/components/ui/spinner";
+import { createConvexHttpClient } from "@/lib/convex-http";
+import { buildSeoMeta } from "@/lib/seo-meta";
 
 export const Route = createFileRoute("/showcase/$slug")({
-  head: ({ params }) => ({
-    meta: [
-      { title: `${params.slug} | Ai /abs Showcase` },
-    ],
-  }),
+  loader: async ({ params }) => {
+    const client = createConvexHttpClient();
+    const seo = await client.query(api.showcase.getShowcaseSeoBySlug, {
+      slug: params.slug,
+    });
+    return { seo };
+  },
+  head: ({ loaderData, params }) => {
+    const seo = loaderData?.seo;
+    const path = `/showcase/${params.slug}`;
+    const title = seo
+      ? `${seo.title} | Ai /abs Showcase`
+      : `${params.slug} | Ai /abs Showcase`;
+    const description =
+      seo?.description ??
+      "Proyecto y experimento compartido por la comunidad Ai /abs.";
+    const { meta, links } = buildSeoMeta({
+      path,
+      title,
+      description,
+      imageUrl: seo?.imageUrl,
+      imageAlt: seo ? `${seo.title} — Showcase Ai /abs` : title,
+      ogType: "article",
+    });
+    return { meta, links };
+  },
   component: ShowcaseDetailPage,
 });
 

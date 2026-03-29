@@ -1,4 +1,4 @@
-import { Link, createFileRoute  } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
 import { SiteHeader } from "@/components/site-header";
@@ -6,8 +6,33 @@ import { SiteFooter } from "@/components/site-footer";
 import { ProfileView } from "@/components/profile/profile-view";
 import { Spinner } from "@/components/ui/spinner";
 import { useAuthState } from "@/components/auth/auth-context";
+import { createConvexHttpClient } from "@/lib/convex-http";
+import { buildSeoMeta } from "@/lib/seo-meta";
 
 export const Route = createFileRoute("/community/$slug")({
+  loader: async ({ params }) => {
+    const client = createConvexHttpClient();
+    const seo = await client.query(api.profiles.getProfileSeoBySlug, {
+      slug: params.slug,
+    });
+    return { seo };
+  },
+  head: ({ loaderData, params }) => {
+    const seo = loaderData?.seo;
+    const path = `/community/${params.slug}`;
+    const title =
+      seo?.title ?? `Perfil | Ai /abs`;
+    const description =
+      seo?.description ??
+      "Perfil de la comunidad Ai /abs en El Salvador.";
+    const { meta, links } = buildSeoMeta({
+      path,
+      title,
+      description,
+      imageAlt: title,
+    });
+    return { meta, links };
+  },
   component: CommunityProfilePage,
 });
 

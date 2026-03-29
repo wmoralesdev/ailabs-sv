@@ -12,11 +12,14 @@ type EmailOtpFlow = "signIn" | "signUp";
 interface UseCustomSignInFormOptions {
   onStepChange?: (step: SignInStep) => void;
   returnTo?: string;
+  /** When Turnstile is configured, false until the user passes the widget. */
+  turnstileOk?: boolean;
 }
 
 export function useCustomSignInForm({
   onStepChange,
   returnTo,
+  turnstileOk = true,
 }: UseCustomSignInFormOptions) {
   const { t } = useI18n();
   const { isLoaded: isSignInLoaded, signIn, setActive } = useSignIn();
@@ -67,6 +70,10 @@ export function useCustomSignInForm({
       }
 
       if (value.step === "initial") {
+        if (!turnstileOk) {
+          setFormError(t.signIn.turnstileRequired);
+          return;
+        }
         try {
           const { supportedFirstFactors } = await signIn.create({
             identifier: value.email,
@@ -197,6 +204,11 @@ export function useCustomSignInForm({
 
   const signInWithOAuth = async (strategy: OAuthStrategy) => {
     if (!signIn) {
+      return;
+    }
+
+    if (!turnstileOk) {
+      setFormError(t.signIn.turnstileRequired);
       return;
     }
 

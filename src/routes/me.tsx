@@ -8,8 +8,19 @@ import { SiteFooter } from "@/components/site-footer";
 import { ProfileView } from "@/components/profile/profile-view";
 import { RequireAuth } from "@/components/auth/require-auth";
 import { Spinner } from "@/components/ui/spinner";
+import { seoCopyEs } from "@/content/seo-copy";
+import { buildSeoMeta } from "@/lib/seo-meta";
 
 export const Route = createFileRoute("/me")({
+  head: () => {
+    const { meta, links } = buildSeoMeta({
+      path: "/me",
+      title: seoCopyEs.me.title,
+      description: seoCopyEs.me.description,
+      noIndex: true,
+    });
+    return { meta, links };
+  },
   beforeLoad: async () => {
     const { isAuthenticated } = await authStateFn();
     if (!isAuthenticated) {

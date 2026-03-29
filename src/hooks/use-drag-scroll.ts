@@ -1,26 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
-export function useDragScroll<T extends HTMLElement>(speed = 0.6) {
+/**
+ * Horizontal drag-to-scroll. No duplicate DOM required (unlike auto-scroll loop variants).
+ */
+export function useDragScroll<T extends HTMLElement>() {
   const ref = useRef<T>(null);
   const [isDragging, setIsDragging] = useState(false);
   const isDraggingRef = useRef(false);
   const startX = useRef(0);
   const startScrollLeft = useRef(0);
-
-  useEffect(() => {
-    let rafId: number;
-    const tick = () => {
-      if (ref.current && !isDraggingRef.current) {
-        const el = ref.current;
-        const half = el.scrollWidth / 2;
-        if (el.scrollLeft >= half) el.scrollLeft -= half;
-        el.scrollLeft += speed;
-      }
-      rafId = requestAnimationFrame(tick);
-    };
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
-  }, [speed]);
 
   const onMouseDown = useCallback((e: React.MouseEvent) => {
     if (!ref.current) return;
@@ -42,5 +30,12 @@ export function useDragScroll<T extends HTMLElement>(speed = 0.6) {
     setIsDragging(false);
   }, []);
 
-  return { ref, isDragging, onMouseDown, onMouseMove, onMouseUp: stop, onMouseLeave: stop };
+  return {
+    ref,
+    isDragging,
+    onMouseDown,
+    onMouseMove,
+    onMouseUp: stop,
+    onMouseLeave: stop,
+  };
 }
