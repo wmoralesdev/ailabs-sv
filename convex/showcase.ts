@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { isAdmin } from "./lib/admin";
+import { assertCoverStorageWithinLimit } from "./lib/storage_limits";
 
 const statusValidator = v.union(
   v.literal("shipped"),
@@ -169,6 +170,25 @@ export const getBySlug = query({
   },
 });
 
+/** Minimal fields for SSR meta tags (public, no auth). */
+export const getShowcaseSeoBySlug = query({
+  args: { slug: v.string() },
+  handler: async (ctx, args) => {
+    const entry = await ctx.db
+      .query("showcaseEntries")
+      .withIndex("by_slug", (q) => q.eq("slug", args.slug))
+      .first();
+    if (!entry) return null;
+    const description =
+      entry.tagline.trim().slice(0, 160) ||
+      entry.description.trim().slice(0, 160);
+    return {
+      title: entry.title,
+      description,
+    };
+  },
+});
+
 /**
  * List showcase entries for a specific owner (profile page).
  */
@@ -303,6 +323,7 @@ export const create = mutation({
     if (args.description.length > 1500) {
       throw new Error("Description must be 1500 characters or less");
     }
+    await assertCoverStorageWithinLimit(ctx, args.coverImageId);
     const collabIds = args.collaboratorIds?.slice(0, 5) ?? [];
 
     const baseSlug = baseShowcaseSlug(profile.slug, args.title);
@@ -413,6 +434,10 @@ export const update = mutation({
     }
     if (args.description && args.description.length > 1500) {
       throw new Error("Description must be 1500 characters or less");
+    }
+
+    if (args.coverImageId !== undefined) {
+      await assertCoverStorageWithinLimit(ctx, args.coverImageId);
     }
 
     await ctx.db.patch(args.id, updates as Partial<typeof existing>);

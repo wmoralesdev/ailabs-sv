@@ -110,6 +110,23 @@ export const getBySlug = query({
   },
 });
 
+/** Minimal fields for SSR meta tags on community profile pages (public). */
+export const getProfileSeoBySlug = query({
+  args: { slug: v.string() },
+  handler: async (ctx, args) => {
+    const profile = await ctx.db
+      .query("profiles")
+      .withIndex("by_slug", (q) => q.eq("slug", args.slug))
+      .first();
+    if (!profile) return null;
+    const snippet = `${profile.title}. ${profile.bio}`.trim().slice(0, 160);
+    return {
+      title: `${profile.name} — Ai /abs`,
+      description: snippet,
+    };
+  },
+});
+
 /**
  * Check if a slug is available for use.
  * Returns available=true if: slug is valid, not taken, or belongs to the current user.
