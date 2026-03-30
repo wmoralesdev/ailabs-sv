@@ -2,6 +2,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRightIcon } from "@hugeicons/core-free-icons";
 import { Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
+import { SocialLinks } from "@/components/social-links";
 import { AnimatedGrid } from "@/components/ui/animated-grid";
 import { GlitchText } from "@/components/ui/glitch-text";
 
@@ -57,6 +58,13 @@ export function HeroSection() {
           >
             {t.hero.secondaryCta}
           </Link>
+        </div>
+
+        <div className="mt-10 flex flex-col items-center gap-3 motion-safe:animate-hero-in [animation-delay:380ms]">
+          <p className="text-xs font-medium tracking-wide text-foreground/50">
+            {t.ui.hero.followLabel}
+          </p>
+          <SocialLinks socials={t.site.socials} variant="minimal" />
         </div>
       </div>
     </section>

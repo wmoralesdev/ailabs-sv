@@ -1,9 +1,7 @@
 import { useMemo } from "react";
 import { Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
-import { GithubIcon } from "@/components/ui/github-icon";
-import { LinkedinIcon } from "@/components/ui/linkedin-icon";
-import { XIcon } from "@/components/ui/x-icon";
+import { SocialLinks } from "@/components/social-links";
 import { AilabsLockup } from "@/components/ui/ailabs-lockup";
 import { BrandText } from "@/components/brand-text";
 
@@ -13,9 +11,6 @@ export function SiteFooter() {
     const words = t.ui.footer.watermarkWords;
     return words[Math.floor(Math.random() * words.length)];
   }, [language, t.ui.footer.watermarkWords]);
-
-  // Footer icons: primary public contact (Walter). `founders.people` order is fixed in site-content.
-  const primarySocials = t.founders.people[0].socials;
 
   return (
     <footer className="relative overflow-hidden border-t border-border bg-card pb-10 pt-16">
@@ -30,7 +25,7 @@ export function SiteFooter() {
         {watermarkWord}
       </span>
       <div className="container relative z-10 mx-auto px-6">
-        <div className="mb-12 grid grid-cols-1 gap-10 md:grid-cols-3">
+        <div className="mb-12 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
           {/* Left zone: Brand */}
           <div>
             <Link
@@ -75,6 +70,11 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
+                <Link to="/links" className="text-sm font-light text-foreground/60 transition-colors hover:text-primary">
+                  {t.ui.footer.links}
+                </Link>
+              </li>
+              <li>
                 <Link
                   to={t.site.whatsappLink as any}
                   target="_blank"
@@ -88,7 +88,7 @@ export function SiteFooter() {
           </div>
 
           {/* Right zone: Newsletter */}
-          <div>
+          <div className="md:col-span-2 lg:col-span-1">
             <h4 className="mb-2 text-sm font-medium">{t.ui.footer.stayUpdated}</h4>
             <p className="mb-3 text-sm font-light text-foreground/60">{t.ui.footer.newsletterText}</p>
             <form className="flex flex-col gap-2 sm:flex-row" onSubmit={(event) => event.preventDefault()}>
@@ -108,49 +108,20 @@ export function SiteFooter() {
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col items-center justify-between gap-4 border-t border-border pt-6 text-xs font-light text-foreground/40 md:flex-row">
-          <p>
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-border pt-6 text-xs font-light text-foreground/40 lg:flex-row">
+          <p className="text-center lg:text-left">
             © {new Date().getFullYear()}{" "}
             <BrandText />. {t.ui.footer.madeWith}{" "}
             <span className="mx-0.5 inline-block text-primary">♥</span>{" "}
             {t.ui.footer.inSanSalvador}
           </p>
-          <div className="flex items-center gap-3">
-            {primarySocials.twitter ? (
-              <Link
-                to={primarySocials.twitter as any}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={t.ui.founder.x}
-                className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-foreground/40 transition-all hover:border-primary hover:text-primary"
-              >
-                <XIcon className="size-3.5" />
-              </Link>
-            ) : null}
-            {primarySocials.github ? (
-              <Link
-                to={primarySocials.github as any}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={t.ui.founder.github}
-                className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-foreground/40 transition-all hover:border-primary hover:text-primary"
-              >
-                <GithubIcon className="size-3.5" />
-              </Link>
-            ) : null}
-            {primarySocials.linkedin ? (
-              <Link
-                to={primarySocials.linkedin as any}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-foreground/40 transition-all hover:border-primary hover:text-primary"
-              >
-                <LinkedinIcon className="size-3.5" />
-              </Link>
-            ) : null}
-          </div>
-          <div className="flex items-center gap-4">
+          <SocialLinks
+            socials={t.site.socials}
+            variant="minimal"
+            compact
+            className="gap-3 text-foreground/40 [&_a]:border-border [&_a]:transition-all hover:[&_a]:border-primary hover:[&_a]:text-primary"
+          />
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 lg:justify-end">
             <a
               href="https://www.lem-design.art/"
               target="_blank"
