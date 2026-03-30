@@ -18,6 +18,12 @@ export interface SiteContent {
     location: string;
     whatsappLink: string;
     newsletterLink?: string;
+    socials: {
+      linkedin?: string;
+      instagram?: string;
+      tiktok?: string;
+      twitter?: string;
+    };
   };
   hero: {
     headlineLine1: string;
@@ -114,6 +120,7 @@ export interface SiteContent {
     pastTitle: string;
     noUpcoming: string;
     noPast: string;
+    detailWip: string;
     rsvpButton: string;
     recapButton: string;
     albumButton: string;
@@ -562,10 +569,11 @@ export interface SiteContent {
       contact: string;
       whatsapp: string;
       feed: string;
+      links: string;
       terms: string;
       watermarkWords: Array<string>;
     };
-    hero: { badgeLabel: string };
+    hero: { badgeLabel: string; followLabel: string };
     communityMembers: { badge: string; title: string; desc: string; emptyState: string };
     stats: {
       badge: string;
@@ -583,7 +591,25 @@ export interface SiteContent {
     testimonials: { badge: string; title: string };
     highlights: { badge: string; whySponsor: string };
     founder: { github: string; x: string; photoPlaceholder: string };
-    a11y: { search: string; switchToEnglish: string; switchToSpanish: string; selectTheme: string; themeLight: string; themeDark: string; themeSystem: string };
+    a11y: {
+      search: string;
+      switchToEnglish: string;
+      switchToSpanish: string;
+      selectTheme: string;
+      themeLight: string;
+      themeDark: string;
+      themeSystem: string;
+      toggleToLight: string;
+      toggleToDark: string;
+    };
+    linksPage: {
+      home: string;
+      instagram: string;
+      eventsHeading: string;
+      qrLabel: string;
+      qrDescription: string;
+      qrAlt: string;
+    };
     backToHome: string;
   };
   profile?: {
@@ -621,6 +647,12 @@ const contentEs: SiteContent = {
     description: "Una comunidad de builders curiosos explorando lo posible con IA. Empezando en El Salvador.",
     location: "San Salvador, El Salvador",
     whatsappLink: "https://chat.whatsapp.com/Ga8mG1fqDM9C0ryxAw1eIj",
+    socials: {
+      linkedin: "https://linkedin.com/company/ailabs-sv",
+      instagram: "https://www.instagram.com/ailabs_sv/",
+      tiktok: "https://www.tiktok.com/@ailabs_sv",
+      twitter: "https://twitter.com/ailabs_sv",
+    },
   },
   hero: {
     headlineLine1: "La curiosidad nos mueve.",
@@ -777,6 +809,7 @@ const contentEs: SiteContent = {
     pastTitle: "Galería de eventos",
     noUpcoming: "Pronto anunciaremos nuevas fechas.",
     noPast: "Aún no hay eventos pasados.",
+    detailWip: "La página de este evento estará disponible pronto.",
     rsvpButton: "Confirmar asistencia",
     recapButton: "Ver resumen",
     albumButton: "Ver álbum",
@@ -1326,6 +1359,7 @@ const contentEs: SiteContent = {
       contact: "Contacto",
       whatsapp: "WhatsApp",
       feed: "Showcase",
+      links: "Enlaces",
       terms: "Términos",
       watermarkWords: [
         "CURIOSOS",
@@ -1338,7 +1372,7 @@ const contentEs: SiteContent = {
         "APRENDER",
       ],
     },
-    hero: { badgeLabel: "Abierto a los curiosos" },
+    hero: { badgeLabel: "Abierto a los curiosos", followLabel: "Síguenos" },
     communityMembers: {
       badge: "THE CURIOUS ONES",
       title: "Gente que pregunta por qué",
@@ -1370,6 +1404,16 @@ const contentEs: SiteContent = {
       themeLight: "Claro",
       themeDark: "Oscuro",
       themeSystem: "Sistema",
+      toggleToLight: "Cambiar a tema claro",
+      toggleToDark: "Cambiar a tema oscuro",
+    },
+    linksPage: {
+      home: "Inicio",
+      instagram: "Instagram",
+      eventsHeading: "Próximos eventos",
+      qrLabel: "Código QR",
+      qrDescription: "Escanea para abrir esta página en otro dispositivo.",
+      qrAlt: "Código QR para abrir la página de enlaces de Ai /abs",
     },
     backToHome: "Volver al inicio",
   },
@@ -1408,6 +1452,12 @@ const contentEn: SiteContent = {
     description: "A community of curious builders exploring what's possible with AI. Starting in El Salvador.",
     location: "San Salvador, El Salvador",
     whatsappLink: "https://chat.whatsapp.com/Ga8mG1fqDM9C0ryxAw1eIj",
+    socials: {
+      linkedin: "https://linkedin.com/company/ailabs-sv",
+      instagram: "https://www.instagram.com/ailabs_sv/",
+      tiktok: "https://www.tiktok.com/@ailabs_sv",
+      twitter: "https://twitter.com/ailabs_sv",
+    },
   },
   hero: {
     headlineLine1: "Curiosity is what drives us.",
@@ -1563,6 +1613,7 @@ const contentEn: SiteContent = {
     pastTitle: "Event Gallery",
     noUpcoming: "New dates coming soon.",
     noPast: "No past events yet.",
+    detailWip: "This event's page will be available soon.",
     rsvpButton: "RSVP Now",
     recapButton: "View Recap",
     albumButton: "View Album",
@@ -2112,6 +2163,7 @@ const contentEn: SiteContent = {
       contact: "Contact",
       whatsapp: "WhatsApp",
       feed: "Showcase",
+      links: "Links",
       terms: "Terms",
       watermarkWords: [
         "CURIOUS",
@@ -2124,7 +2176,7 @@ const contentEn: SiteContent = {
         "LEARN",
       ],
     },
-    hero: { badgeLabel: "Open to the curious" },
+    hero: { badgeLabel: "Open to the curious", followLabel: "Follow us" },
     communityMembers: {
       badge: "THE CURIOUS ONES",
       title: "People who ask why",
@@ -2156,6 +2208,16 @@ const contentEn: SiteContent = {
       themeLight: "Light",
       themeDark: "Dark",
       themeSystem: "System",
+      toggleToLight: "Switch to light theme",
+      toggleToDark: "Switch to dark theme",
+    },
+    linksPage: {
+      home: "Home",
+      instagram: "Instagram",
+      eventsHeading: "Upcoming events",
+      qrLabel: "QR code",
+      qrDescription: "Scan to open this page on another device.",
+      qrAlt: "QR code to open the Ai /abs links page",
     },
     backToHome: "Back to home",
   },
