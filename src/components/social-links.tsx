@@ -1,15 +1,19 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { GithubIcon } from "@/components/ui/github-icon";
+import { InstagramIcon } from "@/components/ui/instagram-icon";
 import { LinkedinIcon } from "@/components/ui/linkedin-icon";
+import { TiktokIcon } from "@/components/ui/tiktok-icon";
 import { XIcon } from "@/components/ui/x-icon";
 import { cn } from "@/lib/utils";
 
-type Socials = {
+export type Socials = {
   twitter?: string;
   linkedin?: string;
   github?: string;
   website?: string;
+  instagram?: string;
+  tiktok?: string;
 };
 
 type LinkVariant = "default" | "minimal";
@@ -20,6 +24,8 @@ type Props = {
   iconClassName?: string;
   /** Flat circles, muted gray icons — for Curious Ones and similar. */
   variant?: LinkVariant;
+  /** Smaller hit target (e.g. footer bar). */
+  compact?: boolean;
 };
 
 const iconLinkVariants: Record<
@@ -38,12 +44,14 @@ function IconLink({
   children,
   variant,
   className,
+  compact,
 }: {
   href: string;
   label: string;
   children: ReactNode;
   variant: LinkVariant;
   className?: string;
+  compact?: boolean;
 }) {
   return (
     <Link
@@ -51,7 +59,11 @@ function IconLink({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className={cn(iconLinkVariants[variant], className)}
+      className={cn(
+        iconLinkVariants[variant],
+        compact && "size-7 min-h-0 min-w-0 p-0",
+        className,
+      )}
     >
       <span className="sr-only">{label}</span>
       {children}
@@ -79,10 +91,12 @@ function GlobeIcon({ className }: { className?: string }) {
 }
 
 const minimalKeyOrder: Partial<Record<keyof Socials, number>> = {
-  twitter: 0,
-  linkedin: 1,
-  github: 2,
-  website: 3,
+  linkedin: 0,
+  instagram: 1,
+  tiktok: 2,
+  twitter: 3,
+  github: 4,
+  website: 5,
 };
 
 export function SocialLinks({
@@ -90,7 +104,9 @@ export function SocialLinks({
   className,
   iconClassName,
   variant = "default",
+  compact = false,
 }: Props) {
+  const iconSz = compact ? "size-3.5" : "size-4";
   const items: Array<{
     key: keyof Socials;
     href?: string;
@@ -101,25 +117,37 @@ export function SocialLinks({
       key: "linkedin",
       href: socials.linkedin,
       label: "LinkedIn",
-      icon: <LinkedinIcon className={cn("size-4", iconClassName)} />,
+      icon: <LinkedinIcon className={cn(iconSz, iconClassName)} />,
     },
     {
-      key: "github",
-      href: socials.github,
-      label: "GitHub",
-      icon: <GithubIcon className={cn("size-4", iconClassName)} />,
+      key: "instagram",
+      href: socials.instagram,
+      label: "Instagram",
+      icon: <InstagramIcon className={cn(iconSz, iconClassName)} />,
+    },
+    {
+      key: "tiktok",
+      href: socials.tiktok,
+      label: "TikTok",
+      icon: <TiktokIcon className={cn(iconSz, iconClassName)} />,
     },
     {
       key: "twitter",
       href: socials.twitter,
       label: "X",
-      icon: <XIcon className={iconClassName} />,
+      icon: <XIcon className={cn(iconSz, iconClassName)} />,
+    },
+    {
+      key: "github",
+      href: socials.github,
+      label: "GitHub",
+      icon: <GithubIcon className={cn(iconSz, iconClassName)} />,
     },
     {
       key: "website",
       href: socials.website,
       label: "Website",
-      icon: <GlobeIcon className={iconClassName} />,
+      icon: <GlobeIcon className={cn(iconSz, iconClassName)} />,
     },
   ];
 
@@ -141,12 +169,12 @@ export function SocialLinks({
             href={item.href}
             label={item.label}
             variant={variant}
+            compact={compact}
           >
             {item.icon}
           </IconLink>
-        ) : null
+        ) : null,
       )}
     </div>
   );
 }
-
