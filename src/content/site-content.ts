@@ -118,6 +118,8 @@ export interface SiteContent {
     recapButton: string;
     albumButton: string;
     virtualLabel: string;
+    carouselPrevAria: string;
+    carouselNextAria: string;
     upcoming: Array<{
       id: string;
       title: string;
@@ -779,6 +781,8 @@ const contentEs: SiteContent = {
     recapButton: "Ver resumen",
     albumButton: "Ver álbum",
     virtualLabel: "Virtual",
+    carouselPrevAria: "Eventos anteriores",
+    carouselNextAria: "Eventos siguientes",
     upcoming: [],
     past: [],
   },
@@ -1563,6 +1567,8 @@ const contentEn: SiteContent = {
     recapButton: "View Recap",
     albumButton: "View Album",
     virtualLabel: "Virtual",
+    carouselPrevAria: "Previous events",
+    carouselNextAria: "Next events",
     upcoming: [],
     past: [],
   },
