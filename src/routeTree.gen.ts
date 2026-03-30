@@ -16,6 +16,7 @@ import { Route as ShowcaseRouteImport } from './routes/showcase'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as MeRouteImport } from './routes/me'
+import { Route as LinksRouteImport } from './routes/links'
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as BlogRouteImport } from './routes/blog'
@@ -26,6 +27,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as SignInSsoCallbackRouteImport } from './routes/sign-in_.sso-callback'
 import { Route as ShowcaseSubmitRouteImport } from './routes/showcase.submit'
 import { Route as ShowcaseSlugRouteImport } from './routes/showcase.$slug'
+import { Route as EventsSlugRouteImport } from './routes/events.$slug'
 import { Route as CommunitySlugRouteImport } from './routes/community.$slug'
 import { Route as AdminLabRouteImport } from './routes/admin.lab'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
@@ -63,6 +65,11 @@ const OnboardingRoute = OnboardingRouteImport.update({
 const MeRoute = MeRouteImport.update({
   id: '/me',
   path: '/me',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LinksRoute = LinksRouteImport.update({
+  id: '/links',
+  path: '/links',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FeedRoute = FeedRouteImport.update({
@@ -115,6 +122,11 @@ const ShowcaseSlugRoute = ShowcaseSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ShowcaseRoute,
 } as any)
+const EventsSlugRoute = EventsSlugRouteImport.update({
+  id: '/events/$slug',
+  path: '/events/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CommunitySlugRoute = CommunitySlugRouteImport.update({
   id: '/community/$slug',
   path: '/community/$slug',
@@ -137,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogRoute
   '/design-system': typeof DesignSystemRoute
   '/feed': typeof FeedRoute
+  '/links': typeof LinksRoute
   '/me': typeof MeRoute
   '/onboarding': typeof OnboardingRoute
   '/partners': typeof PartnersRoute
@@ -147,6 +160,7 @@ export interface FileRoutesByFullPath {
   '/admin/events': typeof AdminEventsRoute
   '/admin/lab': typeof AdminLabRoute
   '/community/$slug': typeof CommunitySlugRoute
+  '/events/$slug': typeof EventsSlugRoute
   '/showcase/$slug': typeof ShowcaseSlugRoute
   '/showcase/submit': typeof ShowcaseSubmitRoute
   '/sign-in/sso-callback': typeof SignInSsoCallbackRoute
@@ -158,6 +172,7 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogRoute
   '/design-system': typeof DesignSystemRoute
   '/feed': typeof FeedRoute
+  '/links': typeof LinksRoute
   '/me': typeof MeRoute
   '/onboarding': typeof OnboardingRoute
   '/partners': typeof PartnersRoute
@@ -167,6 +182,7 @@ export interface FileRoutesByTo {
   '/admin/events': typeof AdminEventsRoute
   '/admin/lab': typeof AdminLabRoute
   '/community/$slug': typeof CommunitySlugRoute
+  '/events/$slug': typeof EventsSlugRoute
   '/showcase/$slug': typeof ShowcaseSlugRoute
   '/showcase/submit': typeof ShowcaseSubmitRoute
   '/sign-in/sso-callback': typeof SignInSsoCallbackRoute
@@ -180,6 +196,7 @@ export interface FileRoutesById {
   '/blog': typeof BlogRoute
   '/design-system': typeof DesignSystemRoute
   '/feed': typeof FeedRoute
+  '/links': typeof LinksRoute
   '/me': typeof MeRoute
   '/onboarding': typeof OnboardingRoute
   '/partners': typeof PartnersRoute
@@ -190,6 +207,7 @@ export interface FileRoutesById {
   '/admin/events': typeof AdminEventsRoute
   '/admin/lab': typeof AdminLabRoute
   '/community/$slug': typeof CommunitySlugRoute
+  '/events/$slug': typeof EventsSlugRoute
   '/showcase/$slug': typeof ShowcaseSlugRoute
   '/showcase/submit': typeof ShowcaseSubmitRoute
   '/sign-in_/sso-callback': typeof SignInSsoCallbackRoute
@@ -204,6 +222,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/design-system'
     | '/feed'
+    | '/links'
     | '/me'
     | '/onboarding'
     | '/partners'
@@ -214,6 +233,7 @@ export interface FileRouteTypes {
     | '/admin/events'
     | '/admin/lab'
     | '/community/$slug'
+    | '/events/$slug'
     | '/showcase/$slug'
     | '/showcase/submit'
     | '/sign-in/sso-callback'
@@ -225,6 +245,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/design-system'
     | '/feed'
+    | '/links'
     | '/me'
     | '/onboarding'
     | '/partners'
@@ -234,6 +255,7 @@ export interface FileRouteTypes {
     | '/admin/events'
     | '/admin/lab'
     | '/community/$slug'
+    | '/events/$slug'
     | '/showcase/$slug'
     | '/showcase/submit'
     | '/sign-in/sso-callback'
@@ -246,6 +268,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/design-system'
     | '/feed'
+    | '/links'
     | '/me'
     | '/onboarding'
     | '/partners'
@@ -256,6 +279,7 @@ export interface FileRouteTypes {
     | '/admin/events'
     | '/admin/lab'
     | '/community/$slug'
+    | '/events/$slug'
     | '/showcase/$slug'
     | '/showcase/submit'
     | '/sign-in_/sso-callback'
@@ -269,6 +293,7 @@ export interface RootRouteChildren {
   BlogRoute: typeof BlogRoute
   DesignSystemRoute: typeof DesignSystemRoute
   FeedRoute: typeof FeedRoute
+  LinksRoute: typeof LinksRoute
   MeRoute: typeof MeRoute
   OnboardingRoute: typeof OnboardingRoute
   PartnersRoute: typeof PartnersRoute
@@ -277,6 +302,7 @@ export interface RootRouteChildren {
   SignUpRoute: typeof SignUpRoute
   TermsRoute: typeof TermsRoute
   CommunitySlugRoute: typeof CommunitySlugRoute
+  EventsSlugRoute: typeof EventsSlugRoute
   SignInSsoCallbackRoute: typeof SignInSsoCallbackRoute
 }
 
@@ -329,6 +355,13 @@ declare module '@tanstack/react-router' {
       path: '/me'
       fullPath: '/me'
       preLoaderRoute: typeof MeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/links': {
+      id: '/links'
+      path: '/links'
+      fullPath: '/links'
+      preLoaderRoute: typeof LinksRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/feed': {
@@ -401,6 +434,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShowcaseSlugRouteImport
       parentRoute: typeof ShowcaseRoute
     }
+    '/events/$slug': {
+      id: '/events/$slug'
+      path: '/events/$slug'
+      fullPath: '/events/$slug'
+      preLoaderRoute: typeof EventsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/community/$slug': {
       id: '/community/$slug'
       path: '/community/$slug'
@@ -461,6 +501,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogRoute: BlogRoute,
   DesignSystemRoute: DesignSystemRoute,
   FeedRoute: FeedRoute,
+  LinksRoute: LinksRoute,
   MeRoute: MeRoute,
   OnboardingRoute: OnboardingRoute,
   PartnersRoute: PartnersRoute,
@@ -469,6 +510,7 @@ const rootRouteChildren: RootRouteChildren = {
   SignUpRoute: SignUpRoute,
   TermsRoute: TermsRoute,
   CommunitySlugRoute: CommunitySlugRoute,
+  EventsSlugRoute: EventsSlugRoute,
   SignInSsoCallbackRoute: SignInSsoCallbackRoute,
 }
 export const routeTree = rootRouteImport
