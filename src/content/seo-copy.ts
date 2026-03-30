@@ -22,6 +22,15 @@ export const seoCopyEs = {
     description:
       "Términos del servicio y uso de la comunidad Ai /abs en El Salvador.",
   },
+  links: {
+    title: "Enlaces — Ai /abs",
+    description:
+      "Accesos rápidos: sitio web, comunidad WhatsApp, próximos eventos y redes sociales.",
+  },
+  eventDetail: {
+    title: "Evento — Ai /abs",
+    description: "Detalle del evento (próximamente).",
+  },
   blog: {
     title: "Blog — Ai /abs",
     description: "Próximamente: artículos y aprendizajes del Lab.",
