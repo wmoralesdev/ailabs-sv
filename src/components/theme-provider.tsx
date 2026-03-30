@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react"
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useSyncExternalStore,
+} from "react"
 
 type Theme = "dark" | "light" | "system"
 
@@ -84,4 +90,24 @@ export const useTheme = () => {
     throw new Error("useTheme must be used within a ThemeProvider")
 
   return context
+}
+
+function subscribeHtmlClass(onChange: () => void) {
+  const el = document.documentElement
+  const obs = new MutationObserver(onChange)
+  obs.observe(el, { attributes: true, attributeFilter: ["class"] })
+  return () => obs.disconnect()
+}
+
+function getDarkFromHtml(): boolean {
+  return document.documentElement.classList.contains("dark")
+}
+
+/** Resolved appearance from `<html class="dark">`, including when theme is system. */
+export function useResolvedDark(): boolean {
+  return useSyncExternalStore(
+    subscribeHtmlClass,
+    getDarkFromHtml,
+    () => false,
+  )
 }
