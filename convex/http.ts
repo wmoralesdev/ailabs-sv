@@ -269,7 +269,8 @@ const turnstileCorsHeaders: Record<string, string> = {
 http.route({
   path: "/api/turnstile/verify",
   method: "OPTIONS",
-  handler: httpAction(() => {
+  handler: httpAction(async () => {
+    await Promise.resolve();
     return new Response(null, { status: 204, headers: turnstileCorsHeaders });
   }),
 });
