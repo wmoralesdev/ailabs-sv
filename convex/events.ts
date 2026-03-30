@@ -30,6 +30,7 @@ export const listForHomepage = query({
       .slice(0, upcomingLimit)
       .map((e) => ({
         id: e._id,
+        slug: e.slug,
         title: e.title[lang],
         description: e.description[lang],
         location: e.location[lang],
