@@ -5,6 +5,7 @@ import { useMutation } from "convex/react";
 import { api } from "convex/_generated/api";
 import type { Id } from "convex/_generated/dataModel";
 import type {CoverImageValue} from "@/components/showcase/showcase-cover-upload";
+import { MAX_EVENT_DESCRIPTION_LENGTH } from "@/lib/event-content-limits";
 import type { EventType } from "@/lib/event-sv-datetime";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -341,7 +342,11 @@ export function AdminEventForm({
             onChange={(e) => setDescriptionEs(e.target.value)}
             rows={3}
             required
+            maxLength={MAX_EVENT_DESCRIPTION_LENGTH}
           />
+          <p className="mt-1 text-xs text-muted-foreground">
+            {descriptionEs.length}/{MAX_EVENT_DESCRIPTION_LENGTH}
+          </p>
         </Field>
         <Field>
           <FieldLabel>Description (EN)</FieldLabel>
@@ -350,7 +355,11 @@ export function AdminEventForm({
             onChange={(e) => setDescriptionEn(e.target.value)}
             rows={3}
             required
+            maxLength={MAX_EVENT_DESCRIPTION_LENGTH}
           />
+          <p className="mt-1 text-xs text-muted-foreground">
+            {descriptionEn.length}/{MAX_EVENT_DESCRIPTION_LENGTH}
+          </p>
         </Field>
       </FieldGroup>
       <FieldGroup className="grid gap-4 sm:grid-cols-2">

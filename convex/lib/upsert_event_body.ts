@@ -1,3 +1,4 @@
+import { assertLocalizedDescriptionWithinLimit } from "./event_content_limits";
 import { assertCoverStorageWithinLimit } from "./storage_limits";
 import type { MutationCtx } from "../_generated/server";
 import type { Id } from "../_generated/dataModel";
@@ -14,6 +15,8 @@ export async function applyEventUpsert(
   if (args.coverImageId) {
     await assertCoverStorageWithinLimit(ctx, args.coverImageId);
   }
+
+  assertLocalizedDescriptionWithinLimit(args.description);
 
   const eventData = {
     slug: args.slug,

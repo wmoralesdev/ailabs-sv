@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { internalMutation, internalQuery } from "./_generated/server";
+import { assertLocalizedDescriptionWithinLimit } from "./lib/event_content_limits";
 import { patchEventArgs } from "./lib/event_patch_args";
 import { listEventsFilters } from "./lib/list_events_filters";
 import { upsertEventArgs } from "./lib/event_upsert_args";
@@ -51,6 +52,10 @@ export const patchEvent = internalMutation({
     if (args.photoAlbumUrl !== undefined) patch.photoAlbumUrl = args.photoAlbumUrl;
     if (args.galleryDateLabel !== undefined) {
       patch.galleryDateLabel = args.galleryDateLabel;
+    }
+
+    if (args.description !== undefined) {
+      assertLocalizedDescriptionWithinLimit(args.description);
     }
 
     const startAt =
