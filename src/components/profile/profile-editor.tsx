@@ -13,7 +13,6 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { MarkdownEditor } from "@/components/ui/markdown-editor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -29,10 +28,19 @@ const profileSchema = z.object({
   name: z.string().min(1, "Name is required"),
   title: z.string().min(1, "Title is required"),
   bio: z.string().min(10, "Bio must be at least 10 characters"),
-  avatarUrl: z.string().url().optional().or(z.literal("")),
-  linkedin: z.string().url().optional().or(z.literal("")),
-  x: z.string().url().optional().or(z.literal("")),
-  contact: z.string().optional(),
+  avatarUrl: z.union([
+    z.string().url({ message: "Must be a valid URL" }),
+    z.literal(""),
+  ]),
+  linkedin: z.union([
+    z.string().url({ message: "Must be a valid URL" }),
+    z.literal(""),
+  ]),
+  x: z.union([
+    z.string().url({ message: "Must be a valid URL" }),
+    z.literal(""),
+  ]),
+  contact: z.string(),
 });
 
 type ProfileDoc = {

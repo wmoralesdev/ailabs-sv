@@ -18,9 +18,14 @@ export function formatWithBrandText(
   className?: string
 ): Array<string | ReactElement> {
   const parts = text.split(/(Ai \/abs|ailabs\.sv)/);
-  return parts.flatMap((part, i) =>
-    part === "Ai /abs" || part === "ailabs.sv"
-      ? [<BrandText key={`brand-${i}`} className={className} />]
-      : [part]
-  );
+  const out: Array<string | ReactElement> = [];
+  for (let i = 0; i < parts.length; i++) {
+    const part = parts[i];
+    if (part === "Ai /abs" || part === "ailabs.sv") {
+      out.push(<BrandText key={`brand-${i}`} className={className} />);
+    } else {
+      out.push(part);
+    }
+  }
+  return out;
 }
