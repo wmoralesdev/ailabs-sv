@@ -185,6 +185,7 @@ export const getShowcaseSeoBySlug = query({
     return {
       title: entry.title,
       description,
+      imageUrl: entry.coverImageUrl,
     };
   },
 });
