@@ -53,6 +53,29 @@ export function buildSeoMeta(opts: SeoMetaOptions): {
   };
 }
 
+/** `/links` WebPage JSON-LD; `@id`s align with `buildHomeJsonLd` for the same origin. */
+export function buildLinksPageJsonLd(
+  title: string,
+  description: string,
+): Record<string, unknown> {
+  const origin = getSiteOrigin();
+  const pageUrl = `${origin}/links`;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${pageUrl}#webpage`,
+        url: pageUrl,
+        name: title,
+        description,
+        isPartOf: { "@id": `${origin}/#website` },
+        publisher: { "@id": `${origin}/#organization` },
+      },
+    ],
+  };
+}
+
 /** Homepage Organization + WebSite JSON-LD for `script:ld+json` meta entries. */
 export function buildHomeJsonLd(): Record<string, unknown> {
   const origin = getSiteOrigin();

@@ -6,7 +6,7 @@ const MAX_PROFILES = 40_000;
 
 /**
  * Public URLs for sitemap generation (dynamic paths only).
- * Static routes (/, /partners, /showcase, /terms) are added by the HTTP handler.
+ * Static routes (/, /partners, /showcase, /terms, /links) are added by the HTTP handler.
  */
 export const listPublicUrls = query({
   args: {},

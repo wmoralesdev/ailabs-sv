@@ -23,9 +23,9 @@ export const seoCopyEs = {
       "Términos del servicio y uso de la comunidad Ai /abs en El Salvador.",
   },
   links: {
-    title: "Enlaces — Ai /abs",
+    title: "Enlaces oficiales — Ai /abs | WhatsApp, eventos y redes",
     description:
-      "Accesos rápidos: sitio web, comunidad WhatsApp, próximos eventos y redes sociales.",
+      "Página de enlaces de Ai /abs (El Salvador): comunidad en WhatsApp, próximos meetups, Instagram, LinkedIn, X y sitio principal.",
   },
   eventDetail: {
     title: "Evento — Ai /abs",

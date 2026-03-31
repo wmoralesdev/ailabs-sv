@@ -35,7 +35,7 @@ export async function buildSitemapXmlBody(): Promise<string> {
   const data = await client.query(api.sitemap.listPublicUrls, {});
   const origin = siteOrigin();
 
-  const staticPaths = ["/", "/partners", "/showcase", "/terms"] as const;
+  const staticPaths = ["/", "/partners", "/showcase", "/terms", "/links"] as const;
   const rows: Array<{ loc: string; lastmod?: string }> = [];
 
   for (const p of staticPaths) {

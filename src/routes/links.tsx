@@ -31,7 +31,7 @@ import { TiktokIcon } from "@/components/ui/tiktok-icon";
 import { WhatsappIcon } from "@/components/ui/whatsapp-icon";
 import { XIcon } from "@/components/ui/x-icon";
 import { seoCopyEs } from "@/content/seo-copy";
-import { buildSeoMeta } from "@/lib/seo-meta";
+import { buildLinksPageJsonLd, buildSeoMeta } from "@/lib/seo-meta";
 import { getSiteOrigin } from "@/lib/site-url";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -75,7 +75,18 @@ export const Route = createFileRoute("/links")({
       title: seoCopyEs.links.title,
       description: seoCopyEs.links.description,
     });
-    return { meta, links };
+    return {
+      meta: [
+        ...meta,
+        {
+          "script:ld+json": buildLinksPageJsonLd(
+            seoCopyEs.links.title,
+            seoCopyEs.links.description,
+          ),
+        },
+      ],
+      links,
+    };
   },
   component: LinksPage,
 });
@@ -382,14 +393,33 @@ function LinksPage() {
           </Collapsible>
         </div>
 
-        <footer className="mt-auto pt-[4.5rem] text-center text-[16.5px] font-light leading-relaxed text-muted-foreground motion-safe:animate-hero-in [animation-delay:430ms]">
-          <p className="flex flex-wrap items-center justify-center gap-x-[9px] gap-y-1.5 leading-none">
+        <footer className="mt-auto pt-12 text-center text-[11px] font-light leading-relaxed text-muted-foreground motion-safe:animate-hero-in [animation-delay:430ms]">
+          <p className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 leading-none">
             <span>© {new Date().getFullYear()}</span>
-            <AilabsLockup className="inline-flex -translate-y-[0.14em] text-[16.5px] [&_svg]:h-[1em] [&_svg]:w-auto" />
+            <AilabsLockup className="inline-flex -translate-y-[0.14em] text-[11px] [&_svg]:h-[1em] [&_svg]:w-auto" />
             <span>
               . {t.ui.footer.madeWith}{" "}
               <span className="text-primary">♥</span> {t.ui.footer.inSanSalvador}
             </span>
+          </p>
+          <p className="mt-5 flex justify-center">
+            <a
+              href="https://www.lem-design.art/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-card/40 px-3.5 py-2 text-[11px] font-medium text-foreground/75 shadow-sm backdrop-blur-md",
+                "transition-[transform,border-color,background-color,box-shadow,color] duration-300",
+                "hover:border-primary/35 hover:bg-card/70 hover:text-foreground hover:shadow-md hover:shadow-primary/5",
+                "motion-safe:hover:-translate-y-0.5",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+              )}
+            >
+              <span className="text-primary" aria-hidden>
+                ✦
+              </span>
+              <span>{t.ui.linksPage.logoCredit}</span>
+            </a>
           </p>
         </footer>
       </div>
