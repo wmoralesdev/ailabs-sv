@@ -609,6 +609,7 @@ export interface SiteContent {
       qrLabel: string;
       qrDescription: string;
       qrAlt: string;
+      logoCredit: string;
     };
     backToHome: string;
   };
@@ -1414,6 +1415,7 @@ const contentEs: SiteContent = {
       qrLabel: "Código QR",
       qrDescription: "Escanea para abrir esta página en otro dispositivo.",
       qrAlt: "Código QR para abrir la página de enlaces de Ai /abs",
+      logoCredit: "Logo por lem-design.art",
     },
     backToHome: "Volver al inicio",
   },
@@ -2218,6 +2220,7 @@ const contentEn: SiteContent = {
       qrLabel: "QR code",
       qrDescription: "Scan to open this page on another device.",
       qrAlt: "QR code to open the Ai /abs links page",
+      logoCredit: "Logo by lem-design.art",
     },
     backToHome: "Back to home",
   },
