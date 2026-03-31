@@ -24,11 +24,13 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShowcaseIndexRouteImport } from './routes/showcase.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as SlidesDeckIdRouteImport } from './routes/slides.$deckId'
 import { Route as SignInSsoCallbackRouteImport } from './routes/sign-in_.sso-callback'
 import { Route as ShowcaseSubmitRouteImport } from './routes/showcase.submit'
 import { Route as ShowcaseSlugRouteImport } from './routes/showcase.$slug'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
 import { Route as CommunitySlugRouteImport } from './routes/community.$slug'
+import { Route as AdminWalletRouteImport } from './routes/admin.wallet'
 import { Route as AdminLabRouteImport } from './routes/admin.lab'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
 
@@ -107,6 +109,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const SlidesDeckIdRoute = SlidesDeckIdRouteImport.update({
+  id: '/slides/$deckId',
+  path: '/slides/$deckId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SignInSsoCallbackRoute = SignInSsoCallbackRouteImport.update({
   id: '/sign-in_/sso-callback',
   path: '/sign-in/sso-callback',
@@ -131,6 +138,11 @@ const CommunitySlugRoute = CommunitySlugRouteImport.update({
   id: '/community/$slug',
   path: '/community/$slug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminWalletRoute = AdminWalletRouteImport.update({
+  id: '/wallet',
+  path: '/wallet',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AdminLabRoute = AdminLabRouteImport.update({
   id: '/lab',
@@ -159,11 +171,13 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/lab': typeof AdminLabRoute
+  '/admin/wallet': typeof AdminWalletRoute
   '/community/$slug': typeof CommunitySlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/showcase/$slug': typeof ShowcaseSlugRoute
   '/showcase/submit': typeof ShowcaseSubmitRoute
   '/sign-in/sso-callback': typeof SignInSsoCallbackRoute
+  '/slides/$deckId': typeof SlidesDeckIdRoute
   '/admin/': typeof AdminIndexRoute
   '/showcase/': typeof ShowcaseIndexRoute
 }
@@ -181,11 +195,13 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/lab': typeof AdminLabRoute
+  '/admin/wallet': typeof AdminWalletRoute
   '/community/$slug': typeof CommunitySlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/showcase/$slug': typeof ShowcaseSlugRoute
   '/showcase/submit': typeof ShowcaseSubmitRoute
   '/sign-in/sso-callback': typeof SignInSsoCallbackRoute
+  '/slides/$deckId': typeof SlidesDeckIdRoute
   '/admin': typeof AdminIndexRoute
   '/showcase': typeof ShowcaseIndexRoute
 }
@@ -206,11 +222,13 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/lab': typeof AdminLabRoute
+  '/admin/wallet': typeof AdminWalletRoute
   '/community/$slug': typeof CommunitySlugRoute
   '/events/$slug': typeof EventsSlugRoute
   '/showcase/$slug': typeof ShowcaseSlugRoute
   '/showcase/submit': typeof ShowcaseSubmitRoute
   '/sign-in_/sso-callback': typeof SignInSsoCallbackRoute
+  '/slides/$deckId': typeof SlidesDeckIdRoute
   '/admin/': typeof AdminIndexRoute
   '/showcase/': typeof ShowcaseIndexRoute
 }
@@ -232,11 +250,13 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/events'
     | '/admin/lab'
+    | '/admin/wallet'
     | '/community/$slug'
     | '/events/$slug'
     | '/showcase/$slug'
     | '/showcase/submit'
     | '/sign-in/sso-callback'
+    | '/slides/$deckId'
     | '/admin/'
     | '/showcase/'
   fileRoutesByTo: FileRoutesByTo
@@ -254,11 +274,13 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/events'
     | '/admin/lab'
+    | '/admin/wallet'
     | '/community/$slug'
     | '/events/$slug'
     | '/showcase/$slug'
     | '/showcase/submit'
     | '/sign-in/sso-callback'
+    | '/slides/$deckId'
     | '/admin'
     | '/showcase'
   id:
@@ -278,11 +300,13 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/events'
     | '/admin/lab'
+    | '/admin/wallet'
     | '/community/$slug'
     | '/events/$slug'
     | '/showcase/$slug'
     | '/showcase/submit'
     | '/sign-in_/sso-callback'
+    | '/slides/$deckId'
     | '/admin/'
     | '/showcase/'
   fileRoutesById: FileRoutesById
@@ -304,6 +328,7 @@ export interface RootRouteChildren {
   CommunitySlugRoute: typeof CommunitySlugRoute
   EventsSlugRoute: typeof EventsSlugRoute
   SignInSsoCallbackRoute: typeof SignInSsoCallbackRoute
+  SlidesDeckIdRoute: typeof SlidesDeckIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -413,6 +438,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/slides/$deckId': {
+      id: '/slides/$deckId'
+      path: '/slides/$deckId'
+      fullPath: '/slides/$deckId'
+      preLoaderRoute: typeof SlidesDeckIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sign-in_/sso-callback': {
       id: '/sign-in_/sso-callback'
       path: '/sign-in/sso-callback'
@@ -448,6 +480,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CommunitySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/wallet': {
+      id: '/admin/wallet'
+      path: '/wallet'
+      fullPath: '/admin/wallet'
+      preLoaderRoute: typeof AdminWalletRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/lab': {
       id: '/admin/lab'
       path: '/lab'
@@ -468,12 +507,14 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminEventsRoute: typeof AdminEventsRoute
   AdminLabRoute: typeof AdminLabRoute
+  AdminWalletRoute: typeof AdminWalletRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminEventsRoute: AdminEventsRoute,
   AdminLabRoute: AdminLabRoute,
+  AdminWalletRoute: AdminWalletRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
@@ -512,6 +553,7 @@ const rootRouteChildren: RootRouteChildren = {
   CommunitySlugRoute: CommunitySlugRoute,
   EventsSlugRoute: EventsSlugRoute,
   SignInSsoCallbackRoute: SignInSsoCallbackRoute,
+  SlidesDeckIdRoute: SlidesDeckIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

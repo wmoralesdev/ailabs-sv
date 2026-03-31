@@ -11,7 +11,7 @@ function AdminTabLink({
   pathname,
   children,
 }: {
-  to: "/admin/events" | "/admin/lab";
+  to: "/admin/events" | "/admin/lab" | "/admin/wallet";
   pathname: string;
   children: React.ReactNode;
 }) {
@@ -77,7 +77,7 @@ export function AdminLayout() {
             </Link>
             <Link
               to="/"
-              className="flex h-9 w-full items-center justify-center rounded-md border border-border bg-transparent px-4 text-sm font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-accent/50 sm:w-auto"
+              className="flex h-9 w-full items-center justify-center rounded-md border border-border bg-muted px-4 text-sm font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-accent hover:text-accent-foreground sm:w-auto"
             >
               {h.secondaryCta}
             </Link>
@@ -95,6 +95,9 @@ export function AdminLayout() {
           </AdminTabLink>
           <AdminTabLink to="/admin/lab" pathname={pathname}>
             From the Lab
+          </AdminTabLink>
+          <AdminTabLink to="/admin/wallet" pathname={pathname}>
+            Wallet
           </AdminTabLink>
         </nav>
         <Outlet />
