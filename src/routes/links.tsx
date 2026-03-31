@@ -138,7 +138,7 @@ function LinksPage() {
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-dvh max-w-md flex-col px-4 pb-10 pr-14 pt-12 md:pt-16">
+      <div className="relative z-10 mx-auto flex min-h-dvh max-w-md flex-col px-4 pb-10 pt-12 md:pt-16">
         <header
           className="mb-10 flex flex-col items-center text-center motion-safe:animate-hero-in [animation-delay:80ms]"
           aria-label={t.site.name}
