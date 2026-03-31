@@ -42,7 +42,7 @@ export function TestimonialsSection() {
           {items.map((item, index) => (
             <blockquote
               key={`${item.name}-${index}`}
-              className="group relative flex w-[440px] shrink-0 flex-col justify-between rounded-2xl border border-border/60 bg-card p-8 pt-10 shadow-sm transition-[transform,border-color,box-shadow] duration-300 motion-safe:hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
+              className="group relative flex w-[440px] shrink-0 flex-col justify-between rounded-2xl border border-border/60 bg-card p-8 pt-10 shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
             >
               <div>
                 <QuoteIcon className="mb-3 size-7 text-primary/80" />

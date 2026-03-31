@@ -6,8 +6,8 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { RequireAuth } from "@/components/auth/require-auth";
 import { AdminLayout } from "@/components/admin/admin-layout";
+import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { buttonVariants } from "@/components/ui/button";
 import { seoCopyEs } from "@/content/seo-copy";
 import { buildSeoMeta } from "@/lib/seo-meta";
 
@@ -45,9 +45,9 @@ function AdminShell() {
           ) : !isAdmin ? (
             <div className="flex flex-1 flex-col items-center justify-center gap-4 px-4">
               <p className="text-muted-foreground">Access denied.</p>
-              <Link to="/" className={buttonVariants({ variant: "outline" })}>
+              <Button variant="outline" render={<Link to="/" />}>
                 Back to home
-              </Link>
+              </Button>
             </div>
           ) : (
             <AdminLayout />

@@ -4,8 +4,7 @@ import { ArrowLeft02Icon } from "@hugeicons/core-free-icons";
 import { AnimatedGrid } from "@/components/ui/animated-grid";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface WipPageProps {
   comingSoon: string;
@@ -52,13 +51,15 @@ export function WipPage({
               </p>
               {/* Back button */}
               {backLabel && (
-                <Link
-                  to="/"
-                  className={cn(buttonVariants({ variant: "default", size: "lg" }), "gap-2")}
+                <Button
+                  variant="default"
+                  size="lg"
+                  className="gap-2"
+                  render={<Link to="/" />}
                 >
-                  <HugeiconsIcon icon={ArrowLeft02Icon} size={18} />
+                  <HugeiconsIcon icon={ArrowLeft02Icon} size={18} data-icon="inline-start" />
                   {backLabel}
-                </Link>
+                </Button>
               )}
             </article>
           </div>

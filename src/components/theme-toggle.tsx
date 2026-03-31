@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import { useResolvedDark, useTheme } from "@/components/theme-provider"
 import { useI18n } from "@/lib/i18n"
 import { buttonVariants } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
 
 export function ThemeToggle() {
   const { setTheme } = useTheme()
@@ -27,7 +26,7 @@ export function ThemeToggle() {
     <button
       type="button"
       aria-label={ariaLabel}
-      className={cn(buttonVariants({ variant: "ghost", size: "icon" }), "size-10 px-0")}
+      className={buttonVariants({ variant: "ghost", size: "icon-xl" })}
       onClick={() => setTheme(isDark ? "light" : "dark")}
     >
       <HugeiconsIcon icon={triggerIcon} className="size-6 transition-transform" aria-hidden />

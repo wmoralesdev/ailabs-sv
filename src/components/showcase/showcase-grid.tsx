@@ -70,7 +70,7 @@ export function ShowcaseGrid({ search, className }: ShowcaseGridProps) {
               <Link
                 to="/showcase/submit"
                 search={{ edit: undefined }}
-                className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-6 font-medium text-primary-foreground shadow-lg shadow-primary/15 transition-all hover:-translate-y-0.5 hover:shadow-primary/25 sm:flex-initial sm:min-w-[200px]"
+                className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-6 font-medium text-primary-foreground shadow-lg shadow-primary/15 transition-all hover:shadow-primary/25 sm:flex-initial sm:min-w-[200px]"
               >
                 {L.emptySubmitCta}
                 <HugeiconsIcon icon={ArrowRightIcon} size={18} />
@@ -79,7 +79,7 @@ export function ShowcaseGrid({ search, className }: ShowcaseGridProps) {
               <Link
                 to="/sign-in"
                 search={{ returnTo: "/showcase" }}
-                className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-6 font-medium text-primary-foreground shadow-lg shadow-primary/15 transition-all hover:-translate-y-0.5 hover:shadow-primary/25 sm:flex-initial sm:min-w-[200px]"
+                className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-6 font-medium text-primary-foreground shadow-lg shadow-primary/15 transition-all hover:shadow-primary/25 sm:flex-initial sm:min-w-[200px]"
               >
                 {t.feed.joinCta}
                 <HugeiconsIcon icon={ArrowRightIcon} size={18} />

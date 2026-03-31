@@ -55,12 +55,12 @@ function Calendar({
           defaultClassNames.nav
         ),
         button_previous: cn(
-          buttonVariants({ variant: buttonVariant }),
+          buttonVariants({ variant: buttonVariant, size: "icon" }),
           "size-(--cell-size) p-0 select-none aria-disabled:opacity-50",
           defaultClassNames.button_previous
         ),
         button_next: cn(
-          buttonVariants({ variant: buttonVariant }),
+          buttonVariants({ variant: buttonVariant, size: "icon" }),
           "size-(--cell-size) p-0 select-none aria-disabled:opacity-50",
           defaultClassNames.button_next
         ),
@@ -194,6 +194,7 @@ function CalendarDayButton({
     if (modifiers.focused) ref.current?.focus()
   }, [modifiers.focused])
 
+  // Calendar day cells are not standard app buttons — range/selection styling is grid-specific.
   return (
     <Button
       variant="ghost"

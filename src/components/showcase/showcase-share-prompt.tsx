@@ -46,12 +46,7 @@ export function ShowcaseSharePrompt({
       <pre className="mb-4 whitespace-pre-wrap rounded-lg border border-border/60 bg-muted/50 p-4 text-sm">
         {text}
       </pre>
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={handleCopy}
-        className="gap-2"
-      >
+      <Button variant="outline" size="sm" onClick={handleCopy}>
         <HugeiconsIcon icon={Copy01Icon} size={16} />
         {copied ? "Copied!" : "Copy to clipboard"}
       </Button>

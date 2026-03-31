@@ -1,6 +1,7 @@
 "use client";
 
 import { Link } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 import { useAuthState } from "@/components/auth/auth-context";
@@ -19,17 +20,13 @@ export function JoinCtaButton({ inverted, compact }: JoinCtaButtonProps) {
   }
 
   return (
-    <Link
-      to="/sign-in"
-      className={cn(
-        "hidden items-center justify-center whitespace-nowrap rounded-full font-medium transition-opacity sm:flex",
-        compact ? "h-8 px-4 text-xs" : "h-9 px-5 text-sm",
-        inverted
-          ? "bg-background text-foreground hover:opacity-90"
-          : "bg-foreground text-background hover:opacity-90",
-      )}
+    <Button
+      variant={inverted ? "signInBarInverted" : "signInBar"}
+      size={compact ? "sm" : "lg"}
+      className={cn("hidden sm:inline-flex", compact ? "px-4" : "px-5")}
+      render={<Link to="/sign-in" />}
     >
       {t.signIn.title}
-    </Link>
+    </Button>
   );
 }

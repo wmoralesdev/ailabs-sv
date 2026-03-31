@@ -89,14 +89,14 @@ function PartnersPage() {
               <div className="flex flex-col items-center justify-center gap-4 motion-safe:animate-hero-in [animation-delay:300ms] sm:flex-row">
                 <a
                   href={`mailto:${t.partner.email}`}
-                  className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary px-8 font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-primary/30 sm:w-auto"
+                  className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary px-8 font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:shadow-primary/30 sm:w-auto"
                 >
                   {p.hero.primaryCta}
                   <HugeiconsIcon icon={ArrowRightIcon} size={18} />
                 </a>
                 <a
                   href="#ways-to-help"
-                  className="flex h-12 w-full items-center justify-center rounded-lg border border-border bg-transparent px-8 font-medium text-foreground transition-all duration-300 hover:border-primary/30 hover:bg-accent/50 sm:w-auto"
+                  className="flex h-12 w-full items-center justify-center rounded-lg border border-border bg-muted px-8 font-medium text-foreground transition-all duration-300 hover:border-primary/30 hover:bg-accent hover:text-accent-foreground sm:w-auto"
                 >
                   {p.hero.secondaryCta}
                 </a>
@@ -263,7 +263,7 @@ function PartnersPage() {
                   return (
                     <article
                       key={card.title}
-                      className="group rounded-2xl border border-border/60 bg-card p-8 shadow-sm transition-[transform,border-color,box-shadow] duration-300 motion-safe:hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
+                      className="group rounded-2xl border border-border/60 bg-card p-8 shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
                     >
                       <div className="mb-6 inline-flex size-12 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
                         <HugeiconsIcon icon={Icon} className="size-6" />
@@ -346,7 +346,7 @@ function PartnersPage() {
               />
               <a
                 href={`mailto:${t.partner.email}`}
-                className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-primary px-10 text-lg font-medium text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-primary/40"
+                className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-primary px-10 text-lg font-medium text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-300 hover:shadow-primary/40"
               >
                 {p.finalCta.cta}
                 <HugeiconsIcon icon={ArrowRightIcon} size={22} />

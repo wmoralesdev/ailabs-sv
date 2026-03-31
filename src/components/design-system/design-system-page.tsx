@@ -62,20 +62,37 @@ export function DesignSystemPage() {
               <TabsContent value="buttons" className="space-y-6">
                 <ComponentPreview
                   title="Button"
-                  description="Variants: default, outline, secondary, ghost, destructive, link. Sizes: xs, sm, default, lg, icon."
+                  description="All buttons use rounded-md. Variants include outlinePrimary, destructiveOutline, signInBar (header CTA). Sizes: xs, sm, default, lg, xl, 2xl, 3xl, icon*, default size lg."
                   usage='import { Button } from "@/components/ui/button";'
                 >
-                  <div className="flex flex-wrap gap-2">
-                    <Button>Default</Button>
-                    <Button variant="outline">Outline</Button>
-                    <Button variant="secondary">Secondary</Button>
-                    <Button variant="ghost">Ghost</Button>
-                    <Button variant="destructive">Destructive</Button>
-                    <Button variant="link">Link</Button>
-                    <Button size="sm">Small</Button>
-                    <Button size="lg">Large</Button>
-                    <Button loading>Loading</Button>
-                    <Button disabled>Disabled</Button>
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-wrap gap-2">
+                      <Button>Default</Button>
+                      <Button variant="outline">Outline</Button>
+                      <Button variant="outlinePrimary">Outline primary</Button>
+                      <Button variant="secondary">Secondary</Button>
+                      <Button variant="ghost">Ghost</Button>
+                      <Button variant="destructive">Destructive</Button>
+                      <Button variant="destructiveOutline">
+                        Destructive outline
+                      </Button>
+                      <Button variant="link">Link</Button>
+                      <Button variant="signInBar">Sign-in bar</Button>
+                      <Button variant="signInBarInverted">Sign-in inverted</Button>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Button size="xs">xs</Button>
+                      <Button size="sm">sm</Button>
+                      <Button size="default">default</Button>
+                      <Button size="lg">lg</Button>
+                      <Button size="xl">xl</Button>
+                      <Button size="2xl">2xl</Button>
+                      <Button size="3xl">3xl</Button>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <Button loading>Loading</Button>
+                      <Button disabled>Disabled</Button>
+                    </div>
                   </div>
                 </ComponentPreview>
               </TabsContent>

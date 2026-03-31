@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils";
 
 type CommunityProofSlotKey = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
-const COMMUNITY_PROOF_SLOT_IMAGES: Record<CommunityProofSlotKey, string> = {
+/** Public assets under `/community/`; shared with slides deck for the same event↔photo pairing. */
+export const COMMUNITY_PROOF_SLOT_IMAGES: Record<CommunityProofSlotKey, string> = {
   1: "/community/community-proof-slot-1.jpg",
   2: "/community/community-proof-slot-2.jpg",
   3: "/community/community-proof-slot-3.jpg",
@@ -125,8 +126,8 @@ export function CommunityProofBentoGrid({
                 animationDelay: `${80 + index * 55}ms`,
               }}
               className={cn(
-                "group relative h-full w-full overflow-hidden rounded-2xl border border-border/50 bg-muted/40 shadow-inner shadow-black/5 transition-[transform,box-shadow,border-color] duration-300 motion-safe:animate-hero-in motion-reduce:animate-none dark:bg-muted/25",
-                "motion-safe:hover:-translate-y-0.5 motion-safe:hover:border-primary/25 motion-safe:hover:shadow-md motion-safe:hover:shadow-primary/5",
+                "group relative h-full w-full overflow-hidden rounded-2xl border border-border/50 bg-muted/40 shadow-inner shadow-black/5 transition-[box-shadow,border-color] duration-300 motion-safe:animate-hero-in motion-reduce:animate-none dark:bg-muted/25",
+                "motion-safe:hover:border-primary/25 motion-safe:hover:shadow-md motion-safe:hover:shadow-primary/5",
                 "min-h-[7.25rem] md:min-h-0",
               )}
             >

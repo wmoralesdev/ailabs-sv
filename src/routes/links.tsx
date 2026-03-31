@@ -18,7 +18,7 @@ import { AnimatedGrid } from "@/components/ui/animated-grid";
 import { AilabsLockup } from "@/components/ui/ailabs-lockup";
 import { AilabsLogo } from "@/components/ui/ailabs-logo";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
@@ -36,8 +36,9 @@ import { getSiteOrigin } from "@/lib/site-url";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
-const linkRowBase =
-  "relative flex h-14 w-full items-center overflow-hidden rounded-2xl border px-5 text-sm font-medium transition-[transform,box-shadow,border-color,background-color] duration-300 motion-safe:hover:-translate-y-0.5";
+/** Motion + active press for link-styled anchors using `buttonVariants`. */
+const linksRowMotion =
+  "relative flex w-full items-center overflow-hidden motion-safe:active:scale-[0.99] transition-[transform,box-shadow,border-color,background-color,filter] duration-300";
 
 /** Share target for QR; use getSiteOrigin() alone for site root only. */
 const linksShareUrl = `${getSiteOrigin()}/links`;
@@ -53,19 +54,21 @@ function socialHandleFromUrl(url: string | undefined): string | null {
 }
 
 const collapsibleTriggerRow = cn(
-  linkRowBase,
-  "cursor-pointer border-border/70 bg-card/40 text-left text-foreground backdrop-blur-md hover:border-primary/35 hover:bg-card/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+  buttonVariants({ variant: "outline", size: "3xl" }),
+  linksRowMotion,
+  "group cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
 );
 
 const collapsibleLeadIconWrap =
-  "pointer-events-none absolute left-5 top-1/2 flex size-9 -translate-y-1/2 items-center justify-center rounded-xl bg-muted/80 text-foreground/80";
+  "pointer-events-none absolute left-5 top-1/2 flex size-9 -translate-y-1/2 items-center justify-center rounded-md bg-muted text-muted-foreground transition-colors group-hover:text-accent-foreground";
 
 const halfRowLeadIconWrap =
-  "pointer-events-none absolute left-3 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-lg bg-primary-foreground/15 text-primary-foreground sm:left-4 sm:size-9 sm:rounded-xl";
+  "pointer-events-none absolute left-3 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-md bg-primary-foreground/15 text-primary-foreground sm:left-4 sm:size-9";
 
 const secondarySocialCell = cn(
-  linkRowBase,
-  "min-h-14 min-w-0 flex-1 basis-0 justify-center border-border/70 bg-card/40 px-2 text-foreground backdrop-blur-md hover:border-primary/35 hover:bg-card/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+  buttonVariants({ variant: "outline", size: "3xl" }),
+  linksRowMotion,
+  "group min-w-0 flex-1 basis-0 justify-center px-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
 );
 
 export const Route = createFileRoute("/links")({
@@ -128,7 +131,7 @@ function LinksPage() {
   const qrBg = isDark ? "#1c1917" : "#fafaf9";
 
   return (
-    <div className="relative min-h-dvh overflow-hidden bg-background text-foreground font-sans selection:bg-primary selection:text-primary-foreground">
+    <div className="relative min-h-dvh overflow-x-hidden overflow-hidden bg-background text-foreground font-sans selection:bg-primary selection:text-primary-foreground motion-safe:animate-page-in">
       <AnimatedGrid />
       <div className="hero-top-fade pointer-events-none absolute inset-0 z-[1]" />
 
@@ -182,8 +185,8 @@ function LinksPage() {
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
-                linkRowBase,
-                "border-primary/25 bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:border-primary/40 hover:shadow-primary/35",
+                buttonVariants({ size: "3xl" }),
+                linksRowMotion,
                 instagramUrl ? "min-w-0 flex-1 basis-0" : "w-full",
               )}
             >
@@ -200,12 +203,13 @@ function LinksPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  linkRowBase,
-                  "min-w-0 flex-1 basis-0 border-border/70 bg-card/40 text-foreground backdrop-blur-md hover:border-primary/35 hover:bg-card/70",
+                  buttonVariants({ variant: "outline", size: "3xl" }),
+                  linksRowMotion,
+                  "group min-w-0 flex-1 basis-0",
                 )}
               >
                 <span
-                  className="pointer-events-none absolute left-3 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-lg bg-muted/80 text-foreground/80 sm:left-4 sm:size-9 sm:rounded-xl"
+                  className="pointer-events-none absolute left-3 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-md bg-muted text-muted-foreground transition-colors group-hover:text-accent-foreground sm:left-4 sm:size-9"
                   aria-hidden
                 >
                   <InstagramIcon className="size-[15px] sm:size-[18px]" />
@@ -229,7 +233,7 @@ function LinksPage() {
                   className={secondarySocialCell}
                 >
                   <span className="sr-only">{label}</span>
-                  <Icon className="size-5 text-foreground/85 sm:size-[22px]" />
+                  <Icon className="size-5 text-card-foreground/85 transition-colors group-hover:text-accent-foreground sm:size-[22px]" />
                 </a>
               ))}
             </div>
@@ -249,32 +253,36 @@ function LinksPage() {
               <HugeiconsIcon
                 icon={ArrowDown01Icon}
                 strokeWidth={2}
-                className="pointer-events-none absolute right-5 top-1/2 size-4 -translate-y-1/2 text-foreground/70 transition-transform duration-200 group-data-[panel-open]:rotate-180"
+                className="pointer-events-none absolute right-5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground transition-[transform,color] duration-200 group-hover:text-accent-foreground group-data-[panel-open]:rotate-180"
               />
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-2 flex flex-col gap-3">
               {eventsResult === undefined ? (
-                <div className="flex min-h-[140px] items-center justify-center rounded-2xl border border-dashed border-border/60 bg-card/30 py-10 backdrop-blur-sm">
+                <div className="flex min-h-[140px] items-center justify-center rounded-2xl border border-dashed border-border/60 bg-card py-10">
                   <Spinner size="lg" />
                 </div>
               ) : eventsResult.upcoming.length === 0 ? (
-                <p className="rounded-2xl border border-dashed border-border/60 bg-card/30 px-4 py-8 text-center text-sm text-muted-foreground backdrop-blur-sm">
+                <p className="rounded-2xl border border-dashed border-border/60 bg-card px-4 py-8 text-center text-sm text-muted-foreground">
                   {t.events.noUpcoming}
                 </p>
               ) : (
-                eventsResult.upcoming.map((event) => (
+                eventsResult.upcoming.map((event, index) => (
                   <Link
                     key={event.id}
                     to="/events/$slug"
                     params={{ slug: event.slug }}
                     className={cn(
-                      "group relative block rounded-2xl border border-border/60 bg-card/50 p-4 text-left shadow-sm backdrop-blur-md transition-[transform,border-color,box-shadow] duration-300",
-                      "motion-safe:hover:-translate-y-0.5 hover:border-primary/35 hover:shadow-md hover:shadow-primary/5",
+                      "group relative block rounded-2xl border border-border/60 bg-card p-4 text-left text-card-foreground shadow-sm transition-[transform,border-color,box-shadow,background-color,color] duration-300",
+                      "motion-safe:active:scale-[0.99] hover:border-primary/35 hover:bg-accent hover:text-accent-foreground hover:shadow-md hover:shadow-primary/5",
+                      "motion-safe:animate-hero-in",
                     )}
+                    style={{
+                      animationDelay: `calc(270ms + ${index * 50}ms)`,
+                    }}
                   >
                     <HugeiconsIcon
                       icon={ArrowRight01Icon}
-                      className="absolute right-3 top-3 size-4 text-muted-foreground opacity-50 transition-opacity duration-300 group-hover:opacity-100"
+                      className="absolute right-3 top-3 size-4 text-muted-foreground opacity-50 transition-[opacity,color] duration-300 group-hover:text-accent-foreground group-hover:opacity-100"
                       strokeWidth={2}
                     />
                     <div className="flex flex-wrap items-center gap-2 pr-8">
@@ -304,7 +312,7 @@ function LinksPage() {
                     <h2 className="mt-3 text-base font-semibold leading-snug tracking-tight">
                       {formatWithBrandText(event.title)}
                     </h2>
-                    <div className="mt-3 space-y-1.5 text-xs text-muted-foreground md:text-sm">
+                    <div className="mt-3 space-y-1.5 text-xs text-muted-foreground transition-colors duration-300 group-hover:text-accent-foreground/80 md:text-sm">
                       <p className="flex items-start gap-2">
                         <HugeiconsIcon
                           icon={CalendarIcon}
@@ -327,14 +335,14 @@ function LinksPage() {
                     </div>
                     <span
                       className={cn(
-                        buttonVariants(),
-                        "mt-4 flex h-11 w-full items-center justify-center gap-2 rounded-xl text-sm font-medium shadow-md shadow-primary/15 transition-[box-shadow,transform] duration-300 group-hover:shadow-lg group-hover:shadow-primary/25",
+                        buttonVariants({ size: "2xl" }),
+                        "mt-4 w-full gap-2",
                       )}
                     >
                       {t.events.rsvpButton}
                       <HugeiconsIcon
                         icon={ArrowRight01Icon}
-                        className="size-4 shrink-0 transition-transform duration-300 motion-safe:group-hover:translate-x-0.5"
+                        className="size-4 shrink-0"
                         strokeWidth={2}
                       />
                     </span>
@@ -344,19 +352,20 @@ function LinksPage() {
             </CollapsibleContent>
           </Collapsible>
 
-          <Link
-            to="/"
+          <Button
+            variant="outline"
+            size="3xl"
             className={cn(
-              linkRowBase,
-              "border-border/70 bg-card/40 text-foreground backdrop-blur-md hover:border-primary/35 hover:bg-card/70",
-              "motion-safe:animate-hero-in [animation-delay:310ms]",
+              linksRowMotion,
+              "group motion-safe:animate-hero-in [animation-delay:310ms]",
             )}
+            render={<Link to="/" />}
           >
-            <span className="pointer-events-none absolute left-5 flex size-9 items-center justify-center rounded-xl bg-muted/80 text-foreground/80">
+            <span className="pointer-events-none absolute left-5 flex size-9 items-center justify-center rounded-md bg-muted text-muted-foreground transition-colors group-hover:text-accent-foreground">
               <HugeiconsIcon icon={Home09Icon} className="size-4" strokeWidth={2} />
             </span>
             <span className="w-full text-center pr-2">{t.ui.linksPage.home}</span>
-          </Link>
+          </Button>
 
           <Collapsible
             defaultOpen={false}
@@ -372,14 +381,14 @@ function LinksPage() {
               <HugeiconsIcon
                 icon={ArrowDown01Icon}
                 strokeWidth={2}
-                className="pointer-events-none absolute right-5 top-1/2 size-4 -translate-y-1/2 text-foreground/70 transition-transform duration-200 group-data-[panel-open]:rotate-180"
+                className="pointer-events-none absolute right-5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground transition-[transform,color] duration-200 group-hover:text-accent-foreground group-data-[panel-open]:rotate-180"
               />
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-2 space-y-3">
               <p className="text-center text-xs text-muted-foreground">
                 {t.ui.linksPage.qrDescription}
               </p>
-              <div className="rounded-2xl border border-border/60 bg-card/50 p-5 shadow-sm backdrop-blur-md">
+              <div className="rounded-2xl border border-border/60 bg-card p-5 text-card-foreground shadow-sm">
                 <QRCode
                   value={linksShareUrl}
                   size={200}
@@ -408,10 +417,8 @@ function LinksPage() {
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
-                "inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-card/40 px-3.5 py-2 text-[11px] font-medium text-foreground/75 shadow-sm backdrop-blur-md",
-                "transition-[transform,border-color,background-color,box-shadow,color] duration-300",
-                "hover:border-primary/35 hover:bg-card/70 hover:text-foreground hover:shadow-md hover:shadow-primary/5",
-                "motion-safe:hover:-translate-y-0.5",
+                buttonVariants({ variant: "outline", size: "sm" }),
+                "inline-flex gap-1.5 text-[11px] motion-safe:active:scale-[0.99]",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
               )}
             >

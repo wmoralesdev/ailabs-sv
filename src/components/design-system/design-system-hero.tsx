@@ -34,7 +34,7 @@ export function DesignSystemHero() {
 
         <a
           href="#components"
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-primary px-8 font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-primary/30 motion-safe:animate-hero-in [animation-delay:300ms]"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-primary px-8 font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:shadow-primary/30 motion-safe:animate-hero-in [animation-delay:300ms]"
         >
           Browse components
           <HugeiconsIcon icon={ArrowDown01Icon} size={18} />

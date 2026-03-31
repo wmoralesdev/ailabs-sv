@@ -34,7 +34,7 @@ function PastEventCard({
 }) {
   return (
     <article
-      className="group relative aspect-[3/2] w-[420px] shrink-0 overflow-hidden rounded-2xl shadow-sm grayscale transition-[filter,transform,box-shadow] duration-500 hover:grayscale-0 hover:z-10 hover:shadow-lg motion-safe:hover:-translate-y-0.5"
+      className="group relative aspect-[3/2] w-[420px] shrink-0 overflow-hidden rounded-2xl shadow-sm grayscale transition-[filter,box-shadow] duration-500 hover:grayscale-0 hover:z-10 hover:shadow-lg"
     >
       <img
         src={event.imageUrl ?? PAST_IMAGE_PLACEHOLDER}
@@ -81,7 +81,7 @@ function PastEventCard({
               {t.events.recapButton}
               <HugeiconsIcon
                 icon={ArrowRightIcon}
-                className="size-3 transition-transform duration-300 motion-safe:group-hover:translate-x-0.5"
+                className="size-3"
               />
             </a>
           )}
@@ -98,7 +98,7 @@ function PastEventCard({
               {t.events.albumButton}
               <HugeiconsIcon
                 icon={Image01Icon}
-                className="size-3 transition-transform duration-300 motion-safe:group-hover:translate-x-0.5"
+                className="size-3"
               />
             </a>
           )}

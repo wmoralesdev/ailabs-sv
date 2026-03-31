@@ -108,7 +108,7 @@ export function ProfileHero({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
-                  className="flex size-11 items-center justify-center rounded-lg border border-border bg-transparent text-foreground/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-accent/50 hover:text-primary hover:shadow-md"
+                  className="flex size-11 items-center justify-center rounded-lg border border-border bg-muted text-foreground/70 transition-all duration-300 hover:border-primary/30 hover:bg-accent hover:text-accent-foreground hover:shadow-md"
                 >
                   <LinkedinIcon className="size-5" />
                 </a>
@@ -119,7 +119,7 @@ export function ProfileHero({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="X"
-                  className="flex size-11 items-center justify-center rounded-lg border border-border bg-transparent text-foreground/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-accent/50 hover:text-primary hover:shadow-md"
+                  className="flex size-11 items-center justify-center rounded-lg border border-border bg-muted text-foreground/70 transition-all duration-300 hover:border-primary/30 hover:bg-accent hover:text-accent-foreground hover:shadow-md"
                 >
                   <XIcon className="size-5" />
                 </a>
@@ -127,7 +127,7 @@ export function ProfileHero({
               {contactLink && (
                 <a
                   href={contactLink}
-                  className="flex h-11 items-center justify-center rounded-lg border border-border bg-transparent px-5 text-sm font-medium text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-accent/50 hover:shadow-md"
+                  className="flex h-11 items-center justify-center rounded-lg border border-border bg-muted px-5 text-sm font-medium text-foreground transition-all duration-300 hover:border-primary/30 hover:bg-accent hover:text-accent-foreground hover:shadow-md"
                 >
                   {t.profile?.contact ?? "Contact"}
                 </a>
@@ -135,9 +135,9 @@ export function ProfileHero({
               {showEditButton && onEdit && (
                 <Button
                   variant="outline"
-                  size="default"
+                  size="2xl"
                   onClick={onEdit}
-                  className="h-11 gap-2 px-5"
+                  className="gap-2 px-5"
                 >
                   <HugeiconsIcon icon={PencilEdit01Icon} size={18} />
                   {t.profile?.editProfile ?? "Edit profile"}

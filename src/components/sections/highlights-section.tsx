@@ -6,7 +6,7 @@ import {
   partnerRasterMarkClasses,
 } from "@/lib/partner-image-paths";
 import { SectionHeader } from "@/components/section-header";
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export function HighlightsSection() {
@@ -95,15 +95,13 @@ export function HighlightsSection() {
         </div>
 
         <div className="flex justify-center">
-          <Link
-            to="/partners"
-            className={cn(
-              buttonVariants({ size: "lg", variant: "outline" }),
-              "h-11 rounded-full border-primary/20 px-6 text-sm text-primary hover:bg-primary/10 hover:border-primary/30",
-            )}
+          <Button
+            variant="outlinePrimary"
+            size="lg"
+            render={<Link to="/partners" />}
           >
             {t.ecosystem.ctaLabel}
-          </Link>
+          </Button>
         </div>
       </div>
     </section>

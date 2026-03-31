@@ -26,7 +26,7 @@ export function WhatHappensHereSection() {
             return (
               <article
                 key={card.title}
-                className="group rounded-2xl border border-border/60 bg-card p-8 shadow-sm transition-[transform,border-color,box-shadow] duration-300 motion-safe:hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
+                className="group rounded-2xl border border-border/60 bg-card p-8 shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
               >
                 <div className="mb-6 inline-flex size-12 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
                   <HugeiconsIcon icon={Icon} className="size-6 marching-ants" />

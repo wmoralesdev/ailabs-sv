@@ -162,20 +162,23 @@ export function ShowcaseDetail({ entry }: ShowcaseDetailProps) {
           </time>
           {isOwner && (
             <>
-              <Link
-                to="/showcase/submit"
-                search={{ edit: entry.slug }}
-              >
-                <Button variant="outline" size="sm" className="gap-2">
-                  <HugeiconsIcon icon={PencilEdit01Icon} size={14} />
-                  Edit
-                </Button>
-              </Link>
               <Button
-                type="button"
                 variant="outline"
                 size="sm"
-                className="gap-2 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                render={
+                  <Link
+                    to="/showcase/submit"
+                    search={{ edit: entry.slug }}
+                  />
+                }
+              >
+                <HugeiconsIcon icon={PencilEdit01Icon} size={14} data-icon="inline-start" />
+                Edit
+              </Button>
+              <Button
+                type="button"
+                variant="destructiveOutline"
+                size="sm"
                 onClick={() => setDeleteOpen(true)}
               >
                 <HugeiconsIcon icon={Delete01Icon} size={14} />

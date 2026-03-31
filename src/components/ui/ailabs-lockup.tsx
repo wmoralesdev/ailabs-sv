@@ -4,9 +4,14 @@ import { AilabsLogo } from "@/components/ui/ailabs-logo";
 interface AilabsLockupProps {
   className?: string;
   compact?: boolean;
+  /**
+   * Classes for the horizontal SVG (default `h-[1.15em]` so `text-*` on the wrapper scales the mark).
+   * Use `h-full w-auto` when the wrapper sets an explicit height (e.g. founder ticket preview).
+   */
+  markClassName?: string;
 }
 
-export function AilabsLockup({ className, compact }: AilabsLockupProps) {
+export function AilabsLockup({ className, compact, markClassName }: AilabsLockupProps) {
   return (
     <span
       className={cn(
@@ -17,7 +22,9 @@ export function AilabsLockup({ className, compact }: AilabsLockupProps) {
       {compact ? (
         <AilabsLogo className="h-[1.5em] w-auto shrink-0" />
       ) : (
-        <AilabsLockupHorizontal className="h-[1.15em] w-auto" />
+        <AilabsLockupHorizontal
+          className={cn("w-auto shrink-0", markClassName ?? "h-[1.15em]")}
+        />
       )}
     </span>
   );

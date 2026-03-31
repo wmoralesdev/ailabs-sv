@@ -173,7 +173,7 @@ export function ProfileView({
               {contactLink && (
                 <a
                   href={contactLink}
-                  className="flex h-10 items-center justify-center rounded-lg border border-border bg-transparent px-5 text-sm font-medium text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-accent/50 hover:shadow-md"
+                  className="flex h-10 items-center justify-center rounded-lg border border-border bg-transparent px-5 text-sm font-medium text-foreground transition-all duration-300 hover:border-primary/30 hover:bg-accent/50 hover:shadow-md"
                 >
                   {t.profile?.contact ?? "Contact"}
                 </a>
@@ -181,9 +181,9 @@ export function ProfileView({
               {isOwner && onEditProfile && (
                 <Button
                   variant="outline"
-                  size="default"
+                  size="xl"
                   onClick={onEditProfile}
-                  className="h-10 gap-2 px-5"
+                  className="gap-2 px-5"
                 >
                   <HugeiconsIcon icon={PencilEdit01Icon} size={16} />
                   {t.profile?.editProfile ?? "Edit profile"}
@@ -218,7 +218,7 @@ export function ProfileView({
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="LinkedIn"
-                      className="flex size-10 items-center justify-center rounded-full border border-border bg-transparent text-foreground/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-accent/50 hover:text-primary"
+                      className="flex size-10 items-center justify-center rounded-full border border-border bg-transparent text-foreground/70 transition-all duration-300 hover:border-primary/30 hover:bg-accent/50 hover:text-primary"
                     >
                       <LinkedinIcon className="size-4" />
                     </a>
@@ -229,7 +229,7 @@ export function ProfileView({
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="X"
-                      className="flex size-10 items-center justify-center rounded-full border border-border bg-transparent text-foreground/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-accent/50 hover:text-primary"
+                      className="flex size-10 items-center justify-center rounded-full border border-border bg-transparent text-foreground/70 transition-all duration-300 hover:border-primary/30 hover:bg-accent/50 hover:text-primary"
                     >
                       <XIcon className="size-4" />
                     </a>

@@ -137,7 +137,7 @@ export function FounderSection() {
                       {founders.purposeItems[founders.purposeItems.length - 1]}
                     </span>
                     <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-background/80 text-primary transition-colors group-hover:bg-primary-foreground/20 group-hover:text-primary-foreground">
-                      <PartnersCtaChevron className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                      <PartnersCtaChevron className="size-4" />
                     </div>
                   </Link>
                 )}

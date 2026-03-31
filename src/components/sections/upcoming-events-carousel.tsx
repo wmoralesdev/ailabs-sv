@@ -136,7 +136,7 @@ export function UpcomingEventsCarousel({ events, t }: Props) {
             key={event.id}
             className="min-w-0 shrink-0 snap-start flex-[0_0_100%] md:flex-[0_0_calc(50%-0.75rem)]"
           >
-            <Card className="rounded-2xl border-border/70 bg-card/70 py-0 shadow-sm backdrop-blur-sm transition-[transform,border-color,box-shadow] duration-300 motion-safe:hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md">
+            <Card className="rounded-2xl border-border/70 bg-card/70 py-0 shadow-sm backdrop-blur-sm transition-[border-color,box-shadow] duration-300 hover:border-primary/40 hover:shadow-md">
               <CardHeader className="space-y-4 px-6 pt-6">
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex flex-wrap items-center gap-2">
@@ -207,15 +207,12 @@ export function UpcomingEventsCarousel({ events, t }: Props) {
                   href={event.rsvpUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={cn(
-                    buttonVariants(),
-                    "group h-10 rounded-full px-5 text-sm",
-                  )}
+                  className={cn(buttonVariants({ size: "xl" }), "group w-full")}
                 >
                   {t.events.rsvpButton}
                   <HugeiconsIcon
                     icon={ArrowUpRightIcon}
-                    className="size-4 transition-transform duration-300 motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5"
+                    className="size-4"
                   />
                 </a>
               </CardFooter>

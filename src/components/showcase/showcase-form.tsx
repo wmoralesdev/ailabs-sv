@@ -611,8 +611,8 @@ function ShowcaseFormImpl({ editSlug }: ShowcaseFormProps) {
                         <Button
                           type="button"
                           variant="outline"
-                          size="sm"
-                          className="h-9 shrink-0 rounded-full px-4"
+                          size="lg"
+                          className="shrink-0 px-4"
                           onClick={() => {
                             setAddToolError(null);
                             setAddToolDraft("");

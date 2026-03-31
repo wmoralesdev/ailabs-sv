@@ -686,7 +686,6 @@ export function AdminEventsPage() {
                             <Button
                               type="button"
                               size="sm"
-                              className="h-7 text-xs"
                               disabled={savingId === event._id}
                               onClick={() => saveRow(event)}
                             >

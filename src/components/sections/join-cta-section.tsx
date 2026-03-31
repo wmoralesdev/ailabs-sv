@@ -33,7 +33,7 @@ export function JoinCtaSection() {
           to={t.site.whatsappLink as any}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-primary px-10 text-lg font-medium text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-primary/40"
+          className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-primary px-10 text-lg font-medium text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-300 hover:shadow-primary/40"
         >
           {t.joinCta.cta}
           <HugeiconsIcon icon={ArrowRightIcon} size={22} />

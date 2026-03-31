@@ -50,7 +50,7 @@ export function LearningPreviewSection() {
               return (
                 <article
                   key={card.id}
-                  className="group cursor-default overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm transition-[transform,border-color,box-shadow] duration-300 motion-safe:hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
+                  className="group cursor-default overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
                 >
                   <div
                     className={`flex h-32 items-center justify-center ${gradientClass}`}

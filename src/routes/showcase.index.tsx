@@ -66,7 +66,7 @@ function ShowcaseIndexPage() {
               <Link
                 to="/showcase/submit"
                 search={{ edit: undefined }}
-                className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary px-8 font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-primary/30 sm:w-auto"
+                className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary px-8 font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:shadow-primary/30 sm:w-auto"
               >
                 {h.primaryCta}
                 <HugeiconsIcon icon={ArrowRightIcon} size={18} />
@@ -75,7 +75,7 @@ function ShowcaseIndexPage() {
               <Link
                 to="/sign-in"
                 search={{ returnTo: "/showcase" }}
-                className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary px-8 font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-primary/30 sm:w-auto"
+                className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary px-8 font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:shadow-primary/30 sm:w-auto"
               >
                 {t.feed.joinCta}
                 <HugeiconsIcon icon={ArrowRightIcon} size={18} />
@@ -83,7 +83,7 @@ function ShowcaseIndexPage() {
             )}
             <Link
               to="/partners"
-              className="flex h-12 w-full items-center justify-center gap-2 rounded-lg border border-border bg-transparent px-8 font-medium text-foreground transition-all duration-300 hover:border-primary/30 hover:bg-accent/50 sm:w-auto"
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-lg border border-border bg-muted px-8 font-medium text-foreground transition-all duration-300 hover:border-primary/30 hover:bg-accent hover:text-accent-foreground sm:w-auto"
             >
               {h.secondaryCta}
             </Link>
