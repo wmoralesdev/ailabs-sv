@@ -88,7 +88,11 @@ export function buildHomeJsonLd(): Record<string, unknown> {
         name: "Ai /abs",
         url: origin,
         logo: `${origin}/og.png`,
-        sameAs: ["https://twitter.com/ailabs_sv"],
+        sameAs: [
+          "https://www.linkedin.com/company/ai-labs-sv",
+          "https://x.com/ailabs_sv",
+          "https://www.instagram.com/ailabs_sv/",
+        ],
       },
       {
         "@type": "WebSite",

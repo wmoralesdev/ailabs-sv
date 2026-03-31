@@ -63,6 +63,11 @@ export const seoCopyEs = {
     title: "Design system — Ai /abs",
     description: "Uso interno Ai /abs.",
   },
+  slidesDeck: (deckId: string) => ({
+    title: `Presentación (${deckId}) — Ai /abs`,
+    description:
+      "Material para eventos y presentaciones. No aparece en el mapa del sitio; uso compartido por enlace.",
+  }),
   ssoCallback: {
     title: "Iniciando sesión — Ai /abs",
     description: "Redirección de inicio de sesión.",

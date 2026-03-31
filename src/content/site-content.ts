@@ -153,6 +153,52 @@ export interface SiteContent {
     email: string;
     ctaSecondary: string;
   };
+  slidesBrandDeck: {
+    overview: {
+      eyebrow: string;
+      title: string;
+      intro: string;
+      cards: Array<{ title: string; body: string }>;
+    };
+    community: {
+      eyebrow: string;
+      title: string;
+      intro: string;
+    };
+    collaboration: {
+      eyebrow: string;
+      title: string;
+      intro: string;
+      cards: Array<{ title: string; body: string }>;
+      proofLabel: string;
+    };
+    enablement: {
+      eyebrow: string;
+      title: string;
+      intro: string;
+      cards: Array<{ title: string; body: string }>;
+    };
+    contact: {
+      pageIntro: string;
+      communityTitle: string;
+      communityHint: string;
+      communityCta: string;
+      collaborationTitle: string;
+      collaborationHint: string;
+      collaborationCta: string;
+      collaborationSubject: string;
+      enablementTitle: string;
+      enablementHint: string;
+      enablementCta: string;
+      enablementSubject: string;
+    };
+    pastEvents: {
+      cafeCursorAlt: string;
+      hackathonSvAlt: string;
+      cafeCursorCaption: string;
+      hackathonSvCaption: string;
+    };
+  };
   partnersPage: {
     hero: {
       badge: string;
@@ -649,10 +695,10 @@ const contentEs: SiteContent = {
     location: "San Salvador, El Salvador",
     whatsappLink: "https://chat.whatsapp.com/Ga8mG1fqDM9C0ryxAw1eIj",
     socials: {
-      linkedin: "https://linkedin.com/company/ailabs-sv",
+      linkedin: "https://www.linkedin.com/company/ai-labs-sv",
       instagram: "https://www.instagram.com/ailabs_sv/",
       tiktok: "https://www.tiktok.com/@ailabs_sv",
-      twitter: "https://twitter.com/ailabs_sv",
+      twitter: "https://x.com/ailabs_sv",
     },
   },
   hero: {
@@ -672,12 +718,12 @@ const contentEs: SiteContent = {
   founders: {
     sectionTitle: "THE STORY",
     sectionHeadline: "Walter Morales y Daniela Huezo",
-    bio: "Fundamos Ai /abs con una pregunta simple: ¿qué puede hacer la IA aquí, realmente? Nadie en El Salvador estaba preguntando — así que creamos el espacio para descubrirlo. Lo que empezó como curiosidad se convirtió en una comunidad de 500+ builders en la región, organizando workshops, hackathons y conversaciones reales sobre lo que es posible.",
+    bio: "Fundamos Ai /abs con una pregunta simple: ¿qué puede hacer la IA aquí, realmente? Como nadie en El Salvador la estaba haciendo en voz alta, creamos el espacio para descubrirlo. Lo que empezó como curiosidad se convirtió en una comunidad de 500+ builders y en un aliado práctico para equipos que quieren aprender IA haciendo.",
     purposeFraming: "¿Querés construir algo con nosotros?",
     purposeItems: [
-      "Alianzas que convierten ideas en experiencias de aprendizaje",
-      "Invitaciones a hablar que van más allá de las slides",
-      "Conexiones con builders que construyen, no solo hablan",
+      "Alianzas que ponen espacio, herramientas o expertise detrás de experimentos reales",
+      "Charlas y workshops que aportan algo útil, no solo slides",
+      "Hablar de una colaboración con Ai /abs",
     ],
     people: [
       {
@@ -822,10 +868,103 @@ const contentEs: SiteContent = {
   },
   partner: {
     title: "¿Curiosidad por colaborar?",
-    description: "Buscamos espacios, speakers y patrocinadores que creen en aprender haciendo.",
-    cta: "Contactar para alianza",
+    description: "Trabajamos con empresas, comunidades y personas que pueden acercar espacio, herramientas, experiencia o patrocinio a experimentos reales.",
+    cta: "Hablar de una colaboración",
     email: "hello@ailabs.sv",
-    ctaSecondary: "Ver oportunidades",
+    ctaSecondary: "Ver formas de ayudar",
+  },
+  slidesBrandDeck: {
+    overview: {
+      eyebrow: "LO QUE SOMOS",
+      title: "Ai /abs es comunidad, colaboración y práctica.",
+      intro:
+        "Empezamos con la comunidad. Desde ahí, las empresas pueden acercarse de dos formas: ayudando a impulsar el ecosistema o trayéndonos al equipo para trabajar IA en la práctica.",
+      cards: [
+        {
+          title: "Comunidad",
+          body: "Builders que hacen preguntas, prueban ideas y comparten lo que aprenden.",
+        },
+        {
+          title: "Colaboración",
+          body: "Empresas y aliados que aportan charlas, espacio, patrocinio, herramientas o acceso.",
+        },
+        {
+          title: "Equipos",
+          body: "Sesiones prácticas para convertir curiosidad por IA en criterio, flujos de trabajo y siguientes pasos.",
+        },
+      ],
+    },
+    community: {
+      eyebrow: "COMUNIDAD",
+      title: "Donde las preguntas se vuelven proyectos",
+      intro:
+        "Ai /abs es un lugar para experimentar en público: meetups, workshops, hackathons y demo days para builders que quieren aprender haciendo.",
+    },
+    collaboration: {
+      eyebrow: "COLABORACIÓN",
+      title: "Cómo las empresas se acercan a Ai /abs",
+      intro:
+        "La mejor colaboración acerca experiencia, espacio, herramientas o visibilidad a la comunidad. Así se vuelve posible el siguiente experimento.",
+      cards: [
+        {
+          title: "Experiencia y charlas",
+          body: "Enseñar algo útil, revisar proyectos o ayudar a pensar mejor.",
+        },
+        {
+          title: "Espacio y logística",
+          body: "Abrir un lugar para meetups, workshops o sesiones de hackeo.",
+        },
+        {
+          title: "Herramientas y patrocinio",
+          body: "Aportar créditos, licencias, premios o apoyo para experimentos más ambiciosos.",
+        },
+        {
+          title: "Señal y acceso",
+          body: "Conectar el trabajo con tu red, tu plataforma o tu audiencia.",
+        },
+      ],
+      proofLabel: "Aliados que ya han respaldado experimentos",
+    },
+    enablement: {
+      eyebrow: "EQUIPOS",
+      title: "Práctica de IA para equipos que quieren avanzar",
+      intro:
+        "Walter y Daniela también acompañan a equipos que necesitan algo más útil que consultoría genérica: sesiones hands-on, criterio compartido y un plan real para seguir.",
+      cards: [
+        {
+          title: "Para quién",
+          body: "Equipos de producto, ingeniería y operaciones que quieren pasar de interés a práctica.",
+        },
+        {
+          title: "Formato",
+          body: "Diagnóstico ligero, workshops, working sessions y acompañamiento para probar herramientas en flujos reales.",
+        },
+        {
+          title: "Qué cambia",
+          body: "Más criterio compartido, mejores workflows y una forma concreta de seguir usando IA después de la sesión.",
+        },
+      ],
+    },
+    contact: {
+      pageIntro: "Elige el camino que tenga más sentido para ti.",
+      communityTitle: "Unirme a la comunidad",
+      communityHint: "WhatsApp, redes y eventos abiertos para builders curiosos.",
+      communityCta: "Unirse al WhatsApp",
+      collaborationTitle: "Colaborar con Ai /abs",
+      collaborationHint: "Traer experiencia, charlas, espacio, herramientas o patrocinio cerca de la comunidad.",
+      collaborationCta: "Hablar de colaboración",
+      collaborationSubject: "Colaboración con Ai /abs",
+      enablementTitle: "Traernos a tu equipo",
+      enablementHint: "Escribirnos para workshops, sesiones de trabajo o acompañamiento práctico con IA.",
+      enablementCta: "Hablar de acompañamiento",
+      enablementSubject: "Acompañamiento de IA para mi equipo",
+    },
+    pastEvents: {
+      cafeCursorAlt: "Café Cursor — conversación y comunidad Ai /abs",
+      hackathonSvAlt: "Cursor Hackathon San Salvador — equipos construyendo",
+      cafeCursorCaption: "Café Cursor",
+      hackathonSvCaption: "Hackathon SV",
+    },
   },
   partnersPage: {
     hero: {
@@ -836,35 +975,38 @@ const contentEs: SiteContent = {
         "en público.",
         "experimentos reales.",
         "con la comunidad.",
-        "alianzas honestas.",
+        "colaboraciones útiles.",
       ],
-      subheadline: "Somos una comunidad de builders explorando IA en El Salvador. Si quieres aportar herramientas, espacio o visibilidad a experimentos reales, hablemos.",
-      primaryCta: "Hablar de una alianza",
+      subheadline:
+        "Somos una comunidad de builders explorando IA en El Salvador. Si quieres acercar experiencia, charlas, herramientas, espacio o patrocinio a experimentos reales, hablemos.",
+      primaryCta: "Hablar de colaboración",
       secondaryCta: "Ver cómo ayudar",
-      note: "Sin paquetes. Sin niveles. Solo colaboración honesta.",
+      note: "Sin paquetes. Sin niveles. Solo colaboración útil.",
     },
     whatMeans: {
       eyebrow: "QUÉ SIGNIFICA",
       title: "Cómo trabajamos con partners",
-      body1: "Somos builders. Tú respaldas experimentos, no presentaciones.",
-      body2: "Construimos en público, damos crédito a quienes ayudaron, y seguimos con la siguiente pregunta.",
-      principles: ["Construir experimentos juntos.", "Abierto por defecto.", "Sin gatekeeping. Sin política."],
+      body1: "Somos builders. Tu apoyo hace posible experimentos, no presentaciones.",
+      body2: "Construimos en público, damos crédito a quienes ayudan y seguimos con la siguiente pregunta.",
+      principles: ["Ayuda que se vuelve práctica.", "Abierto por defecto.", "Sin gatekeeping. Sin política."],
     },
     pastPartners: {
       eyebrow: "QUIENES HAN AYUDADO",
       title: "Quiénes respaldan a los builders",
-      body: "Estos equipos e individuos pusieron recursos detrás de experimentos. Se presentaron cuando importaba.",
+      body: "Estos equipos e individuos acercaron recursos, herramientas y criterio a la comunidad cuando más importaba.",
     },
     waysToHelp: {
       eyebrow: "FORMAS DE AYUDAR",
-      title: "Formas simples de ayudar",
-      intro: "No necesitas un \"gran sponsorship\". A veces lo que cambia todo es una puerta abierta.",
+      title: "Formas concretas de ayudar",
+      intro:
+        "No necesitas un gran patrocinio. A veces lo que cambia todo es una charla útil, una puerta abierta o un cuarto lleno de builders.",
       cards: [
         { title: "Espacio", description: "Presta un lugar para que los builders hackeen." },
-        { title: "Acceso", description: "Abre una puerta — tu red, tus herramientas, tu plataforma." },
+        { title: "Experiencia", description: "Mentorea proyectos, revisa workflows o ayuda a pensar mejor." },
+        { title: "Charlas", description: "Comparte algo útil con la comunidad, sin convertirlo en pitch." },
         { title: "Herramientas", description: "Créditos, licencias o acceso para que los builders puedan romper cosas." },
-        { title: "Señal", description: "Amplifica experimentos en tu audiencia." },
-        { title: "Tiempo", description: "Preséntate. Revisa proyectos. Haz preguntas incómodas." },
+        { title: "Patrocinio", description: "Apoya los experimentos que te gustaría ver más seguido." },
+        { title: "Señal", description: "Amplifica el trabajo en tu red, plataforma o audiencia." },
       ],
     },
     howItWorks: {
@@ -882,7 +1024,7 @@ const contentEs: SiteContent = {
       items: [
         {
           q: "¿Qué recibe un partner?",
-          a: "Tu nombre en lo que construimos juntos. Exposición a 500+ builders que construyen. Sin métricas infladas — solo trabajo real.",
+          a: "Crédito visible, cercanía con builders que sí construyen y una forma creíble de apoyar el ecosistema. Sin métricas infladas, solo trabajo real.",
         },
         {
           q: "¿Tienen precios o paquetes?",
@@ -897,7 +1039,7 @@ const contentEs: SiteContent = {
     finalCta: {
       badge: "ÚNETE",
       title: "¿Tienes algo que aportar?",
-      body: "Un correo. Qué aportas. Qué te interesa. Nosotros arreglamos el resto.",
+      body: "Cuéntanos qué puedes aportar: experiencia, charlas, espacio, herramientas, patrocinio o señal. Nosotros armamos el formato.",
       cta: "Contactar",
     },
   },
@@ -1455,10 +1597,10 @@ const contentEn: SiteContent = {
     location: "San Salvador, El Salvador",
     whatsappLink: "https://chat.whatsapp.com/Ga8mG1fqDM9C0ryxAw1eIj",
     socials: {
-      linkedin: "https://linkedin.com/company/ailabs-sv",
+      linkedin: "https://www.linkedin.com/company/ai-labs-sv",
       instagram: "https://www.instagram.com/ailabs_sv/",
       tiktok: "https://www.tiktok.com/@ailabs_sv",
-      twitter: "https://twitter.com/ailabs_sv",
+      twitter: "https://x.com/ailabs_sv",
     },
   },
   hero: {
@@ -1478,12 +1620,12 @@ const contentEn: SiteContent = {
   founders: {
     sectionTitle: "THE STORY",
     sectionHeadline: "Walter Morales & Daniela Huezo",
-    bio: "We started Ai /abs with a simple question: what can AI actually do here? No one in El Salvador was asking — so we built the space to find out. What began as curiosity became a community of 500+ builders across the region, running workshops, hackathons, and real conversations about what's possible.",
+    bio: "We started Ai /abs with a simple question: what can AI actually do here? Since no one in El Salvador was asking it out loud, we built the space to find out. What started as curiosity became a community of 500+ builders and a practical partner for teams that want to learn AI by doing.",
     purposeFraming: "Want to build something with us?",
     purposeItems: [
-      "Partnerships that turn ideas into learning experiences",
-      "Speaking invitations that go beyond the slides",
-      "Connections with builders who ship, not just talk",
+      "Partnerships that put space, tools, or expertise behind real experiments",
+      "Talks and workshops that leave people with something useful, not just slides",
+      "Talk collaboration with Ai /abs",
     ],
     people: [
       {
@@ -1627,10 +1769,103 @@ const contentEn: SiteContent = {
   },
   partner: {
     title: "Curious about partnering?",
-    description: "We're looking for spaces, speakers, and sponsors who believe in learning by doing.",
-    cta: "Partner With Us",
+    description: "We work with companies, communities, and individuals who can bring space, tools, expertise, or sponsorship closer to real experiments.",
+    cta: "Talk collaboration",
     email: "hello@ailabs.sv",
-    ctaSecondary: "View Opportunities",
+    ctaSecondary: "See ways to help",
+  },
+  slidesBrandDeck: {
+    overview: {
+      eyebrow: "WHAT WE ARE",
+      title: "Ai /abs is community, collaboration, and practice.",
+      intro:
+        "We start with community. From there, companies can get close in two ways: help move the ecosystem forward or bring us into the room to work directly with a team.",
+      cards: [
+        {
+          title: "Community",
+          body: "Builders who ask questions, test ideas, and share what they learn.",
+        },
+        {
+          title: "Collaboration",
+          body: "Companies and allies who bring talks, space, sponsorship, tools, or access.",
+        },
+        {
+          title: "Teams",
+          body: "Hands-on sessions that turn AI curiosity into judgment, workflows, and next steps.",
+        },
+      ],
+    },
+    community: {
+      eyebrow: "COMMUNITY",
+      title: "Where questions become projects",
+      intro:
+        "Ai /abs is a place to experiment in public: meetups, workshops, hackathons, and demo days for builders who want to learn by doing.",
+    },
+    collaboration: {
+      eyebrow: "COLLABORATION",
+      title: "How companies get close to Ai /abs",
+      intro:
+        "The best collaboration brings expertise, space, tools, or visibility close to the community. That is what makes the next experiment possible.",
+      cards: [
+        {
+          title: "Expertise and talks",
+          body: "Teach something useful, review projects, or help builders think better.",
+        },
+        {
+          title: "Space and logistics",
+          body: "Open a room for meetups, workshops, or hack sessions.",
+        },
+        {
+          title: "Tools and sponsorship",
+          body: "Bring credits, licenses, prizes, or support for bigger experiments.",
+        },
+        {
+          title: "Signal and access",
+          body: "Connect the work to your network, platform, or audience.",
+        },
+      ],
+      proofLabel: "Collaborators already behind real experiments",
+    },
+    enablement: {
+      eyebrow: "TEAMS",
+      title: "Practical AI support for teams that want to move forward",
+      intro:
+        "Walter and Daniela also work with teams that need something more useful than generic AI consulting: hands-on sessions, shared judgment, and a realistic next step.",
+      cards: [
+        {
+          title: "Who it is for",
+          body: "Product, engineering, and operations teams that want to move from interest to practice.",
+        },
+        {
+          title: "What it looks like",
+          body: "A lightweight assessment, workshops, working sessions, and support inside real workflows.",
+        },
+        {
+          title: "What changes",
+          body: "Better shared language, stronger workflows, and a concrete way to keep using AI after the session.",
+        },
+      ],
+    },
+    contact: {
+      pageIntro: "Choose the path that fits what you want to do with us.",
+      communityTitle: "Join the community",
+      communityHint: "WhatsApp, socials, and open events for curious builders.",
+      communityCta: "Join WhatsApp",
+      collaborationTitle: "Collaborate with Ai /abs",
+      collaborationHint: "Bring expertise, talks, space, tools, or sponsorship closer to the community.",
+      collaborationCta: "Talk collaboration",
+      collaborationSubject: "Collaboration with Ai /abs",
+      enablementTitle: "Bring us to your team",
+      enablementHint: "Email us about workshops, working sessions, or practical AI enablement.",
+      enablementCta: "Talk enablement",
+      enablementSubject: "AI enablement for our team",
+    },
+    pastEvents: {
+      cafeCursorAlt: "Cafe Cursor — Ai /abs community conversation",
+      hackathonSvAlt: "Cursor Hackathon San Salvador — teams building",
+      cafeCursorCaption: "Cafe Cursor",
+      hackathonSvCaption: "Hackathon SV",
+    },
   },
   partnersPage: {
     hero: {
@@ -1641,35 +1876,38 @@ const contentEn: SiteContent = {
         "the community.",
         "real experiments.",
         "open doors.",
-        "honest partnerships.",
+        "useful collaboration.",
       ],
-      subheadline: "We're a community of builders exploring AI in El Salvador. If you want to put tools, space, or visibility behind real experiments, let's talk.",
+      subheadline:
+        "We're a community of builders exploring AI in El Salvador. If you want to bring expertise, talks, tools, space, or sponsorship closer to real experiments, let's talk.",
       primaryCta: "Talk partnership",
       secondaryCta: "See ways to help",
-      note: "No packages. No tiers. Just honest collaboration.",
+      note: "No packages. No tiers. Just useful collaboration.",
     },
     whatMeans: {
       eyebrow: "WHAT IT MEANS",
       title: "How we work with partners",
-      body1: "We're builders. You back experiments, not presentations.",
-      body2: "We ship in public, credit who helped, and move on to the next question.",
-      principles: ["Ship experiments together.", "Open by default.", "No gatekeeping. No politics."],
+      body1: "We're builders. Your support makes experiments possible, not presentations.",
+      body2: "We build in public, credit who helped, and move on to the next question.",
+      principles: ["Support that becomes practice.", "Open by default.", "No gatekeeping. No politics."],
     },
     pastPartners: {
       eyebrow: "WHO HAS HELPED",
       title: "Who's backed the builders",
-      body: "These teams and individuals put resources behind experiments. They showed up when it mattered.",
+      body: "These teams and individuals brought resources, tools, and judgment closer to the community when it mattered.",
     },
     waysToHelp: {
       eyebrow: "WAYS TO HELP",
-      title: "Simple ways to help",
-      intro: "You don't need a big sponsorship. Sometimes an open door is the whole difference.",
+      title: "Concrete ways to help",
+      intro:
+        "You do not need a big sponsorship. Sometimes the whole difference is a useful talk, an open door, or a room full of builders.",
       cards: [
         { title: "Space", description: "Lend a room for builders to hack." },
-        { title: "Access", description: "Open a door — your network, your tools, your platform." },
+        { title: "Expertise", description: "Mentor projects, review workflows, or help people think better." },
+        { title: "Talks", description: "Share something useful with the community without turning it into a pitch." },
         { title: "Tools", description: "Credits, licenses, or early access so builders can break things." },
-        { title: "Signal", description: "Amplify experiments to your audience." },
-        { title: "Time", description: "Show up. Review projects. Ask hard questions." },
+        { title: "Sponsorship", description: "Support the kinds of experiments you want to see more often." },
+        { title: "Signal", description: "Amplify the work to your network, platform, or audience." },
       ],
     },
     howItWorks: {
@@ -1687,7 +1925,7 @@ const contentEn: SiteContent = {
       items: [
         {
           q: "What do partners get?",
-          a: "Your name on what we build together. Exposure to 500+ builders who ship. No fluff metrics — just real work.",
+          a: "Visible credit, proximity to builders who actually ship, and a credible way to support the ecosystem. No fluff metrics, just real work.",
         },
         {
           q: "Do you have prices or packages?",
@@ -1702,7 +1940,7 @@ const contentEn: SiteContent = {
     finalCta: {
       badge: "JOIN",
       title: "Got something to offer?",
-      body: "One email. What you bring. What interests you. We'll figure out the rest.",
+      body: "Tell us what you can bring: expertise, talks, space, tools, sponsorship, or signal. We'll shape the format from there.",
       cta: "Reach out",
     },
   },

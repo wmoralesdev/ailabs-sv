@@ -7,6 +7,7 @@ Disallow: /onboarding
 Disallow: /me
 Disallow: /showcase/submit
 Disallow: /design-system
+Disallow: /slides
 Disallow: /blog
 Disallow: /sign-in_
 

@@ -20,8 +20,8 @@ const SOCIAL_LINKS = {
   website: "https://ailabs.sv",
   whatsapp: "https://chat.whatsapp.com/Ga8mG1fqDM9C0ryxAw1eIj",
   github: "https://github.com/ailabs-sv",
-  twitter: "https://twitter.com/ailabs_sv",
-  linkedin: "https://linkedin.com/company/ailabs-sv",
+  twitter: "https://x.com/ailabs_sv",
+  linkedin: "https://www.linkedin.com/company/ai-labs-sv",
 };
 
 export function EmailLayout({ children, previewText }: EmailLayoutProps) {
