@@ -1,0 +1,14 @@
+# Dependencies and build output (prefer TS/TSX sources)
+node_modules/
+dist/
+dist-ssr/
+.output/
+.nitro/
+.tanstack/
+.vinxi/
+.wrangler/
+.vercel/
+
+# Convex emits duplicate JS next to .d.ts — read api.d.ts / server.d.ts instead
+convex/_generated/api.js
+convex/_generated/server.js
