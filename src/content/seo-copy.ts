@@ -17,6 +17,16 @@ export const seoCopyEs = {
     description:
       "Proyectos y experimentos que la comunidad construye con IA: demos, herramientas y aprendizajes compartidos.",
   },
+  hackathonGroupsIndex: {
+    title: "Hackathon Groups — Ai /abs",
+    description:
+      "Sube proyectos de tu grupo durante el hackathon y mantén un historial claro de avances.",
+  },
+  hackathonGroupsSubmit: {
+    title: "Subir proyecto de hackathon — Ai /abs",
+    description:
+      "Carga o actualiza proyectos de tu grupo en cualquier momento durante la sesión.",
+  },
   terms: {
     title: "Términos — Ai /abs",
     description:
