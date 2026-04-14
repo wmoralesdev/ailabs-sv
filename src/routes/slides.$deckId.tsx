@@ -43,9 +43,13 @@ function SlidesDeckPage() {
       ? language === "es"
         ? "Marca"
         : "Brand"
-      : deck.id === "ufg-events"
-        ? "UFG"
-        : deck.label;
+      : deck.id === "brand-students"
+        ? language === "es"
+          ? "Marca · estudiantes"
+          : "Brand · students"
+        : deck.id === "ufg-events"
+          ? "UFG"
+          : deck.label;
 
   return <SlidesShell slides={[...deck.slides]} deckLabel={deckLabel} />;
 }

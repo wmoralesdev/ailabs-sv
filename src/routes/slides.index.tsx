@@ -29,6 +29,9 @@ function deckTitle(deckId: string, baseLabel: string, language: Language): strin
   if (deckId === "brand") {
     return language === "es" ? "Marca" : "Brand";
   }
+  if (deckId === "brand-students") {
+    return language === "es" ? "Marca · estudiantes" : "Brand · students";
+  }
   if (deckId === "ufg-events") {
     return "UFG";
   }

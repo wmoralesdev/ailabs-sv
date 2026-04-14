@@ -199,6 +199,14 @@ export interface SiteContent {
       hackathonSvCaption: string;
     };
   };
+  slidesBrandStudentsDeck: {
+    partnersSlide: {
+      eyebrow: string;
+      title: string;
+      intro: string;
+      companies: Array<string>;
+    };
+  };
   partnersPage: {
     hero: {
       badge: string;
@@ -964,6 +972,15 @@ const contentEs: SiteContent = {
       hackathonSvAlt: "Cursor Hackathon San Salvador — equipos construyendo",
       cafeCursorCaption: "Café Cursor",
       hackathonSvCaption: "Hackathon SV",
+    },
+  },
+  slidesBrandStudentsDeck: {
+    partnersSlide: {
+      eyebrow: "CON QUIÉN HEMOS TRABAJADO",
+      title: "Empresas con las que hemos trabajado",
+      intro:
+        "Equipos y herramientas que ya estuvieron cerca de la comunidad en talleres, hackathons y eventos.",
+      companies: ["Cursor", "v0", "n8n", "OpenAI", "Vercel"],
     },
   },
   partnersPage: {
@@ -1865,6 +1882,15 @@ const contentEn: SiteContent = {
       hackathonSvAlt: "Cursor Hackathon San Salvador — teams building",
       cafeCursorCaption: "Cafe Cursor",
       hackathonSvCaption: "Hackathon SV",
+    },
+  },
+  slidesBrandStudentsDeck: {
+    partnersSlide: {
+      eyebrow: "WHO WE'VE WORKED WITH",
+      title: "Companies we've worked with",
+      intro:
+        "Teams and tools that have already shown up for the community in workshops, hackathons, and events.",
+      companies: ["Cursor", "v0", "n8n", "OpenAI", "Vercel"],
     },
   },
   partnersPage: {

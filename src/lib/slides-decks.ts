@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import { brandDeckSlides } from "@/content/slides-brand-deck";
+import { brandStudentsDeckSlides } from "@/content/slides-brand-students-deck";
 import { ufgEventsDeckSlides } from "@/content/slides-ufg-events-deck";
 
 export type SlideDeckDefinition = {
@@ -13,6 +14,11 @@ const DECKS: Record<string, SlideDeckDefinition> = {
     id: "brand",
     label: "Brand",
     slides: brandDeckSlides,
+  },
+  "brand-students": {
+    id: "brand-students",
+    label: "Brand students",
+    slides: brandStudentsDeckSlides,
   },
   "ufg-events": {
     id: "ufg-events",
