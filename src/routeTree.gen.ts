@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SlidesRouteImport } from './routes/slides'
 import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as ShowcaseRouteImport } from './routes/showcase'
@@ -22,6 +23,7 @@ import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SlidesIndexRouteImport } from './routes/slides.index'
 import { Route as ShowcaseIndexRouteImport } from './routes/showcase.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as SlidesDeckIdRouteImport } from './routes/slides.$deckId'
@@ -37,6 +39,11 @@ import { Route as AdminEventsRouteImport } from './routes/admin.events'
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SlidesRoute = SlidesRouteImport.update({
+  id: '/slides',
+  path: '/slides',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignUpRoute = SignUpRouteImport.update({
@@ -99,6 +106,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SlidesIndexRoute = SlidesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SlidesRoute,
+} as any)
 const ShowcaseIndexRoute = ShowcaseIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -110,9 +122,9 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   getParentRoute: () => AdminRoute,
 } as any)
 const SlidesDeckIdRoute = SlidesDeckIdRouteImport.update({
-  id: '/slides/$deckId',
-  path: '/slides/$deckId',
-  getParentRoute: () => rootRouteImport,
+  id: '/$deckId',
+  path: '/$deckId',
+  getParentRoute: () => SlidesRoute,
 } as any)
 const SignInSsoCallbackRoute = SignInSsoCallbackRouteImport.update({
   id: '/sign-in_/sso-callback',
@@ -168,6 +180,7 @@ export interface FileRoutesByFullPath {
   '/showcase': typeof ShowcaseRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
+  '/slides': typeof SlidesRouteWithChildren
   '/terms': typeof TermsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/lab': typeof AdminLabRoute
@@ -180,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/slides/$deckId': typeof SlidesDeckIdRoute
   '/admin/': typeof AdminIndexRoute
   '/showcase/': typeof ShowcaseIndexRoute
+  '/slides/': typeof SlidesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -204,6 +218,7 @@ export interface FileRoutesByTo {
   '/slides/$deckId': typeof SlidesDeckIdRoute
   '/admin': typeof AdminIndexRoute
   '/showcase': typeof ShowcaseIndexRoute
+  '/slides': typeof SlidesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -219,6 +234,7 @@ export interface FileRoutesById {
   '/showcase': typeof ShowcaseRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
+  '/slides': typeof SlidesRouteWithChildren
   '/terms': typeof TermsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/lab': typeof AdminLabRoute
@@ -231,6 +247,7 @@ export interface FileRoutesById {
   '/slides/$deckId': typeof SlidesDeckIdRoute
   '/admin/': typeof AdminIndexRoute
   '/showcase/': typeof ShowcaseIndexRoute
+  '/slides/': typeof SlidesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -247,6 +264,7 @@ export interface FileRouteTypes {
     | '/showcase'
     | '/sign-in'
     | '/sign-up'
+    | '/slides'
     | '/terms'
     | '/admin/events'
     | '/admin/lab'
@@ -259,6 +277,7 @@ export interface FileRouteTypes {
     | '/slides/$deckId'
     | '/admin/'
     | '/showcase/'
+    | '/slides/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -283,6 +302,7 @@ export interface FileRouteTypes {
     | '/slides/$deckId'
     | '/admin'
     | '/showcase'
+    | '/slides'
   id:
     | '__root__'
     | '/'
@@ -297,6 +317,7 @@ export interface FileRouteTypes {
     | '/showcase'
     | '/sign-in'
     | '/sign-up'
+    | '/slides'
     | '/terms'
     | '/admin/events'
     | '/admin/lab'
@@ -309,6 +330,7 @@ export interface FileRouteTypes {
     | '/slides/$deckId'
     | '/admin/'
     | '/showcase/'
+    | '/slides/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -324,11 +346,11 @@ export interface RootRouteChildren {
   ShowcaseRoute: typeof ShowcaseRouteWithChildren
   SignInRoute: typeof SignInRoute
   SignUpRoute: typeof SignUpRoute
+  SlidesRoute: typeof SlidesRouteWithChildren
   TermsRoute: typeof TermsRoute
   CommunitySlugRoute: typeof CommunitySlugRoute
   EventsSlugRoute: typeof EventsSlugRoute
   SignInSsoCallbackRoute: typeof SignInSsoCallbackRoute
-  SlidesDeckIdRoute: typeof SlidesDeckIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -338,6 +360,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/slides': {
+      id: '/slides'
+      path: '/slides'
+      fullPath: '/slides'
+      preLoaderRoute: typeof SlidesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sign-up': {
@@ -424,6 +453,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/slides/': {
+      id: '/slides/'
+      path: '/'
+      fullPath: '/slides/'
+      preLoaderRoute: typeof SlidesIndexRouteImport
+      parentRoute: typeof SlidesRoute
+    }
     '/showcase/': {
       id: '/showcase/'
       path: '/'
@@ -440,10 +476,10 @@ declare module '@tanstack/react-router' {
     }
     '/slides/$deckId': {
       id: '/slides/$deckId'
-      path: '/slides/$deckId'
+      path: '/$deckId'
       fullPath: '/slides/$deckId'
       preLoaderRoute: typeof SlidesDeckIdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof SlidesRoute
     }
     '/sign-in_/sso-callback': {
       id: '/sign-in_/sso-callback'
@@ -536,6 +572,19 @@ const ShowcaseRouteWithChildren = ShowcaseRoute._addFileChildren(
   ShowcaseRouteChildren,
 )
 
+interface SlidesRouteChildren {
+  SlidesDeckIdRoute: typeof SlidesDeckIdRoute
+  SlidesIndexRoute: typeof SlidesIndexRoute
+}
+
+const SlidesRouteChildren: SlidesRouteChildren = {
+  SlidesDeckIdRoute: SlidesDeckIdRoute,
+  SlidesIndexRoute: SlidesIndexRoute,
+}
+
+const SlidesRouteWithChildren =
+  SlidesRoute._addFileChildren(SlidesRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
@@ -549,11 +598,11 @@ const rootRouteChildren: RootRouteChildren = {
   ShowcaseRoute: ShowcaseRouteWithChildren,
   SignInRoute: SignInRoute,
   SignUpRoute: SignUpRoute,
+  SlidesRoute: SlidesRouteWithChildren,
   TermsRoute: TermsRoute,
   CommunitySlugRoute: CommunitySlugRoute,
   EventsSlugRoute: EventsSlugRoute,
   SignInSsoCallbackRoute: SignInSsoCallbackRoute,
-  SlidesDeckIdRoute: SlidesDeckIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -24,3 +24,17 @@ const DECKS: Record<string, SlideDeckDefinition> = {
 export function getSlideDeck(deckId: string): SlideDeckDefinition | null {
   return Object.hasOwn(DECKS, deckId) ? DECKS[deckId] : null;
 }
+
+export type SlideDeckListItem = {
+  id: string;
+  label: string;
+  slideCount: number;
+};
+
+export function listSlideDecks(): ReadonlyArray<SlideDeckListItem> {
+  return Object.values(DECKS).map((d) => ({
+    id: d.id,
+    label: d.label,
+    slideCount: d.slides.length,
+  }));
+}

@@ -63,6 +63,11 @@ export const seoCopyEs = {
     title: "Design system — Ai /abs",
     description: "Uso interno Ai /abs.",
   },
+  slidesIndex: {
+    title: "Presentaciones — Ai /abs",
+    description:
+      "Listado de decks de presentación. Acceso restringido; no aparece en el mapa del sitio.",
+  },
   slidesDeck: (deckId: string) => ({
     title: `Presentación (${deckId}) — Ai /abs`,
     description:
