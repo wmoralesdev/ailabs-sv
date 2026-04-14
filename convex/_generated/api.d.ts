@@ -15,6 +15,7 @@ import type * as events_mcp_internal from "../events_mcp_internal.js";
 import type * as founder_pass from "../founder_pass.js";
 import type * as founder_pass_sign_node from "../founder_pass_sign_node.js";
 import type * as google_wallet_phase2 from "../google_wallet_phase2.js";
+import type * as hackathon_groups from "../hackathon_groups.js";
 import type * as http from "../http.js";
 import type * as learning_lab from "../learning_lab.js";
 import type * as lib_admin from "../lib/admin.js";
@@ -49,6 +50,7 @@ declare const fullApi: ApiFromModules<{
   founder_pass: typeof founder_pass;
   founder_pass_sign_node: typeof founder_pass_sign_node;
   google_wallet_phase2: typeof google_wallet_phase2;
+  hackathon_groups: typeof hackathon_groups;
   http: typeof http;
   learning_lab: typeof learning_lab;
   "lib/admin": typeof lib_admin;

@@ -32,6 +32,11 @@ export function SiteHeader() {
   const navLinks = [
     { to: "/partners" as const, hash: undefined, label: t.ui.nav.partners },
     { to: "/showcase" as const, hash: undefined, label: t.ui.nav.feed },
+    {
+      to: "/hackathon-groups" as const,
+      hash: undefined,
+      label: t.ui.nav.hackathonGroups,
+    },
   ] as const;
 
   return (

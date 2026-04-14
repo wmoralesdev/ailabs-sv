@@ -18,6 +18,7 @@ import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as MeRouteImport } from './routes/me'
 import { Route as LinksRouteImport } from './routes/links'
+import { Route as HackathonGroupsRouteImport } from './routes/hackathon-groups'
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as BlogRouteImport } from './routes/blog'
@@ -25,11 +26,14 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SlidesIndexRouteImport } from './routes/slides.index'
 import { Route as ShowcaseIndexRouteImport } from './routes/showcase.index'
+import { Route as HackathonGroupsIndexRouteImport } from './routes/hackathon-groups.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as SlidesDeckIdRouteImport } from './routes/slides.$deckId'
 import { Route as SignInSsoCallbackRouteImport } from './routes/sign-in_.sso-callback'
 import { Route as ShowcaseSubmitRouteImport } from './routes/showcase.submit'
 import { Route as ShowcaseSlugRouteImport } from './routes/showcase.$slug'
+import { Route as HackathonGroupsSubmitRouteImport } from './routes/hackathon-groups.submit'
+import { Route as HackathonGroupsSlugRouteImport } from './routes/hackathon-groups.$slug'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
 import { Route as CommunitySlugRouteImport } from './routes/community.$slug'
 import { Route as AdminWalletRouteImport } from './routes/admin.wallet'
@@ -81,6 +85,11 @@ const LinksRoute = LinksRouteImport.update({
   path: '/links',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HackathonGroupsRoute = HackathonGroupsRouteImport.update({
+  id: '/hackathon-groups',
+  path: '/hackathon-groups',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FeedRoute = FeedRouteImport.update({
   id: '/feed',
   path: '/feed',
@@ -116,6 +125,11 @@ const ShowcaseIndexRoute = ShowcaseIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ShowcaseRoute,
 } as any)
+const HackathonGroupsIndexRoute = HackathonGroupsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HackathonGroupsRoute,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -140,6 +154,16 @@ const ShowcaseSlugRoute = ShowcaseSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => ShowcaseRoute,
+} as any)
+const HackathonGroupsSubmitRoute = HackathonGroupsSubmitRouteImport.update({
+  id: '/submit',
+  path: '/submit',
+  getParentRoute: () => HackathonGroupsRoute,
+} as any)
+const HackathonGroupsSlugRoute = HackathonGroupsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => HackathonGroupsRoute,
 } as any)
 const EventsSlugRoute = EventsSlugRouteImport.update({
   id: '/events/$slug',
@@ -173,6 +197,7 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogRoute
   '/design-system': typeof DesignSystemRoute
   '/feed': typeof FeedRoute
+  '/hackathon-groups': typeof HackathonGroupsRouteWithChildren
   '/links': typeof LinksRoute
   '/me': typeof MeRoute
   '/onboarding': typeof OnboardingRoute
@@ -187,11 +212,14 @@ export interface FileRoutesByFullPath {
   '/admin/wallet': typeof AdminWalletRoute
   '/community/$slug': typeof CommunitySlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/hackathon-groups/$slug': typeof HackathonGroupsSlugRoute
+  '/hackathon-groups/submit': typeof HackathonGroupsSubmitRoute
   '/showcase/$slug': typeof ShowcaseSlugRoute
   '/showcase/submit': typeof ShowcaseSubmitRoute
   '/sign-in/sso-callback': typeof SignInSsoCallbackRoute
   '/slides/$deckId': typeof SlidesDeckIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/hackathon-groups/': typeof HackathonGroupsIndexRoute
   '/showcase/': typeof ShowcaseIndexRoute
   '/slides/': typeof SlidesIndexRoute
 }
@@ -212,11 +240,14 @@ export interface FileRoutesByTo {
   '/admin/wallet': typeof AdminWalletRoute
   '/community/$slug': typeof CommunitySlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/hackathon-groups/$slug': typeof HackathonGroupsSlugRoute
+  '/hackathon-groups/submit': typeof HackathonGroupsSubmitRoute
   '/showcase/$slug': typeof ShowcaseSlugRoute
   '/showcase/submit': typeof ShowcaseSubmitRoute
   '/sign-in/sso-callback': typeof SignInSsoCallbackRoute
   '/slides/$deckId': typeof SlidesDeckIdRoute
   '/admin': typeof AdminIndexRoute
+  '/hackathon-groups': typeof HackathonGroupsIndexRoute
   '/showcase': typeof ShowcaseIndexRoute
   '/slides': typeof SlidesIndexRoute
 }
@@ -227,6 +258,7 @@ export interface FileRoutesById {
   '/blog': typeof BlogRoute
   '/design-system': typeof DesignSystemRoute
   '/feed': typeof FeedRoute
+  '/hackathon-groups': typeof HackathonGroupsRouteWithChildren
   '/links': typeof LinksRoute
   '/me': typeof MeRoute
   '/onboarding': typeof OnboardingRoute
@@ -241,11 +273,14 @@ export interface FileRoutesById {
   '/admin/wallet': typeof AdminWalletRoute
   '/community/$slug': typeof CommunitySlugRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/hackathon-groups/$slug': typeof HackathonGroupsSlugRoute
+  '/hackathon-groups/submit': typeof HackathonGroupsSubmitRoute
   '/showcase/$slug': typeof ShowcaseSlugRoute
   '/showcase/submit': typeof ShowcaseSubmitRoute
   '/sign-in_/sso-callback': typeof SignInSsoCallbackRoute
   '/slides/$deckId': typeof SlidesDeckIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/hackathon-groups/': typeof HackathonGroupsIndexRoute
   '/showcase/': typeof ShowcaseIndexRoute
   '/slides/': typeof SlidesIndexRoute
 }
@@ -257,6 +292,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/design-system'
     | '/feed'
+    | '/hackathon-groups'
     | '/links'
     | '/me'
     | '/onboarding'
@@ -271,11 +307,14 @@ export interface FileRouteTypes {
     | '/admin/wallet'
     | '/community/$slug'
     | '/events/$slug'
+    | '/hackathon-groups/$slug'
+    | '/hackathon-groups/submit'
     | '/showcase/$slug'
     | '/showcase/submit'
     | '/sign-in/sso-callback'
     | '/slides/$deckId'
     | '/admin/'
+    | '/hackathon-groups/'
     | '/showcase/'
     | '/slides/'
   fileRoutesByTo: FileRoutesByTo
@@ -296,11 +335,14 @@ export interface FileRouteTypes {
     | '/admin/wallet'
     | '/community/$slug'
     | '/events/$slug'
+    | '/hackathon-groups/$slug'
+    | '/hackathon-groups/submit'
     | '/showcase/$slug'
     | '/showcase/submit'
     | '/sign-in/sso-callback'
     | '/slides/$deckId'
     | '/admin'
+    | '/hackathon-groups'
     | '/showcase'
     | '/slides'
   id:
@@ -310,6 +352,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/design-system'
     | '/feed'
+    | '/hackathon-groups'
     | '/links'
     | '/me'
     | '/onboarding'
@@ -324,11 +367,14 @@ export interface FileRouteTypes {
     | '/admin/wallet'
     | '/community/$slug'
     | '/events/$slug'
+    | '/hackathon-groups/$slug'
+    | '/hackathon-groups/submit'
     | '/showcase/$slug'
     | '/showcase/submit'
     | '/sign-in_/sso-callback'
     | '/slides/$deckId'
     | '/admin/'
+    | '/hackathon-groups/'
     | '/showcase/'
     | '/slides/'
   fileRoutesById: FileRoutesById
@@ -339,6 +385,7 @@ export interface RootRouteChildren {
   BlogRoute: typeof BlogRoute
   DesignSystemRoute: typeof DesignSystemRoute
   FeedRoute: typeof FeedRoute
+  HackathonGroupsRoute: typeof HackathonGroupsRouteWithChildren
   LinksRoute: typeof LinksRoute
   MeRoute: typeof MeRoute
   OnboardingRoute: typeof OnboardingRoute
@@ -418,6 +465,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LinksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/hackathon-groups': {
+      id: '/hackathon-groups'
+      path: '/hackathon-groups'
+      fullPath: '/hackathon-groups'
+      preLoaderRoute: typeof HackathonGroupsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/feed': {
       id: '/feed'
       path: '/feed'
@@ -467,6 +521,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShowcaseIndexRouteImport
       parentRoute: typeof ShowcaseRoute
     }
+    '/hackathon-groups/': {
+      id: '/hackathon-groups/'
+      path: '/'
+      fullPath: '/hackathon-groups/'
+      preLoaderRoute: typeof HackathonGroupsIndexRouteImport
+      parentRoute: typeof HackathonGroupsRoute
+    }
     '/admin/': {
       id: '/admin/'
       path: '/'
@@ -501,6 +562,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/showcase/$slug'
       preLoaderRoute: typeof ShowcaseSlugRouteImport
       parentRoute: typeof ShowcaseRoute
+    }
+    '/hackathon-groups/submit': {
+      id: '/hackathon-groups/submit'
+      path: '/submit'
+      fullPath: '/hackathon-groups/submit'
+      preLoaderRoute: typeof HackathonGroupsSubmitRouteImport
+      parentRoute: typeof HackathonGroupsRoute
+    }
+    '/hackathon-groups/$slug': {
+      id: '/hackathon-groups/$slug'
+      path: '/$slug'
+      fullPath: '/hackathon-groups/$slug'
+      preLoaderRoute: typeof HackathonGroupsSlugRouteImport
+      parentRoute: typeof HackathonGroupsRoute
     }
     '/events/$slug': {
       id: '/events/$slug'
@@ -556,6 +631,22 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface HackathonGroupsRouteChildren {
+  HackathonGroupsSlugRoute: typeof HackathonGroupsSlugRoute
+  HackathonGroupsSubmitRoute: typeof HackathonGroupsSubmitRoute
+  HackathonGroupsIndexRoute: typeof HackathonGroupsIndexRoute
+}
+
+const HackathonGroupsRouteChildren: HackathonGroupsRouteChildren = {
+  HackathonGroupsSlugRoute: HackathonGroupsSlugRoute,
+  HackathonGroupsSubmitRoute: HackathonGroupsSubmitRoute,
+  HackathonGroupsIndexRoute: HackathonGroupsIndexRoute,
+}
+
+const HackathonGroupsRouteWithChildren = HackathonGroupsRoute._addFileChildren(
+  HackathonGroupsRouteChildren,
+)
+
 interface ShowcaseRouteChildren {
   ShowcaseSlugRoute: typeof ShowcaseSlugRoute
   ShowcaseSubmitRoute: typeof ShowcaseSubmitRoute
@@ -591,6 +682,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogRoute: BlogRoute,
   DesignSystemRoute: DesignSystemRoute,
   FeedRoute: FeedRoute,
+  HackathonGroupsRoute: HackathonGroupsRouteWithChildren,
   LinksRoute: LinksRoute,
   MeRoute: MeRoute,
   OnboardingRoute: OnboardingRoute,

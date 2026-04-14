@@ -35,7 +35,14 @@ export async function buildSitemapXmlBody(): Promise<string> {
   const data = await client.query(api.sitemap.listPublicUrls, {});
   const origin = siteOrigin();
 
-  const staticPaths = ["/", "/partners", "/showcase", "/terms", "/links"] as const;
+  const staticPaths = [
+    "/",
+    "/partners",
+    "/showcase",
+    "/hackathon-groups",
+    "/terms",
+    "/links",
+  ] as const;
   const rows: Array<{ loc: string; lastmod?: string }> = [];
 
   for (const p of staticPaths) {
@@ -45,6 +52,13 @@ export async function buildSitemapXmlBody(): Promise<string> {
   for (const u of data.showcase) {
     rows.push({
       loc: `${origin}/showcase/${encodeURIComponent(u.slug)}`,
+      lastmod: new Date(u.lastmod).toISOString().split("T")[0],
+    });
+  }
+
+  for (const u of data.hackathonGroups) {
+    rows.push({
+      loc: `${origin}/hackathon-groups/${encodeURIComponent(u.slug)}`,
       lastmod: new Date(u.lastmod).toISOString().split("T")[0],
     });
   }
