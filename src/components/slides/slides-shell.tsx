@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ComponentType, TouchEvent } from "react";
 import { LanguageToggle } from "@/components/language-toggle";
+import { SlidesThemeSelector } from "@/components/slides/slides-theme-selector";
 import { cn } from "@/lib/utils";
 
 type SlidesShellProps = {
@@ -105,8 +106,9 @@ export function SlidesShell({ slides, deckLabel }: SlidesShellProps) {
       onTouchEnd={onTouchEnd}
     >
       <div className="pointer-events-none absolute right-0 top-0 z-50 flex items-center pt-[max(0.75rem,env(safe-area-inset-top))] pr-[max(0.75rem,env(safe-area-inset-right))]">
-        <div className="pointer-events-auto rounded-full border border-border/50 bg-background/80 shadow-sm backdrop-blur-md">
+        <div className="pointer-events-auto flex items-center rounded-full border border-border/50 bg-background/80 shadow-sm backdrop-blur-md">
           <LanguageToggle />
+          <SlidesThemeSelector />
         </div>
       </div>
       <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden">
