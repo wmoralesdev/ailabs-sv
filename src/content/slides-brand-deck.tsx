@@ -1,14 +1,26 @@
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
+import QRCode from "react-qr-code";
 import { COMMUNITY_PROOF_SLOT_IMAGES } from "@/components/community-proof-bento-grid";
+import { useResolvedDark } from "@/components/theme-provider";
 import { SlidesBrandText } from "@/components/slides/slides-brand-lockup-inline";
 import { SlideLayout } from "@/components/slides/slide-layout";
 import { AilabsLockup } from "@/components/ui/ailabs-lockup";
 import { GlitchText } from "@/components/ui/glitch-text";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useI18n } from "@/lib/i18n";
+import { getSiteOrigin } from "@/lib/site-url";
 import { cn } from "@/lib/utils";
+
+const linksQrUrl = `${getSiteOrigin()}/links`;
 
 function BrandCoverSlide() {
   const { t } = useI18n();
+  const [qrDialogOpen, setQrDialogOpen] = useState(false);
+  const isDark = useResolvedDark();
+  const qrFg = isDark ? "#fafafa" : "#0a0a0a";
+  const qrBg = isDark ? "#1c1917" : "#fafaf9";
+
   return (
     <SlideLayout contentClassName="flex flex-col items-center justify-center text-center">
       <div className="motion-safe:animate-slide-deck-in motion-reduce:animate-none">
@@ -18,6 +30,44 @@ function BrandCoverSlide() {
       <div className="font-display text-2xl font-medium text-foreground md:text-3xl">
         <GlitchText phrases={t.hero.headlinePhrases} className="inline-block min-h-[1.25em]" />
       </div>
+      <div className="mt-10">
+        <button
+          type="button"
+          className="cursor-pointer rounded-md border-0 bg-transparent p-0 transition-transform hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          aria-label={t.ui.linksPage.qrAlt}
+          aria-expanded={qrDialogOpen}
+          onClick={() => setQrDialogOpen(true)}
+        >
+          <QRCode
+            value={linksQrUrl}
+            size={168}
+            level="M"
+            title=""
+            fgColor={qrFg}
+            bgColor={qrBg}
+            className="h-auto max-w-full [&_path]:[shape-rendering:crispEdges]"
+          />
+        </button>
+      </div>
+      <Dialog open={qrDialogOpen} onOpenChange={setQrDialogOpen}>
+        <DialogContent
+          size="lg"
+          className="z-[100] max-w-[min(90vw,24rem)] items-center border-0 bg-transparent p-8 shadow-none ring-0"
+        >
+          <DialogTitle className="sr-only">{t.ui.linksPage.qrAlt}</DialogTitle>
+          <div className="rounded-2xl border border-border/60 bg-card p-5 text-card-foreground shadow-sm">
+            <QRCode
+              value={linksQrUrl}
+              size={320}
+              level="M"
+              title={t.ui.linksPage.qrAlt}
+              fgColor={qrFg}
+              bgColor={qrBg}
+              className="h-auto w-full max-w-full [&_path]:[shape-rendering:crispEdges]"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </SlideLayout>
   );
 }
@@ -164,9 +214,14 @@ function BrandPastEventsSlide() {
   const mainRows = pickMainEventRows(t.communityProof.slots);
 
   return (
-    <SlideLayout eyebrow={t.eventsGallery.badge} title={t.eventsGallery.title} staggerChildren>
-      <div className="grid gap-4 md:grid-cols-2">
-        <figure className="group relative min-h-[12rem] overflow-hidden rounded-2xl border border-border/50 bg-muted/30 md:min-h-[14rem]">
+    <SlideLayout
+      eyebrow={t.eventsGallery.badge}
+      title={t.eventsGallery.title}
+      staggerChildren
+      contentClassName="max-w-7xl"
+    >
+      <div className="grid gap-6 md:grid-cols-2 md:gap-8">
+        <figure className="group relative aspect-square w-full overflow-hidden rounded-2xl border border-border/50 bg-muted/30">
           <img
             src={COMMUNITY_PROOF_SLOT_IMAGES[3]}
             alt={pe.cafeCursorAlt}
@@ -185,7 +240,7 @@ function BrandPastEventsSlide() {
             </span>
           </figcaption>
         </figure>
-        <figure className="group relative min-h-[12rem] overflow-hidden rounded-2xl border border-border/50 bg-muted/30 md:min-h-[14rem]">
+        <figure className="group relative aspect-square w-full overflow-hidden rounded-2xl border border-border/50 bg-muted/30">
           <img
             src={COMMUNITY_PROOF_SLOT_IMAGES[2]}
             alt={pe.hackathonSvAlt}
