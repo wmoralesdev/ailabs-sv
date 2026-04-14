@@ -46,7 +46,8 @@ export const verifySlidesPasswordFn = createServerFn({ method: "POST" })
     const maxAge = 60 * 60 * 24 * 30;
     const cookieParts = [
       `${SLIDES_AUTH_COOKIE_NAME}=${token}`,
-      "Path=/slides",
+      // Path must cover TanStack server-fn URLs (not under /slides); scoped by name + HttpOnly.
+      "Path=/",
       "HttpOnly",
       "SameSite=Lax",
       `Max-Age=${maxAge}`,
