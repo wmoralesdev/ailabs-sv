@@ -12,11 +12,12 @@ import QRCode from "react-qr-code";
 import { useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
 import { formatWithBrandText } from "@/components/brand-text";
+import { SocialLinks } from "@/components/social-links";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { LanguageToggle } from "@/components/language-toggle";
 import { useResolvedDark } from "@/components/theme-provider";
 import { AnimatedGrid } from "@/components/ui/animated-grid";
 import { AilabsLockup } from "@/components/ui/ailabs-lockup";
-import { AilabsLogo } from "@/components/ui/ailabs-logo";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -26,21 +27,13 @@ import {
 } from "@/components/ui/collapsible";
 import { Spinner } from "@/components/ui/spinner";
 import { InstagramIcon } from "@/components/ui/instagram-icon";
-import { LinkedinIcon } from "@/components/ui/linkedin-icon";
-import { TiktokIcon } from "@/components/ui/tiktok-icon";
 import { WhatsappIcon } from "@/components/ui/whatsapp-icon";
-import { XIcon } from "@/components/ui/x-icon";
 import { seoCopyEs } from "@/content/seo-copy";
 import { buildLinksPageJsonLd, buildSeoMeta } from "@/lib/seo-meta";
 import { getSiteOrigin } from "@/lib/site-url";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
-/** Motion + active press for link-styled anchors using `buttonVariants`. */
-const linksRowMotion =
-  "relative flex w-full items-center overflow-hidden motion-safe:active:scale-[0.99] transition-[transform,box-shadow,border-color,background-color,filter] duration-300";
-
-/** Share target for QR; use getSiteOrigin() alone for site root only. */
 const linksShareUrl = `${getSiteOrigin()}/links`;
 
 function socialHandleFromUrl(url: string | undefined): string | null {
@@ -52,24 +45,6 @@ function socialHandleFromUrl(url: string | undefined): string | null {
     return null;
   }
 }
-
-const collapsibleTriggerRow = cn(
-  buttonVariants({ variant: "outline", size: "3xl" }),
-  linksRowMotion,
-  "group cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-);
-
-const collapsibleLeadIconWrap =
-  "pointer-events-none absolute left-5 top-1/2 flex size-9 -translate-y-1/2 items-center justify-center rounded-md bg-muted text-muted-foreground transition-colors group-hover:text-accent-foreground";
-
-const halfRowLeadIconWrap =
-  "pointer-events-none absolute left-3 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-md bg-primary-foreground/15 text-primary-foreground sm:left-4 sm:size-9";
-
-const secondarySocialCell = cn(
-  buttonVariants({ variant: "outline", size: "3xl" }),
-  linksRowMotion,
-  "group min-w-0 flex-1 basis-0 justify-center px-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-);
 
 export const Route = createFileRoute("/links")({
   head: () => {
@@ -104,93 +79,66 @@ function LinksPage() {
   });
   const socialHandle = socialHandleFromUrl(t.site.socials.twitter);
   const instagramUrl = t.site.socials.instagram;
-  const secondarySocials = (
-    [
-      {
-        key: "linkedin" as const,
-        href: t.site.socials.linkedin,
-        label: "LinkedIn",
-        Icon: LinkedinIcon,
-      },
-      {
-        key: "tiktok" as const,
-        href: t.site.socials.tiktok,
-        label: "TikTok",
-        Icon: TiktokIcon,
-      },
-      {
-        key: "twitter" as const,
-        href: t.site.socials.twitter,
-        label: "X",
-        Icon: XIcon,
-      },
-    ] as const
-  ).filter((item) => Boolean(item.href));
 
   const qrFg = isDark ? "#fafafa" : "#0a0a0a";
   const qrBg = isDark ? "#1c1917" : "#fafaf9";
 
   return (
-    <div className="relative min-h-dvh overflow-x-hidden overflow-hidden bg-background text-foreground font-sans selection:bg-primary selection:text-primary-foreground motion-safe:animate-page-in">
-      <AnimatedGrid />
+    <div className="relative min-h-dvh overflow-hidden bg-background text-foreground font-sans selection:bg-primary selection:text-primary-foreground motion-safe:animate-page-in">
+      {/* Background layers — same as landing hero */}
+      <AnimatedGrid className="opacity-70" />
+      <div className="hero-radial-field pointer-events-none absolute inset-0 opacity-80" />
       <div className="hero-top-fade pointer-events-none absolute inset-0 z-[1]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-background to-transparent" />
 
-      <div className="pointer-events-none fixed right-3 top-3 z-30 md:right-5 md:top-4">
+      {/* Top controls */}
+      <div className="pointer-events-none fixed right-3 top-3 z-30 flex items-center gap-2 md:right-5 md:top-4">
+        <div className="pointer-events-auto">
+          <LanguageToggle />
+        </div>
         <div className="pointer-events-auto">
           <ThemeToggle />
         </div>
       </div>
 
       <div className="relative z-10 mx-auto flex min-h-dvh max-w-md flex-col px-4 pb-10 pt-12 md:pt-16">
+        {/* Header — brand lockup matching landing hero */}
         <header
           className="mb-10 flex flex-col items-center text-center motion-safe:animate-hero-in [animation-delay:80ms]"
           aria-label={t.site.name}
         >
-          <div
-            className={cn(
-              "mb-5 flex size-20 items-center justify-center rounded-full border shadow-inner backdrop-blur-sm",
-              "border-zinc-800 bg-zinc-950 dark:border-zinc-200 dark:bg-white",
-            )}
-          >
-            <AilabsLogo
-              className={cn(
-                "size-11",
-                "[&_g[data-name=large-node]]:fill-primary [&_g[data-name=short-node]]:fill-white [&_g[data-name=dot]]:fill-zinc-400",
-                "dark:[&_g[data-name=large-node]]:fill-primary dark:[&_g[data-name=short-node]]:fill-zinc-900 dark:[&_g[data-name=dot]]:fill-zinc-500",
-              )}
-              aria-hidden
-            />
-          </div>
+          <h1 className="mb-4">
+            <span className="sr-only">{t.site.name}</span>
+            <AilabsLockup className="text-5xl md:text-6xl" />
+          </h1>
           {socialHandle ? (
-            <p className="font-mono text-xs font-medium tracking-wide text-muted-foreground">
+            <p className="eyebrow-label text-primary mb-3">
               {socialHandle}
             </p>
           ) : null}
-          <h1 className="mt-2">
-            <span className="sr-only">{t.site.name}</span>
-            <AilabsLockup
-              className="text-4xl md:text-5xl"
-              aria-hidden
-            />
-          </h1>
-          <p className="mt-3 max-w-sm text-pretty text-sm font-light leading-relaxed text-muted-foreground motion-safe:animate-hero-in [animation-delay:140ms]">
+          <p className="text-body-lead max-w-sm text-pretty font-light text-foreground/65 motion-safe:animate-hero-in [animation-delay:140ms]">
             {t.site.description}
           </p>
+          <div className="mt-5 motion-safe:animate-hero-in [animation-delay:180ms]">
+            <SocialLinks socials={t.site.socials} variant="minimal" />
+          </div>
         </header>
 
+        {/* Link rows */}
         <div className="flex flex-col gap-3">
-          <div className="flex gap-3 motion-safe:animate-hero-in [animation-delay:200ms]">
+          {/* Primary CTAs */}
+          <div className="flex gap-3 motion-safe:animate-hero-in [animation-delay:220ms]">
             <a
               href={t.site.whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
                 buttonVariants({ size: "3xl" }),
-                linksRowMotion,
+                "interactive-lift relative flex w-full items-center overflow-hidden",
                 instagramUrl ? "min-w-0 flex-1 basis-0" : "w-full",
               )}
             >
-              <span className={halfRowLeadIconWrap}>
+              <span className="pointer-events-none absolute left-3 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-md bg-primary-foreground/15 text-primary-foreground sm:left-4 sm:size-9">
                 <WhatsappIcon className="size-[16px] sm:size-[18px]" />
               </span>
               <span className="w-full truncate px-2 pl-11 text-center text-sm font-medium sm:pl-12">
@@ -204,8 +152,7 @@ function LinksPage() {
                 rel="noopener noreferrer"
                 className={cn(
                   buttonVariants({ variant: "outline", size: "3xl" }),
-                  linksRowMotion,
-                  "group min-w-0 flex-1 basis-0",
+                  "interactive-lift group relative flex min-w-0 flex-1 basis-0 items-center overflow-hidden",
                 )}
               >
                 <span
@@ -221,30 +168,18 @@ function LinksPage() {
             ) : null}
           </div>
 
-          {secondarySocials.length > 0 ? (
-            <div className="motion-safe:animate-hero-in [animation-delay:230ms] flex gap-2">
-              {secondarySocials.map(({ key, href, label, Icon }) => (
-                <a
-                  key={key}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className={secondarySocialCell}
-                >
-                  <span className="sr-only">{label}</span>
-                  <Icon className="size-5 text-card-foreground/85 transition-colors group-hover:text-accent-foreground sm:size-[22px]" />
-                </a>
-              ))}
-            </div>
-          ) : null}
-
+          {/* Events collapsible */}
           <Collapsible
             defaultOpen
             className="motion-safe:animate-hero-in [animation-delay:270ms]"
           >
-            <CollapsibleTrigger className={cn(collapsibleTriggerRow, "group relative w-full")}>
-              <span className={collapsibleLeadIconWrap} aria-hidden>
+            <CollapsibleTrigger
+              className={cn(
+                buttonVariants({ variant: "outline", size: "3xl" }),
+                "interactive-lift group relative flex w-full cursor-pointer items-center overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+              )}
+            >
+              <span className="pointer-events-none absolute left-5 top-1/2 flex size-9 -translate-y-1/2 items-center justify-center rounded-md bg-muted text-muted-foreground transition-colors group-hover:text-accent-foreground" aria-hidden>
                 <HugeiconsIcon icon={CalendarIcon} className="size-4" strokeWidth={2} />
               </span>
               <span className="block w-full px-14 text-center text-sm font-medium">
@@ -258,11 +193,11 @@ function LinksPage() {
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-2 flex flex-col gap-3">
               {eventsResult === undefined ? (
-                <div className="flex min-h-[140px] items-center justify-center rounded-2xl border border-dashed border-border/60 bg-card py-10">
+                <div className="editorial-card flex min-h-[140px] items-center justify-center rounded-[1.75rem] py-10">
                   <Spinner size="lg" />
                 </div>
               ) : eventsResult.upcoming.length === 0 ? (
-                <p className="rounded-2xl border border-dashed border-border/60 bg-card px-4 py-8 text-center text-sm text-muted-foreground">
+                <p className="editorial-card rounded-[1.75rem] px-4 py-8 text-center text-sm text-muted-foreground">
                   {t.events.noUpcoming}
                 </p>
               ) : (
@@ -272,8 +207,7 @@ function LinksPage() {
                     to="/events/$slug"
                     params={{ slug: event.slug }}
                     className={cn(
-                      "group relative block rounded-2xl border border-border/60 bg-card p-4 text-left text-card-foreground shadow-sm transition-[transform,border-color,box-shadow,background-color,color] duration-300",
-                      "motion-safe:active:scale-[0.99] hover:border-primary/35 hover:bg-accent hover:text-accent-foreground hover:shadow-md hover:shadow-primary/5",
+                      "editorial-card interactive-lift group relative block rounded-[1.75rem] p-4 text-left text-card-foreground",
                       "motion-safe:animate-hero-in",
                     )}
                     style={{
@@ -288,7 +222,7 @@ function LinksPage() {
                     <div className="flex flex-wrap items-center gap-2 pr-8">
                       <Badge
                         variant="secondary"
-                        className="rounded-full bg-muted/90 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                        className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary"
                       >
                         {event.type}
                       </Badge>
@@ -309,7 +243,7 @@ function LinksPage() {
                         </Badge>
                       ) : null}
                     </div>
-                    <h2 className="mt-3 text-base font-semibold leading-snug tracking-tight">
+                    <h2 className="mt-3 font-display text-base font-semibold leading-snug tracking-tight">
                       {formatWithBrandText(event.title)}
                     </h2>
                     <div className="mt-3 space-y-1.5 text-xs text-muted-foreground transition-colors duration-300 group-hover:text-accent-foreground/80 md:text-sm">
@@ -352,13 +286,11 @@ function LinksPage() {
             </CollapsibleContent>
           </Collapsible>
 
+          {/* Home link */}
           <Button
             variant="outline"
             size="3xl"
-            className={cn(
-              linksRowMotion,
-              "group motion-safe:animate-hero-in [animation-delay:310ms]",
-            )}
+            className="interactive-lift group motion-safe:animate-hero-in [animation-delay:310ms]"
             render={<Link to="/" />}
           >
             <span className="pointer-events-none absolute left-5 flex size-9 items-center justify-center rounded-md bg-muted text-muted-foreground transition-colors group-hover:text-accent-foreground">
@@ -367,12 +299,18 @@ function LinksPage() {
             <span className="w-full text-center pr-2">{t.ui.linksPage.home}</span>
           </Button>
 
+          {/* QR collapsible */}
           <Collapsible
             defaultOpen={false}
             className="motion-safe:animate-hero-in [animation-delay:350ms]"
           >
-            <CollapsibleTrigger className={cn(collapsibleTriggerRow, "group relative w-full")}>
-              <span className={collapsibleLeadIconWrap} aria-hidden>
+            <CollapsibleTrigger
+              className={cn(
+                buttonVariants({ variant: "outline", size: "3xl" }),
+                "interactive-lift group relative flex w-full cursor-pointer items-center overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+              )}
+            >
+              <span className="pointer-events-none absolute left-5 top-1/2 flex size-9 -translate-y-1/2 items-center justify-center rounded-md bg-muted text-muted-foreground transition-colors group-hover:text-accent-foreground" aria-hidden>
                 <HugeiconsIcon icon={QrCodeScanIcon} className="size-4" strokeWidth={2} />
               </span>
               <span className="block w-full px-14 text-center text-sm font-medium">
@@ -388,7 +326,7 @@ function LinksPage() {
               <p className="text-center text-xs text-muted-foreground">
                 {t.ui.linksPage.qrDescription}
               </p>
-              <div className="rounded-2xl border border-border/60 bg-card p-5 text-card-foreground shadow-sm">
+              <div className="editorial-card rounded-[1.75rem] p-5">
                 <QRCode
                   value={linksShareUrl}
                   size={200}
@@ -402,32 +340,27 @@ function LinksPage() {
           </Collapsible>
         </div>
 
-        <footer className="mt-auto pt-12 text-center text-[11px] font-light leading-relaxed text-muted-foreground motion-safe:animate-hero-in [animation-delay:430ms]">
-          <p className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 leading-none">
-            <span>© {new Date().getFullYear()}</span>
-            <AilabsLockup className="inline-flex -translate-y-[0.14em] text-[11px] [&_svg]:h-[1em] [&_svg]:w-auto" />
-            <span>
-              . {t.ui.footer.madeWith}{" "}
-              <span className="text-primary">♥</span> {t.ui.footer.inSanSalvador}
-            </span>
-          </p>
-          <p className="mt-5 flex justify-center">
+        {/* Footer — matches landing page bottom bar */}
+        <footer className="mt-auto pt-12 motion-safe:animate-hero-in [animation-delay:430ms]">
+          <div className="flex flex-col items-center gap-4 border-t border-border pt-6 text-center">
+            <p className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-xs font-light leading-none text-foreground/40">
+              <span>© {new Date().getFullYear()}</span>
+              <AilabsLockup className="inline-flex -translate-y-[0.14em] text-xs [&_svg]:h-[1em] [&_svg]:w-auto" />
+              <span>
+                . {t.ui.footer.madeWith}{" "}
+                <span className="text-primary">♥</span> {t.ui.footer.inSanSalvador}
+              </span>
+            </p>
             <a
               href="https://www.lem-design.art/"
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(
-                buttonVariants({ variant: "outline", size: "sm" }),
-                "inline-flex gap-1.5 text-[11px] motion-safe:active:scale-[0.99]",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-              )}
+              className="text-[11px] font-light text-foreground/40 transition-colors hover:text-foreground/70"
             >
-              <span className="text-primary" aria-hidden>
-                ✦
-              </span>
-              <span>{t.ui.linksPage.logoCredit}</span>
+              <span className="mr-1 text-primary" aria-hidden>✦</span>
+              {t.ui.linksPage.logoCredit}
             </a>
-          </p>
+          </div>
         </footer>
       </div>
     </div>
