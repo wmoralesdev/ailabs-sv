@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useI18n } from "@/lib/i18n";
 import { SectionHeader } from "@/components/section-header";
+import { cn } from "@/lib/utils";
 
 function useCountUp(value: string, enabled: boolean, duration = 1000): string {
   const [display, setDisplay] = useState(value);
@@ -54,18 +55,18 @@ function StatCell({
   const display = useCountUp(value, animate, 1000);
 
   return (
-    <div className="flex min-w-0 flex-col items-center justify-center gap-1 border-border/50 px-4 py-6 text-center md:border-r md:last:border-r-0">
-      <div className="flex w-full max-w-full flex-wrap items-baseline justify-center gap-2">
-        <span className="font-mono text-2xl font-medium tabular-nums text-foreground md:text-3xl">
+    <div className="interactive-lift flex min-w-0 flex-col items-start justify-between gap-4 rounded-2xl border border-border/70 bg-background/55 p-5 text-left">
+      <div className="flex w-full max-w-full flex-wrap items-baseline justify-start gap-2">
+        <span className="font-mono text-3xl font-semibold leading-none tracking-[-0.04em] tabular-nums text-foreground md:text-4xl">
           {display}
         </span>
         {badge ? (
-          <span className="rounded-full bg-primary/20 px-2 py-0.5 font-mono text-xs font-medium text-primary">
+          <span className="rounded-full border border-primary/20 bg-primary/10 px-2 py-0.5 font-mono text-[0.68rem] font-semibold text-primary">
             {badge}
           </span>
         ) : null}
       </div>
-      <span className="text-xs font-medium uppercase leading-snug tracking-wider text-muted-foreground">
+      <span className="eyebrow-label text-muted-foreground">
         {label}
       </span>
     </div>
@@ -74,12 +75,14 @@ function StatCell({
 
 export function StatsSection() {
   const { t } = useI18n();
+  const [hasEntered, setHasEntered] = useState(false);
   const [animate, setAnimate] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) {
+      setHasEntered(true);
       setAnimate(false);
       return;
     }
@@ -89,7 +92,11 @@ export function StatsSection() {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0]?.isIntersecting) setAnimate(true);
+        if (entries[0]?.isIntersecting) {
+          setHasEntered(true);
+          setAnimate(true);
+          observer.disconnect();
+        }
       },
       { threshold: 0.15 }
     );
@@ -126,18 +133,21 @@ export function StatsSection() {
           description={t.ui.stats.sectionDesc}
           align="left"
         />
-        <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-          <div className="grid grid-cols-2 md:grid-cols-4">
-            {stats.map((stat) => (
-              <StatCell
-                key={stat.label}
-                value={stat.value}
-                label={stat.label}
-                badge={stat.badge}
-                animate={animate}
-              />
-            ))}
-          </div>
+        <div
+          className={cn(
+            "grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4 reveal-on-scroll",
+            hasEntered && "is-visible",
+          )}
+        >
+          {stats.map((stat) => (
+            <StatCell
+              key={stat.label}
+              value={stat.value}
+              label={stat.label}
+              badge={stat.badge}
+              animate={animate}
+            />
+          ))}
         </div>
       </div>
     </section>

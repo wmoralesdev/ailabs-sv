@@ -1,79 +1,156 @@
+import { ArrowRightIcon, SparklesIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowRightIcon } from "@hugeicons/core-free-icons";
 import { Link } from "@tanstack/react-router";
-import { useI18n } from "@/lib/i18n";
+import { useRef } from "react";
 import { SocialLinks } from "@/components/social-links";
 import { AnimatedGrid } from "@/components/ui/animated-grid";
 import { Button } from "@/components/ui/button";
 import { GlitchText } from "@/components/ui/glitch-text";
+import { useGsapHeroIntro } from "@/hooks/use-gsap-hero-intro";
+import { useI18n } from "@/lib/i18n";
 
 export function HeroSection() {
   const { t } = useI18n();
+  const sectionRef = useRef<HTMLElement>(null);
+  useGsapHeroIntro(sectionRef);
+
+  const proofStats = [
+    {
+      value: t.stats.members,
+      label: t.ui.stats.membersDetail,
+    },
+    {
+      value: t.stats.eventsHeld,
+      label: t.ui.stats.eventsDetail,
+    },
+    {
+      value: t.stats.projectsShipped,
+      label: t.ui.stats.projectsShippedDetail,
+    },
+    {
+      value: t.stats.partners,
+      label: t.ui.stats.partnersDetail,
+    },
+  ];
 
   return (
     <section
+      ref={sectionRef}
       id="overview"
-      className="relative overflow-hidden border-b border-border pb-16 pt-24 md:pb-24 md:pt-32"
+      className="relative flex min-h-dvh items-center overflow-hidden border-b border-border pb-14 pt-28 md:pb-16 md:pt-28"
     >
-      {/* Animated grid background */}
-      <AnimatedGrid />
-
-      {/* Top fade overlay (background only) */}
+      <AnimatedGrid className="opacity-70" />
+      <div className="hero-radial-field pointer-events-none absolute inset-0 opacity-80" />
       <div className="hero-top-fade pointer-events-none absolute inset-0 z-2" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-background to-transparent" />
 
-      <div className="container relative z-10 mx-auto px-6 text-center">
-        {/* Pill badge */}
-        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 shadow-sm motion-safe:animate-hero-in [animation-delay:80ms]">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-75 motion-safe:animate-ping motion-reduce:animate-none" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-          </span>
-          <span className="text-xs font-medium tracking-wide text-foreground/80">
-            {t.ui.hero.badgeLabel}
-          </span>
-        </div>
-
-        <h1 className="mb-8 text-4xl font-medium leading-[0.95] tracking-tighter motion-safe:animate-hero-in [animation-delay:140ms] md:text-6xl lg:text-7xl">
-          <span className="block text-foreground">{t.hero.headlineLine1}</span>
-          <GlitchText phrases={t.hero.headlinePhrases} className="block text-primary" />
-        </h1>
-
-        <p className="mx-auto mb-10 max-w-2xl text-pretty text-base font-light leading-relaxed text-foreground/60 motion-safe:animate-hero-in [animation-delay:220ms] md:text-lg">
-          {t.hero.subheadline}
-        </p>
-
-        <div className="flex flex-col items-center justify-center gap-4 motion-safe:animate-hero-in [animation-delay:300ms] sm:flex-row">
-          <Button
-            variant="default"
-            size="2xl"
-            className="h-12 w-full px-8 sm:w-auto"
-            render={
-              <Link
-                to={t.site.whatsappLink as any}
-                target="_blank"
-                rel="noopener noreferrer"
-              />
-            }
+      <div className="container relative z-10 mx-auto grid items-center gap-8 px-6 lg:grid-cols-[minmax(0,1fr)_minmax(280px,0.58fr)] lg:gap-12">
+        <div className="max-w-3xl text-left">
+          <div
+            data-hero-intro
+            className="mb-7 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3.5 py-1.5 shadow-sm backdrop-blur"
           >
-            {t.hero.primaryCta}
-            <HugeiconsIcon icon={ArrowRightIcon} size={18} data-icon="inline-end" />
-          </Button>
-          <Button
-            variant="outline"
-            size="2xl"
-            className="h-12 w-full px-8 sm:w-auto"
-            render={<Link to="/" hash="community" />}
-          >
-            {t.hero.secondaryCta}
-          </Button>
-        </div>
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-75 motion-safe:animate-ping motion-reduce:animate-none" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+            </span>
+            <span className="eyebrow-label text-foreground/80">
+              {t.ui.hero.badgeLabel}
+            </span>
+          </div>
 
-        <div className="mt-10 flex flex-col items-center gap-3 motion-safe:animate-hero-in [animation-delay:380ms]">
-          <p className="text-xs font-medium tracking-wide text-foreground/50">
-            {t.ui.hero.followLabel}
+          <h1 data-hero-intro className="text-display-hero mb-7 font-medium">
+            <span className="block max-w-4xl text-foreground">
+              {t.hero.headlineLine1}
+            </span>
+            <GlitchText
+              phrases={t.hero.headlinePhrases}
+              className="block text-primary"
+            />
+          </h1>
+
+          <p
+            data-hero-intro
+            className="text-body-lead mb-8 max-w-2xl text-pretty font-light text-foreground/65"
+          >
+            {t.hero.subheadline}
           </p>
-          <SocialLinks socials={t.site.socials} variant="minimal" />
+
+          <div
+            data-hero-intro
+            className="flex flex-col items-start gap-4 sm:flex-row"
+          >
+            <Button
+              variant="default"
+              size="2xl"
+              className="w-full rounded-full px-6 sm:w-auto"
+              render={
+                <Link
+                  to={t.site.whatsappLink as any}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+              }
+            >
+              {t.hero.primaryCta}
+              <HugeiconsIcon
+                icon={ArrowRightIcon}
+                size={18}
+                data-icon="inline-end"
+              />
+            </Button>
+            <Button
+              variant="outline"
+              size="2xl"
+              className="w-full rounded-full border-border/70 bg-background/65 px-6 backdrop-blur sm:w-auto"
+              render={<Link to="/" hash="community" />}
+            >
+              {t.hero.secondaryCta}
+            </Button>
+          </div>
+
+          <div data-hero-intro className="mt-10 flex flex-col items-start gap-3">
+            <p className="eyebrow-label text-foreground/45">
+              {t.ui.hero.followLabel}
+            </p>
+            <SocialLinks socials={t.site.socials} variant="minimal" />
+          </div>
         </div>
+
+        <aside
+          data-hero-orbit
+          className="interactive-lift hidden rounded-[1.35rem] border border-border/70 bg-background/55 p-4 backdrop-blur md:block"
+        >
+          <div className="mb-4 flex items-start justify-between gap-4">
+            <div>
+              <p className="eyebrow-label mb-2 text-primary">
+                {t.ui.hero.proofCardEyebrow}
+              </p>
+              <h2 className="max-w-xs font-display text-xl font-medium leading-none tracking-[-0.04em] text-foreground md:text-2xl">
+                {t.ui.hero.proofCardTitle}
+              </h2>
+            </div>
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-primary/20 bg-primary/10 text-primary">
+              <HugeiconsIcon icon={SparklesIcon} size={18} />
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2.5">
+            {proofStats.map((stat) => (
+              <div
+                key={stat.label}
+                className="rounded-2xl border border-border/70 bg-card/75 p-3.5"
+              >
+                <p className="font-mono text-xl font-semibold tabular-nums text-foreground">
+                  {stat.value}
+                </p>
+                <p className="mt-1 text-xs font-medium uppercase leading-snug tracking-[0.12em] text-muted-foreground">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </aside>
       </div>
     </section>
   );

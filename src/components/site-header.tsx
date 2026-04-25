@@ -43,10 +43,10 @@ export function SiteHeader() {
     >
       <div
         className={cn(
-          "flex h-14 items-center transition-all duration-300 ease-out",
+          "flex h-14 items-center rounded-full border px-4 shadow-lg backdrop-blur-xl transition-all duration-300 ease-out md:px-5",
           scrolled
-            ? "justify-between gap-4 rounded-full border border-background/10 bg-foreground px-5 text-background shadow-xl shadow-black/15"
-            : "justify-between gap-0 border border-transparent bg-transparent px-5 shadow-none",
+            ? "justify-between gap-4 border-border/70 bg-card/90 shadow-black/10"
+            : "justify-between gap-2 border-border/60 bg-background/72 shadow-primary/5",
         )}
       >
         <div className="flex h-full items-center justify-start transition-all duration-300">
@@ -54,25 +54,24 @@ export function SiteHeader() {
             to="/"
             className={cn(
               "group flex items-center gap-2 transition-all duration-300",
-              scrolled && "[--foreground:var(--background)] [--muted-foreground:var(--background)]",
             )}
             aria-label={t.site.name}
           >
-            <AilabsLockup compact={scrolled} className="text-2xl transition-all duration-300" />
+            <AilabsLockup
+              compact={scrolled}
+              className="text-[1.3rem] transition-all duration-300 md:text-[1.38rem]"
+            />
           </Link>
         </div>
 
-        <nav className="ml-4 hidden h-full flex-1 items-center justify-start gap-1 transition-all duration-300 md:flex">
+        <nav className="ml-6 hidden h-full flex-1 items-center justify-start gap-2 transition-all duration-300 md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.label}
               to={link.to}
               hash={link.hash}
               className={cn(
-                "inline-flex h-9 items-center justify-center px-4 text-sm font-medium leading-none transition-colors",
-                scrolled
-                  ? "text-background/70 hover:text-background aria-[current=page]:text-background"
-                  : "text-foreground/70 hover:text-primary aria-[current=page]:text-primary"
+                "inline-flex h-9 items-center justify-center rounded-full px-4 text-sm font-medium leading-none text-foreground/70 transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/10 hover:text-primary aria-[current=page]:bg-primary/10 aria-[current=page]:text-primary motion-reduce:transform-none",
               )}
             >
               {link.label}
@@ -83,26 +82,21 @@ export function SiteHeader() {
         <div
           className={cn(
             "flex h-full items-center justify-end gap-2 transition-all duration-300",
-            scrolled && "[&_button]:text-background [&_button:hover]:bg-background/15 [&_button:hover]:text-background",
           )}
         >
           <div className="hidden md:flex md:items-center md:gap-2">
             <LanguageToggle />
             <ThemeToggle />
           </div>
-          {!scrolled && (
-            <div className="hidden h-4 w-px bg-border opacity-0 transition-opacity duration-300 md:block" />
-          )}
+          <div className="hidden h-4 w-px bg-border/70 transition-opacity duration-300 md:block" />
           <AuthHeaderActions />
-          <JoinCtaButton inverted={scrolled} />
+          <JoinCtaButton />
 
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger
               className={cn(
                 "flex size-9 items-center justify-center rounded-full transition-colors md:hidden",
-                scrolled
-                  ? "text-background hover:bg-background/20"
-                  : "text-foreground hover:bg-accent",
+            "text-foreground hover:bg-accent",
               )}
               aria-label="Open menu"
             >

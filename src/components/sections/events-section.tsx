@@ -131,16 +131,18 @@ export function EventsSection() {
 
   return (
     <>
-      <section id="events" className="section-spacing border-y border-border/50">
+      <section id="events" className="section-editorial py-20 md:py-28">
         <div className="container mx-auto px-4">
-          <SectionHeader
-            eyebrow={t.events.badge}
-            title={t.events.sectionTitle}
-            description={t.events.tagline}
-            align="left"
-          />
+          <div className="max-w-4xl">
+            <SectionHeader
+              eyebrow={t.events.badge}
+              title={t.events.sectionTitle}
+              description={t.events.tagline}
+              align="left"
+            />
+          </div>
 
-          <div className="mb-8">
+          <div className="mb-8 mt-4">
             <h3 className="text-lg font-semibold">{t.events.upcomingTitle}</h3>
           </div>
 
@@ -154,10 +156,7 @@ export function EventsSection() {
         </div>
       </section>
 
-      <section
-        id="event-gallery"
-        className="section-spacing border-y border-border/50 bg-muted/20"
-      >
+      <section id="event-gallery" className="section-panel py-20 md:py-28">
         <div className="container mx-auto px-4">
           <SectionHeader
             eyebrow={t.eventsGallery.badge}

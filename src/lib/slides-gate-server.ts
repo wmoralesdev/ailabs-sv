@@ -22,7 +22,7 @@ export const getSlidesGateStateFn = createServerFn({ method: "GET" }).handler(()
     return { configured: false, allowed: false };
   }
   const cookieHeader = getRequestHeader("Cookie");
-  const allowed = hasValidSlidesSessionCookie(cookieHeader, password);
+  const allowed = hasValidSlidesSessionCookie(cookieHeader ?? null, password);
   return { configured: true, allowed };
 });
 

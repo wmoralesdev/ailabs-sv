@@ -28,25 +28,30 @@ export function TestimonialsSection() {
   const items = [...shuffled, ...shuffled];
 
   return (
-    <section className="section-spacing border-y border-border/50 bg-muted/10">
+    <section className="section-panel py-20 md:py-28">
       <div className="container mx-auto px-4">
-        <SectionHeader
-          eyebrow={t.ui.testimonials.badge}
-          title={t.ui.testimonials.title}
-          align="left"
-        />
+        <div className="max-w-4xl">
+          <SectionHeader
+            eyebrow={t.ui.testimonials.badge}
+            title={t.ui.testimonials.title}
+            align="left"
+          />
+        </div>
       </div>
 
       <div className="mt-12 overflow-hidden py-4">
-        <div className="flex items-stretch gap-6 whitespace-nowrap px-6 motion-reduce:overflow-x-auto motion-reduce:animate-none motion-reduce:scrollbar-hide animate-marquee hover:paused">
+        <div className="flex items-stretch gap-5 whitespace-nowrap px-6 motion-reduce:overflow-x-auto motion-reduce:animate-none motion-reduce:scrollbar-hide animate-marquee hover:paused">
           {items.map((item, index) => (
             <blockquote
               key={`${item.name}-${index}`}
-              className="group relative flex w-[440px] shrink-0 flex-col justify-between rounded-2xl border border-border/60 bg-card p-8 pt-10 shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
+              className={[
+                "group interactive-lift relative flex shrink-0 flex-col justify-between rounded-[1.75rem] border border-border/70 bg-card/70 p-7 pt-8",
+                index % 3 === 0 ? "w-[500px]" : "w-[400px]",
+              ].join(" ")}
             >
               <div>
                 <QuoteIcon className="mb-3 size-7 text-primary/80" />
-                <p className="text-pretty text-lg leading-relaxed text-foreground/85 md:text-xl">
+                <p className="text-pretty text-base leading-relaxed text-foreground/85 md:text-lg">
                   {item.testimonial}
                 </p>
               </div>

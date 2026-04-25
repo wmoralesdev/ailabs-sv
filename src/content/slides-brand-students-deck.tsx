@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useI18n } from "@/lib/i18n";
 import { getSiteOrigin } from "@/lib/site-url";
 import {
+  CODEX_PARTNER_IMG,
   CURSOR_PARTNER_IMG,
   N8N_PARTNER_IMG,
   OPENAI_PARTNER_IMG,
@@ -326,6 +327,22 @@ function SlidesPartnerLogoCell({ name }: { name: string }) {
           src={V0_PARTNER_IMG.dark}
           alt=""
           className={cn(slidesPartnerMarkClasses.base, slidesPartnerMarkClasses.v0Dark)}
+        />
+      </>,
+    );
+  }
+  if (name === "Codex") {
+    return column(
+      <>
+        <img
+          src={CODEX_PARTNER_IMG.light}
+          alt=""
+          className={cn(slidesPartnerMarkClasses.base, slidesPartnerMarkClasses.codexLight)}
+        />
+        <img
+          src={CODEX_PARTNER_IMG.dark}
+          alt=""
+          className={cn(slidesPartnerMarkClasses.base, slidesPartnerMarkClasses.codexDark)}
         />
       </>,
     );

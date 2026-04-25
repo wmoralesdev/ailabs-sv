@@ -9,6 +9,11 @@ export const V0_PARTNER_IMG = {
   dark: "/partners/v0-logo-dark.svg",
 } as const;
 
+export const CODEX_PARTNER_IMG = {
+  light: "/partners/codex-logo-light.svg",
+  dark: "/partners/codex-logo-dark.svg",
+} as const;
+
 export const OPENAI_PARTNER_IMG = {
   light: "/partners/openai-mark-light.svg",
   dark: "/partners/openai-mark-dark.svg",
@@ -31,6 +36,11 @@ export const partnerRasterMarkClasses = {
     "hidden h-12 w-auto max-w-[min(100%,12rem)] dark:block md:h-14",
   v0Light: "h-8 w-auto max-w-[min(100%,6rem)] dark:hidden md:h-10",
   v0Dark: "hidden h-8 w-auto max-w-[min(100%,6rem)] dark:block md:h-10",
+  /** Wordmark (255×98); size by height (same band as Cursor) so the type stays legible. */
+  codexLight:
+    "h-10 w-auto max-w-[min(100%,22rem)] shrink-0 dark:hidden sm:h-11 md:h-12 lg:h-14",
+  codexDark:
+    "hidden h-10 w-auto max-w-[min(100%,22rem)] shrink-0 dark:block sm:h-11 md:h-12 lg:h-14",
 } as const;
 
 /** Larger marks for slide deck partner grid (projector). */
@@ -41,6 +51,10 @@ export const slidesPartnerMarkClasses = {
     "hidden h-12 w-auto max-w-[min(100%,12rem)] dark:block md:h-14",
   v0Light: "h-9 w-auto max-w-[min(100%,7rem)] dark:hidden md:h-11",
   v0Dark: "hidden h-9 w-auto max-w-[min(100%,7rem)] dark:block md:h-11",
+  codexLight:
+    "h-10 w-auto max-w-[min(100%,22rem)] dark:hidden sm:h-11 md:h-12 lg:h-14",
+  codexDark:
+    "hidden h-10 w-auto max-w-[min(100%,22rem)] dark:block sm:h-11 md:h-12 lg:h-14",
   n8n: "h-10 w-auto max-w-[min(100%,10rem)] md:h-12",
   openaiLight: "h-12 w-auto max-w-[min(100%,10rem)] dark:hidden md:h-14",
   openaiDark: "hidden h-12 w-auto max-w-[min(100%,10rem)] dark:block md:h-14",

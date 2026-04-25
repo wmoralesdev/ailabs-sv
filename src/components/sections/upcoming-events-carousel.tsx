@@ -136,13 +136,13 @@ export function UpcomingEventsCarousel({ events, t }: Props) {
             key={event.id}
             className="min-w-0 shrink-0 snap-start flex-[0_0_100%] md:flex-[0_0_calc(50%-0.75rem)]"
           >
-            <Card className="rounded-2xl border-border/70 bg-card/70 py-0 shadow-sm backdrop-blur-sm transition-[border-color,box-shadow] duration-300 hover:border-primary/40 hover:shadow-md">
+            <Card className="editorial-card interactive-lift overflow-hidden rounded-[1.75rem] py-0">
               <CardHeader className="space-y-4 px-6 pt-6">
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex flex-wrap items-center gap-2">
                     <Badge
                       variant="secondary"
-                      className="rounded-full bg-muted px-3 py-1 text-[11px] font-semibold uppercase tracking-wide"
+                      className="rounded-full bg-primary/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-primary"
                     >
                       {event.type}
                     </Badge>
@@ -167,7 +167,7 @@ export function UpcomingEventsCarousel({ events, t }: Props) {
                     {event.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full border border-border/70 bg-background/80 px-2 py-0.5 font-mono text-[11px] text-muted-foreground"
+                    className="rounded-full border border-border/70 bg-background/80 px-2 py-0.5 font-mono text-[11px] text-muted-foreground"
                       >
                         #{tag}
                       </span>
@@ -202,7 +202,7 @@ export function UpcomingEventsCarousel({ events, t }: Props) {
                   {formatWithBrandText(event.description)}
                 </p>
               </CardContent>
-              <CardFooter className="border-border/60 px-6">
+              <CardFooter className="border-border/60 bg-background/35 px-6">
                 <a
                   href={event.rsvpUrl}
                   target="_blank"

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, useMotionValue, useTransform } from "motion/react";
 
 interface AnimatedGridProps {
-  /** Grid cell size in pixels (default: 40) */
+  /** Dot field cell size in pixels (default: 28) */
   gridSize?: number;
   /** Drift velocity { x, y } (default: subtle rightward) */
   velocity?: { x: number; y: number };
@@ -11,8 +11,8 @@ interface AnimatedGridProps {
 }
 
 export function AnimatedGrid({
-  gridSize = 40,
-  velocity = { x: 0.3, y: 0 },
+  gridSize = 28,
+  velocity = { x: 0.18, y: 0.08 },
   className = "",
 }: AnimatedGridProps) {
   const [isClient, setIsClient] = useState(false);
@@ -60,7 +60,7 @@ export function AnimatedGrid({
   return (
     <div className={`absolute inset-0 ${className}`}>
       <motion.div
-        className="bg-grid-pattern pointer-events-none absolute inset-0 mask-[radial-gradient(ellipse_at_center,black_30%,transparent_70%)]"
+        className="bg-grid-pattern pointer-events-none absolute inset-0 mask-[radial-gradient(ellipse_at_center,black_36%,transparent_76%)]"
         style={{ backgroundPosition }}
       />
     </div>

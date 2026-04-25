@@ -45,8 +45,8 @@ function FounderProfile({ person }: { person: FounderPerson }) {
   const hasSocials = Object.values(person.socials).some(Boolean);
 
   return (
-    <div className="group flex flex-col">
-      <div className="relative mb-6 w-full overflow-hidden rounded-2xl border border-border/40 bg-muted/20 aspect-[4/5]">
+    <div className="group editorial-card flex flex-col rounded-[1.75rem] p-3">
+      <div className="relative mb-5 aspect-[4/5] w-full overflow-hidden rounded-[1.35rem] border border-border/40 bg-muted/20">
         {showPhoto ? (
           <img
             src={person.image}
@@ -63,7 +63,7 @@ function FounderProfile({ person }: { person: FounderPerson }) {
         <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-foreground/10" />
       </div>
 
-      <div className="flex flex-col px-1">
+      <div className="flex flex-col px-3 pb-3">
         <h3 className="text-xl font-medium text-foreground">{person.name}</h3>
         <p className="mt-1.5 text-xs font-semibold uppercase tracking-wider text-primary">
           {person.role}
@@ -95,7 +95,7 @@ export function FounderSection() {
   const { founders } = t;
 
   return (
-    <section className="section-spacing border-y border-border/50 bg-muted/10 overflow-hidden">
+    <section className="section-editorial overflow-hidden py-20 md:py-28">
       <div className="container mx-auto px-4">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16 items-start">
           
@@ -112,7 +112,7 @@ export function FounderSection() {
             </p>
 
             {/* Callout card for purpose items + partners CTA */}
-            <div className="group/card relative mt-10 overflow-hidden rounded-2xl border border-border/60 bg-card p-6 shadow-sm sm:p-8">
+            <div className="group/card editorial-card relative mt-10 overflow-hidden rounded-[1.75rem] p-6 sm:p-8">
               <div className="pointer-events-none absolute -inset-x-20 -top-20 h-[150px] w-[calc(100%+160px)] bg-primary/5 opacity-50 blur-3xl transition-opacity duration-500 group-hover/card:opacity-100" />
 
               <div className="relative z-10">

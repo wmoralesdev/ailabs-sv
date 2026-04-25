@@ -31,7 +31,7 @@ function MemberCard({
   };
 
   return (
-    <article className="group flex w-[260px] shrink-0 flex-col gap-4 rounded-xl border border-border bg-card p-6 text-left shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-md">
+    <article className="group interactive-lift flex w-[300px] shrink-0 flex-col gap-4 rounded-[1.5rem] border border-border/70 bg-card/70 p-5 text-left md:w-[330px]">
       <Link
         to="/community/$slug"
         params={{ slug }}
@@ -43,19 +43,21 @@ function MemberCard({
               <img
                 src={avatarUrl}
                 alt=""
-                className="size-10 rounded-full object-cover transition-transform duration-300 motion-safe:group-hover:scale-105"
+                className="size-14 rounded-2xl object-cover transition-transform duration-300 motion-safe:group-hover:scale-105"
               />
             ) : (
-              <div className="flex size-10 items-center justify-center rounded-full border border-primary/20 bg-primary/10 text-base font-bold text-primary transition-transform duration-300 motion-safe:group-hover:scale-105">
+              <div className="flex size-14 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10 text-base font-bold text-primary transition-transform duration-300 motion-safe:group-hover:scale-105">
                 {name.charAt(0)}
               </div>
             )}
           </div>
         </div>
         <div>
-          <p className="text-base font-medium">{name}</p>
+          <p className="font-display text-xl font-medium leading-tight tracking-[-0.03em]">
+            {name}
+          </p>
         </div>
-        <p className="line-clamp-2 whitespace-normal text-sm font-light text-foreground/60">
+        <p className="line-clamp-3 whitespace-normal text-sm font-light leading-relaxed text-foreground/65">
           {formatWithBrandText(line)}
         </p>
       </Link>
@@ -69,11 +71,11 @@ function MemberCard({
 function LoadingMarquee() {
   return (
     <div className="mt-12 overflow-hidden py-4">
-      <div className="flex items-stretch gap-6 whitespace-nowrap px-6 motion-reduce:overflow-x-auto motion-reduce:animate-none motion-reduce:scrollbar-hide animate-marquee hover:paused">
+      <div className="flex items-stretch gap-5 whitespace-nowrap px-6 motion-reduce:overflow-x-auto motion-reduce:animate-none motion-reduce:scrollbar-hide animate-marquee hover:paused">
         {Array.from({ length: 8 }).map((_, i) => (
           <div
             key={i}
-            className="flex w-[260px] shrink-0 flex-col gap-4 rounded-xl border border-border bg-card p-6"
+            className="flex w-[300px] shrink-0 flex-col gap-4 rounded-[1.5rem] border border-border/70 bg-card/70 p-5"
           >
             <div className="size-10 animate-pulse rounded-full bg-muted" />
             <div className="h-4 w-32 animate-pulse rounded bg-muted" />
@@ -99,15 +101,17 @@ export function CommunityMembersSection() {
   return (
     <section
       id="community"
-      className="section-spacing border-y border-border/50 bg-muted/20"
+      className="section-editorial py-20 md:py-28"
     >
       <div className="container mx-auto px-4">
-        <SectionHeader
-          eyebrow={t.ui.communityMembers.badge}
-          title={t.ui.communityMembers.title}
-          description={t.ui.communityMembers.desc}
-          align="center"
-        />
+        <div className="max-w-4xl">
+          <SectionHeader
+            eyebrow={t.ui.communityMembers.badge}
+            title={t.ui.communityMembers.title}
+            description={t.ui.communityMembers.desc}
+            align="left"
+          />
+        </div>
       </div>
 
       {members === undefined ? (
@@ -118,7 +122,7 @@ export function CommunityMembersSection() {
         </p>
       ) : (
         <div className="mt-12 overflow-hidden py-4">
-          <div className="flex items-stretch gap-6 whitespace-nowrap px-6 motion-reduce:overflow-x-auto motion-reduce:animate-none motion-reduce:scrollbar-hide animate-marquee hover:paused">
+          <div className="flex items-stretch gap-5 whitespace-nowrap px-6 motion-reduce:overflow-x-auto motion-reduce:animate-none motion-reduce:scrollbar-hide animate-marquee hover:paused">
             {[...members, ...members].map((member, index) => (
               <MemberCard
                 key={`${member.slug}-${index}`}

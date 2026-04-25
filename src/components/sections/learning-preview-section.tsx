@@ -21,10 +21,14 @@ export function LearningPreviewSection() {
   const { t, language } = useI18n();
   const cards = useQuery(api.learning_lab.listPublic, { language });
 
+  if (cards !== undefined && cards.length === 0) {
+    return null;
+  }
+
   return (
     <section
       id="blog"
-      className="section-spacing border-y border-border/50 bg-muted/15"
+      className="section-editorial py-20 md:py-28"
     >
       <div className="container mx-auto px-4">
         <SectionHeader
@@ -36,10 +40,6 @@ export function LearningPreviewSection() {
           <div className="flex min-h-[200px] items-center justify-center py-12">
             <Spinner size="lg" />
           </div>
-        ) : cards.length === 0 ? (
-          <p className="py-8 text-sm text-muted-foreground">
-            {t.learningPreview.empty}
-          </p>
         ) : (
           <div className="grid gap-6 md:grid-cols-3">
             {cards.map((card, index) => {

@@ -216,6 +216,8 @@ export interface SiteContent {
       primaryCta: string;
       secondaryCta: string;
       note: string;
+      proofCardEyebrow: string;
+      proofCardTitle: string;
     };
     whatMeans: {
       eyebrow: string;
@@ -352,6 +354,9 @@ export interface SiteContent {
       subheadline: string;
       primaryCta: string;
       secondaryCta: string;
+      proofCardEyebrow: string;
+      proofCardTitle: string;
+      proofCardItems: Array<{ value: string; label: string }>;
     };
   };
   adminPage: {
@@ -615,6 +620,12 @@ export interface SiteContent {
       newsletterText: string;
       emailPlaceholder: string;
       subscribe: string;
+      newsletterSubscribing: string;
+      newsletterSubscribed: string;
+      newsletterAlreadyOnList: string;
+      newsletterInvalidEmail: string;
+      newsletterCompleteCaptcha: string;
+      newsletterGenericError: string;
       madeWith: string;
       inSanSalvador: string;
       overview: string;
@@ -627,7 +638,12 @@ export interface SiteContent {
       terms: string;
       watermarkWords: Array<string>;
     };
-    hero: { badgeLabel: string; followLabel: string };
+    hero: {
+      badgeLabel: string;
+      followLabel: string;
+      proofCardEyebrow: string;
+      proofCardTitle: string;
+    };
     communityMembers: { badge: string; title: string; desc: string; emptyState: string };
     stats: {
       badge: string;
@@ -719,9 +735,10 @@ const contentEs: SiteContent = {
       "La IA es nuestro sandbox.",
       "La IA es lo que construimos."
     ],
-    subheadline: "Una comunidad de builders en El Salvador que hace preguntas, experimenta y comparte lo que aprende.",
+    subheadline:
+      "Builders en El Salvador que preguntan primero, construyen para responder y muestran lo que salió del intento.",
     primaryCta: "Explorar el Lab",
-    secondaryCta: "Ver qué estamos explorando",
+    secondaryCta: "Mirar lo que estamos cocinando",
   },
   founders: {
     sectionTitle: "THE STORY",
@@ -794,6 +811,7 @@ const contentEs: SiteContent = {
     partners: [
       { name: "Cursor", url: "https://cursor.com" },
       { name: "v0", url: "https://v0.dev" },
+      { name: "Codex", url: "https://openai.com/codex" },
     ],
   },
   eventsGallery: {
@@ -995,10 +1013,12 @@ const contentEs: SiteContent = {
         "colaboraciones útiles.",
       ],
       subheadline:
-        "Somos una comunidad de builders explorando IA en El Salvador. Si quieres acercar experiencia, charlas, herramientas, espacio o patrocinio a experimentos reales, hablemos.",
+        "Si quieres acercar experiencia, herramientas, espacio o patrocinio a experimentos que sí se construyen, hablemos.",
       primaryCta: "Hablar de colaboración",
       secondaryCta: "Ver cómo ayudar",
       note: "Sin paquetes. Sin niveles. Solo colaboración útil.",
+      proofCardEyebrow: "MENÚ DE APOYO",
+      proofCardTitle: "Cómo se ve un partner aquí",
     },
     whatMeans: {
       eyebrow: "QUÉ SIGNIFICA",
@@ -1184,9 +1204,17 @@ const contentEs: SiteContent = {
         "abren la conversación.",
       ],
       subheadline:
-        "Demos, hackathons y experimentos de builders en El Salvador. Explora, inspírate y comparte el tuyo.",
+        "Demos, hackathons y experimentos hechos por builders en El Salvador. Mira, róbate ideas y sube el tuyo.",
       primaryCta: "Enviar proyecto",
       secondaryCta: "Colaborar con nosotros",
+      proofCardEyebrow: "DEL CONCEPTO AL LIVE",
+      proofCardTitle: "Lo que sale del lab, en una página",
+      proofCardItems: [
+        { value: "01", label: "Concepto" },
+        { value: "02", label: "En progreso" },
+        { value: "03", label: "Publicado" },
+        { value: "→", label: "Tu proyecto" },
+      ],
     },
   },
   adminPage: {
@@ -1511,6 +1539,12 @@ const contentEs: SiteContent = {
       newsletterText: "Recibe lo último del lab — eventos, experimentos y preguntas que vale la pena hacer.",
       emailPlaceholder: "correo@ejemplo.com",
       subscribe: "Suscribirme",
+      newsletterSubscribing: "Enviando…",
+      newsletterSubscribed: "Listo, quedaste en la lista.",
+      newsletterAlreadyOnList: "Ese correo ya está en la lista.",
+      newsletterInvalidEmail: "Escribe un correo válido.",
+      newsletterCompleteCaptcha: "Completa la verificación de seguridad primero.",
+      newsletterGenericError: "No pudimos completar el registro. Intenta otra vez.",
       madeWith: "Hecho con",
       inSanSalvador: "en San Salvador.",
       overview: "Inicio",
@@ -1532,7 +1566,12 @@ const contentEs: SiteContent = {
         "APRENDER",
       ],
     },
-    hero: { badgeLabel: "Abierto a los curiosos", followLabel: "Síguenos" },
+    hero: {
+      badgeLabel: "Abierto a los curiosos",
+      followLabel: "Síguenos",
+      proofCardEyebrow: "EL LAB EN VIVO",
+      proofCardTitle: "Curiosidad que ya dejó marca",
+    },
     communityMembers: {
       badge: "THE CURIOUS ONES",
       title: "Gente que pregunta por qué",
@@ -1630,9 +1669,10 @@ const contentEn: SiteContent = {
       "AI is our sandbox.",
       "AI is what we build."
     ],
-    subheadline: "A community of builders in El Salvador who ask questions, run experiments, and share what they learn.",
+    subheadline:
+      "Builders in El Salvador who ask first, build to answer, and show what came out of the attempt.",
     primaryCta: "Explore the Lab",
-    secondaryCta: "See what we're exploring",
+    secondaryCta: "See what we're cooking",
   },
   founders: {
     sectionTitle: "THE STORY",
@@ -1704,6 +1744,7 @@ const contentEn: SiteContent = {
     partners: [
       { name: "Cursor", url: "https://cursor.com" },
       { name: "v0", url: "https://v0.dev" },
+      { name: "Codex", url: "https://openai.com/codex" },
     ],
   },
   eventsGallery: {
@@ -1905,10 +1946,12 @@ const contentEn: SiteContent = {
         "useful collaboration.",
       ],
       subheadline:
-        "We're a community of builders exploring AI in El Salvador. If you want to bring expertise, talks, tools, space, or sponsorship closer to real experiments, let's talk.",
+        "If you want to bring expertise, tools, space, or sponsorship to experiments that actually ship, let's talk.",
       primaryCta: "Talk partnership",
       secondaryCta: "See ways to help",
       note: "No packages. No tiers. Just useful collaboration.",
+      proofCardEyebrow: "WHAT YOU CAN BRING",
+      proofCardTitle: "What a partner looks like here",
     },
     whatMeans: {
       eyebrow: "WHAT IT MEANS",
@@ -2094,9 +2137,17 @@ const contentEn: SiteContent = {
         "community keeps sharing.",
       ],
       subheadline:
-        "Demos, hackathons, and experiments from builders in El Salvador. Explore, get inspired, and share yours.",
+        "Demos, hackathons, and experiments by builders in El Salvador. Browse, steal ideas, and drop yours in.",
       primaryCta: "Submit a project",
       secondaryCta: "Partner with us",
+      proofCardEyebrow: "FROM CONCEPT TO LIVE",
+      proofCardTitle: "What leaves the lab, on one page",
+      proofCardItems: [
+        { value: "01", label: "Concept" },
+        { value: "02", label: "In progress" },
+        { value: "03", label: "Shipped" },
+        { value: "→", label: "Your project" },
+      ],
     },
   },
   adminPage: {
@@ -2421,6 +2472,12 @@ const contentEn: SiteContent = {
       newsletterText: "Get the latest from the lab — events, experiments, and questions worth asking.",
       emailPlaceholder: "email@example.com",
       subscribe: "Subscribe",
+      newsletterSubscribing: "Sending…",
+      newsletterSubscribed: "You are on the list.",
+      newsletterAlreadyOnList: "That email is already on the list.",
+      newsletterInvalidEmail: "Enter a valid email address.",
+      newsletterCompleteCaptcha: "Complete the security check first.",
+      newsletterGenericError: "We could not finish signing you up. Try again.",
       madeWith: "Made with",
       inSanSalvador: "in San Salvador.",
       overview: "Overview",
@@ -2442,7 +2499,12 @@ const contentEn: SiteContent = {
         "LEARN",
       ],
     },
-    hero: { badgeLabel: "Open to the curious", followLabel: "Follow us" },
+    hero: {
+      badgeLabel: "Open to the curious",
+      followLabel: "Follow us",
+      proofCardEyebrow: "THE LAB, LIVE",
+      proofCardTitle: "Curiosity that already left a dent",
+    },
     communityMembers: {
       badge: "THE CURIOUS ONES",
       title: "People who ask why",

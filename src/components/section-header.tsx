@@ -23,14 +23,14 @@ export function SectionHeader({
 
   return (
     <div className={cn(alignClass, className)}>
-      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+      <p className="eyebrow-label mb-3 text-primary">
         {eyebrow}
       </p>
       <h2
         className={cn(
-          "text-balance font-medium leading-tight",
-          size === "default" && "text-3xl md:text-4xl",
-          size === "lg" && "text-4xl md:text-5xl lg:text-6xl tracking-tight",
+          "text-balance font-medium",
+          size === "default" && "text-heading-section",
+          size === "lg" && "text-display-section",
           !description && "mb-8",
           description && "mb-4",
         )}
@@ -40,9 +40,7 @@ export function SectionHeader({
       {description ? (
         <p
           className={cn(
-            "mb-8 font-light text-muted-foreground",
-            size === "default" && "text-pretty text-base md:text-lg",
-            size === "lg" && "text-lg",
+            "text-body-lead mb-8 font-light text-muted-foreground",
             descriptionAlignClass,
             align === "center" && "max-w-3xl",
             align === "left" && "max-w-2xl",

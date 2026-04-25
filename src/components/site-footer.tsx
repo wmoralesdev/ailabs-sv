@@ -1,16 +1,96 @@
-import { useMemo } from "react";
+"use client";
+
+import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { Turnstile } from "@marsidev/react-turnstile";
+import type { FormEvent } from "react";
 import { useI18n } from "@/lib/i18n";
 import { SocialLinks } from "@/components/social-links";
 import { AilabsLockup } from "@/components/ui/ailabs-lockup";
 import { BrandText } from "@/components/brand-text";
+import { isTurnstileConfigured } from "@/lib/turnstile-config";
+import { subscribeToNewsletterFn } from "@/lib/newsletter-subscribe-server";
+import { cn } from "@/lib/utils";
 
 export function SiteFooter() {
   const { t, language } = useI18n();
+  const f = t.ui.footer;
+  const [email, setEmail] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileKey, setTurnstileKey] = useState(0);
+  const [pending, setPending] = useState(false);
+  const [formMessage, setFormMessage] = useState<{
+    kind: "success" | "error";
+    key: "subscribed" | "already" | "invalid" | "captcha" | "generic";
+  } | null>(null);
+
+  const needsTurnstile = isTurnstileConfigured();
+  const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY as string | undefined;
+
+  const submitBlocked = needsTurnstile && !turnstileToken;
   const watermarkWord = useMemo(() => {
     const words = t.ui.footer.watermarkWords;
     return words[Math.floor(Math.random() * words.length)];
   }, [language, t.ui.footer.watermarkWords]);
+
+  async function onNewsletterSubmit(e: FormEvent) {
+    e.preventDefault();
+    setFormMessage(null);
+    if (submitBlocked) {
+      setFormMessage({ kind: "error", key: "captcha" });
+      return;
+    }
+    setPending(true);
+    try {
+      const result = await subscribeToNewsletterFn({
+        data: {
+          email,
+          turnstileToken: turnstileToken ?? undefined,
+        },
+      });
+      if (result.success) {
+        if (result.kind === "alreadySubscribed") {
+          setFormMessage({ kind: "success", key: "already" });
+        } else {
+          setFormMessage({ kind: "success", key: "subscribed" });
+        }
+        setEmail("");
+        setTurnstileToken(null);
+        setTurnstileKey((k) => k + 1);
+        return;
+      }
+      setTurnstileKey((k) => k + 1);
+      setTurnstileToken(null);
+      if (result.error === "invalidEmail") {
+        setFormMessage({ kind: "error", key: "invalid" });
+        return;
+      }
+      if (result.error === "turnstileRequired") {
+        setFormMessage({ kind: "error", key: "captcha" });
+        return;
+      }
+      setFormMessage({ kind: "error", key: "generic" });
+    } catch {
+      setTurnstileKey((k) => k + 1);
+      setTurnstileToken(null);
+      setFormMessage({ kind: "error", key: "generic" });
+    } finally {
+      setPending(false);
+    }
+  }
+
+  const messageText =
+    formMessage === null
+      ? null
+      : formMessage.key === "subscribed"
+        ? f.newsletterSubscribed
+        : formMessage.key === "already"
+          ? f.newsletterAlreadyOnList
+          : formMessage.key === "invalid"
+            ? f.newsletterInvalidEmail
+            : formMessage.key === "captcha"
+              ? f.newsletterCompleteCaptcha
+              : f.newsletterGenericError;
 
   return (
     <footer className="relative overflow-hidden border-t border-border bg-card pb-10 pt-16">
@@ -89,21 +169,52 @@ export function SiteFooter() {
 
           {/* Right zone: Newsletter */}
           <div className="md:col-span-2 lg:col-span-1">
-            <h4 className="mb-2 text-sm font-medium">{t.ui.footer.stayUpdated}</h4>
-            <p className="mb-3 text-sm font-light text-foreground/60">{t.ui.footer.newsletterText}</p>
-            <form className="flex flex-col gap-2 sm:flex-row" onSubmit={(event) => event.preventDefault()}>
+            <h4 className="mb-2 text-sm font-medium">{f.stayUpdated}</h4>
+            <p className="mb-3 text-sm font-light text-foreground/60">{f.newsletterText}</p>
+            {needsTurnstile && siteKey ? (
+              <div className="mb-2 flex min-h-10 justify-start sm:justify-end">
+                <Turnstile
+                  key={turnstileKey}
+                  siteKey={siteKey}
+                  options={{ size: "compact" }}
+                  onSuccess={(token) => {
+                    setTurnstileToken(token);
+                  }}
+                  onExpire={() => setTurnstileToken(null)}
+                />
+              </div>
+            ) : null}
+            <form className="flex flex-col gap-2 sm:flex-row" onSubmit={onNewsletterSubmit} noValidate>
               <input
                 type="email"
-                placeholder={t.ui.footer.emailPlaceholder}
-                className="h-10 grow rounded-lg border border-border bg-background px-4 text-sm outline-none transition-colors focus:border-primary"
+                name="footer-newsletter-email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={pending}
+                placeholder={f.emailPlaceholder}
+                className="h-10 grow rounded-lg border border-border bg-background px-4 text-sm outline-none transition-colors focus:border-primary disabled:opacity-60"
               />
               <button
                 type="submit"
-                className="h-10 whitespace-nowrap rounded-lg bg-foreground px-4 text-sm font-medium text-background transition-opacity hover:opacity-90"
+                disabled={pending || submitBlocked}
+                className="h-10 whitespace-nowrap rounded-lg bg-foreground px-4 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:pointer-events-none disabled:opacity-50"
               >
-                {t.ui.footer.subscribe}
+                {pending ? f.newsletterSubscribing : f.subscribe}
               </button>
             </form>
+            {messageText ? (
+              <p
+                role="status"
+                aria-live="polite"
+                className={cn(
+                  "mt-2 text-sm",
+                  formMessage?.kind === "success" ? "text-foreground/80" : "text-destructive"
+                )}
+              >
+                {messageText}
+              </p>
+            ) : null}
           </div>
         </div>
 

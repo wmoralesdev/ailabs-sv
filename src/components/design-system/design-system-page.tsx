@@ -51,6 +51,7 @@ export function DesignSystemPage() {
           <div id="components" className="container mx-auto px-6 pb-20 scroll-mt-24">
             <Tabs defaultValue="buttons" className="w-full">
               <TabsList className="mb-8 flex w-full flex-wrap gap-1 bg-muted/50 p-1">
+                <TabsTrigger value="foundations">Foundations</TabsTrigger>
                 <TabsTrigger value="buttons">Buttons</TabsTrigger>
                 <TabsTrigger value="forms">Form Fields</TabsTrigger>
                 <TabsTrigger value="cards">Cards</TabsTrigger>
@@ -58,6 +59,84 @@ export function DesignSystemPage() {
                 <TabsTrigger value="feedback">Feedback</TabsTrigger>
                 <TabsTrigger value="chips">Chips & Misc</TabsTrigger>
               </TabsList>
+
+              <TabsContent value="foundations" className="space-y-6">
+                <ComponentPreview
+                  title="Semantic color tokens"
+                  description="Core surfaces should use semantic tokens first, with brand swatches reserved for emphasis."
+                  usage="Use bg-background, bg-card, bg-muted, text-foreground, text-muted-foreground, border-border, text-primary."
+                >
+                  <div className="grid gap-3 md:grid-cols-4">
+                    {[
+                      ["Background", "bg-background text-foreground"],
+                      ["Card", "bg-card text-card-foreground"],
+                      ["Muted", "bg-muted text-muted-foreground"],
+                      ["Primary", "bg-primary text-primary-foreground"],
+                    ].map(([label, className]) => (
+                      <div
+                        key={label}
+                        className={`${className} flex min-h-24 flex-col justify-between rounded-2xl border border-border p-4`}
+                      >
+                        <span className="eyebrow-label opacity-75">{label}</span>
+                        <span className="font-mono text-xs opacity-80">
+                          {className}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </ComponentPreview>
+
+                <ComponentPreview
+                  title="Display, heading, body, mono"
+                  description="Home-first scale used by the refreshed hero, stats, and section headers."
+                  usage="text-display-hero, text-display-section, text-heading-section, text-body-lead, eyebrow-label"
+                >
+                  <div className="space-y-6">
+                    <div>
+                      <p className="eyebrow-label mb-3 text-primary">Display</p>
+                      <p className="text-display-section font-medium">
+                        Design for builders shipping in public
+                      </p>
+                    </div>
+                    <div>
+                      <p className="eyebrow-label mb-3 text-primary">Body</p>
+                      <p className="text-body-lead max-w-3xl text-muted-foreground">
+                        Lead copy uses a calmer rhythm and more readable line
+                        height, while the display scale carries the editorial
+                        personality.
+                      </p>
+                    </div>
+                    <div>
+                      <p className="eyebrow-label mb-3 text-primary">Mono stats</p>
+                      <p className="font-mono text-4xl font-semibold tabular-nums">
+                        300+
+                      </p>
+                    </div>
+                  </div>
+                </ComponentPreview>
+
+                <ComponentPreview
+                  title="Interaction primitives"
+                  description="Small reusable classes for restrained motion and tactile cards."
+                  usage="interactive-lift, reveal-on-scroll, surface-panel"
+                >
+                  <div className="grid gap-3 md:grid-cols-3">
+                    {["surface-panel", "interactive-lift", "reveal-on-scroll is-visible"].map(
+                      (className) => (
+                        <div
+                          key={className}
+                          className={`${className} rounded-2xl p-5`}
+                        >
+                          <p className="font-medium">{className}</p>
+                          <p className="mt-2 text-sm text-muted-foreground">
+                            Token-driven motion primitive.
+                          </p>
+                        </div>
+                      ),
+                    )}
+                  </div>
+                </ComponentPreview>
+              </TabsContent>
 
               <TabsContent value="buttons" className="space-y-6">
                 <ComponentPreview
