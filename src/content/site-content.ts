@@ -600,6 +600,7 @@ export interface SiteContent {
     header?: {
       newPost: string;
       submitProject: string;
+      submitHackathonProject: string;
       myProfile: string;
       signOut: string;
     };
@@ -610,6 +611,7 @@ export interface SiteContent {
       partners: string;
       blog: string;
       feed: string;
+      hackathonGroups: string;
       join: string;
       account: string;
     };
@@ -1519,6 +1521,7 @@ const contentEs: SiteContent = {
     header: {
       newPost: "Nuevo post",
       submitProject: "Enviar proyecto",
+      submitHackathonProject: "Subir proyecto de hackathon",
       myProfile: "Mi perfil",
       signOut: "Cerrar sesión",
     },
@@ -1529,6 +1532,7 @@ const contentEs: SiteContent = {
       partners: "Partners",
       blog: "Blog",
       feed: "Showcase",
+      hackathonGroups: "Hackathon Groups",
       join: "Explorar el Lab",
       account: "Mi cuenta",
     },
@@ -2452,6 +2456,7 @@ const contentEn: SiteContent = {
     header: {
       newPost: "New post",
       submitProject: "Submit project",
+      submitHackathonProject: "Submit hackathon project",
       myProfile: "My profile",
       signOut: "Sign out",
     },
@@ -2462,6 +2467,7 @@ const contentEn: SiteContent = {
       partners: "Partners",
       blog: "Blog",
       feed: "Showcase",
+      hackathonGroups: "Hackathon Groups",
       join: "Explore the Lab",
       account: "My account",
     },

@@ -95,6 +95,16 @@ export function AuthHeaderActions() {
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
+            router.navigate({
+              to: "/hackathon-groups/submit",
+              search: { edit: undefined },
+            }).catch(() => {});
+          }}
+        >
+          {t.ui.header?.submitHackathonProject ?? "Submit hackathon project"}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
             router.navigate({ to: "/me" }).catch(() => {});
           }}
         >

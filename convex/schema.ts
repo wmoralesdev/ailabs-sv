@@ -62,6 +62,65 @@ export default defineSchema({
     .index("by_created", ["createdAt"])
     .index("by_featured", ["featured", "createdAt"]),
 
+  hackathonGroupSessions: defineTable({
+    ownerId: v.string(),
+    startedAt: v.number(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }).index("by_owner_startedAt", ["ownerId", "startedAt"]),
+
+  hackathonGroupProjects: defineTable({
+    sessionId: v.id("hackathonGroupSessions"),
+    ownerId: v.string(),
+    slug: v.string(),
+    groupName: v.string(),
+    title: v.string(),
+    tagline: v.string(),
+    description: v.string(),
+    coverImageId: v.id("_storage"),
+    coverImageUrl: v.string(),
+    projectUrl: v.optional(v.string()),
+    repoUrl: v.optional(v.string()),
+    socialPostUrl: v.optional(v.string()),
+    toolsUsed: v.optional(v.array(v.string())),
+    status: v.union(
+      v.literal("shipped"),
+      v.literal("in_progress"),
+      v.literal("concept")
+    ),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_slug", ["slug"])
+    .index("by_owner_createdAt", ["ownerId", "createdAt"])
+    .index("by_session_createdAt", ["sessionId", "createdAt"]),
+
+  hackathonGroupProjectHistory: defineTable({
+    projectId: v.id("hackathonGroupProjects"),
+    ownerId: v.string(),
+    action: v.union(v.literal("created"), v.literal("updated")),
+    note: v.optional(v.string()),
+    snapshot: v.object({
+      groupName: v.string(),
+      title: v.string(),
+      tagline: v.string(),
+      description: v.string(),
+      coverImageUrl: v.string(),
+      projectUrl: v.optional(v.string()),
+      repoUrl: v.optional(v.string()),
+      socialPostUrl: v.optional(v.string()),
+      toolsUsed: v.optional(v.array(v.string())),
+      status: v.union(
+        v.literal("shipped"),
+        v.literal("in_progress"),
+        v.literal("concept")
+      ),
+    }),
+    createdAt: v.number(),
+  })
+    .index("by_project_createdAt", ["projectId", "createdAt"])
+    .index("by_owner_createdAt", ["ownerId", "createdAt"]),
+
   userFiles: defineTable({
     userId: v.string(),
     storageId: v.id("_storage"),

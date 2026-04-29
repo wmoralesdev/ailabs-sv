@@ -12,6 +12,9 @@ export const listPublicUrls = query({
   args: {},
   handler: async (ctx) => {
     const showcaseEntries = await ctx.db.query("showcaseEntries").collect();
+    const hackathonGroupProjects = await ctx.db
+      .query("hackathonGroupProjects")
+      .collect();
     const profiles = await ctx.db.query("profiles").collect();
 
     const showcase = showcaseEntries.slice(0, MAX_SHOWCASE).map((e) => ({
@@ -24,6 +27,13 @@ export const listPublicUrls = query({
       lastmod: p.updatedAt,
     }));
 
-    return { showcase, profiles: profilesOut };
+    const hackathonGroups = hackathonGroupProjects
+      .slice(0, MAX_SHOWCASE)
+      .map((project) => ({
+        slug: project.slug,
+        lastmod: project.updatedAt,
+      }));
+
+    return { showcase, hackathonGroups, profiles: profilesOut };
   },
 });
