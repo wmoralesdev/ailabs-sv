@@ -9,6 +9,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { LangSync } from '@/components/lang-sync'
 import { ConvexProvider } from '@/components/convex-provider'
 import { AuthProvider } from '@/components/auth/auth-context'
+import { ClarityAnalytics } from '@/components/analytics/clarity-analytics'
 import { getSiteOrigin } from '@/lib/site-url'
 import { seoCopyEs } from '@/content/seo-copy'
 
@@ -140,9 +141,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             },
           ]}
         /> */}
-        <Analytics
-          mode={import.meta.env.PROD ? 'production' : 'development'}
-        />
+        <Analytics mode={import.meta.env.PROD ? 'production' : 'development'} />
+        <ClarityAnalytics />
         <Scripts />
       </body>
     </html>
