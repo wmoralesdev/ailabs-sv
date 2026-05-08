@@ -1,8 +1,9 @@
-import { assertLocalizedDescriptionWithinLimit } from "./event_content_limits";
-import { assertCoverStorageWithinLimit } from "./storage_limits";
-import type { MutationCtx } from "../_generated/server";
-import type { Id } from "../_generated/dataModel";
-import type { UpsertEventArgs } from "./event_upsert_args";
+import { assertLocalizedDescriptionWithinLimit } from './event_content_limits'
+import { assertCoverStorageWithinLimit } from './storage_limits'
+import { assertNotMonthArchiveSlug } from './event/slug'
+import type { MutationCtx } from '../_generated/server'
+import type { Id } from '../_generated/dataModel'
+import type { UpsertEventArgs } from './event_upsert_args'
 
 /**
  * Insert or patch an `events` row. Used by admin UI and MCP (internal) paths.
@@ -10,13 +11,15 @@ import type { UpsertEventArgs } from "./event_upsert_args";
 export async function applyEventUpsert(
   ctx: MutationCtx,
   args: UpsertEventArgs,
-  now: number
-): Promise<Id<"events">> {
+  now: number,
+): Promise<Id<'events'>> {
+  assertNotMonthArchiveSlug(args.slug)
+
   if (args.coverImageId) {
-    await assertCoverStorageWithinLimit(ctx, args.coverImageId);
+    await assertCoverStorageWithinLimit(ctx, args.coverImageId)
   }
 
-  assertLocalizedDescriptionWithinLimit(args.description);
+  assertLocalizedDescriptionWithinLimit(args.description)
 
   const eventData = {
     slug: args.slug,
@@ -41,15 +44,15 @@ export async function applyEventUpsert(
     galleryDateLabel: args.galleryDateLabel,
     createdAt: now,
     updatedAt: now,
-  };
-
-  if (args.id) {
-    const existing = await ctx.db.get(args.id);
-    if (!existing) throw new Error("Event not found");
-    eventData.createdAt = existing.createdAt;
-    await ctx.db.patch(args.id, eventData);
-    return args.id;
   }
 
-  return await ctx.db.insert("events", eventData);
+  if (args.id) {
+    const existing = await ctx.db.get(args.id)
+    if (!existing) throw new Error('Event not found')
+    eventData.createdAt = existing.createdAt
+    await ctx.db.patch(args.id, eventData)
+    return args.id
+  }
+
+  return await ctx.db.insert('events', eventData)
 }

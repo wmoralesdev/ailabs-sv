@@ -18,6 +18,7 @@ import type * as google_wallet_phase2 from "../google_wallet_phase2.js";
 import type * as http from "../http.js";
 import type * as learning_lab from "../learning_lab.js";
 import type * as lib_admin from "../lib/admin.js";
+import type * as lib_event_slug from "../lib/event/slug.js";
 import type * as lib_event_content_limits from "../lib/event_content_limits.js";
 import type * as lib_event_patch_args from "../lib/event_patch_args.js";
 import type * as lib_event_upsert_args from "../lib/event_upsert_args.js";
@@ -52,6 +53,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   learning_lab: typeof learning_lab;
   "lib/admin": typeof lib_admin;
+  "lib/event/slug": typeof lib_event_slug;
   "lib/event_content_limits": typeof lib_event_content_limits;
   "lib/event_patch_args": typeof lib_event_patch_args;
   "lib/event_upsert_args": typeof lib_event_upsert_args;

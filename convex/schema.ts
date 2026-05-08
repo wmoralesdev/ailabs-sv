@@ -1,5 +1,5 @@
-import { defineSchema, defineTable } from "convex/server";
-import { v } from "convex/values";
+import { defineSchema, defineTable } from 'convex/server'
+import { v } from 'convex/values'
 
 /**
  * Community profiles schema.
@@ -15,7 +15,16 @@ export default defineSchema({
     avatarUrl: v.optional(v.string()),
     location: v.optional(v.string()),
     company: v.optional(v.string()),
-    experienceLevel: v.optional(v.union(v.literal("beginner"), v.literal("intermediate"), v.literal("advanced"), v.literal("exploring"), v.literal("building"), v.literal("shipping"))),
+    experienceLevel: v.optional(
+      v.union(
+        v.literal('beginner'),
+        v.literal('intermediate'),
+        v.literal('advanced'),
+        v.literal('exploring'),
+        v.literal('building'),
+        v.literal('shipping'),
+      ),
+    ),
     interests: v.optional(v.array(v.string())),
     tools: v.optional(v.array(v.string())),
     lookingFor: v.optional(v.array(v.string())),
@@ -30,14 +39,14 @@ export default defineSchema({
     createdAt: v.number(),
     updatedAt: v.number(),
   })
-    .index("by_slug", ["slug"])
-    .index("by_owner", ["ownerId"]),
+    .index('by_slug', ['slug'])
+    .index('by_owner', ['ownerId']),
 
   showcaseEntries: defineTable({
     title: v.string(),
     tagline: v.string(),
     description: v.string(),
-    coverImageId: v.id("_storage"),
+    coverImageId: v.id('_storage'),
     coverImageUrl: v.string(),
     slug: v.string(),
     ownerId: v.string(),
@@ -48,38 +57,38 @@ export default defineSchema({
     toolsUsed: v.optional(v.array(v.string())),
     collaboratorIds: v.optional(v.array(v.string())),
     status: v.union(
-      v.literal("shipped"),
-      v.literal("in_progress"),
-      v.literal("concept")
+      v.literal('shipped'),
+      v.literal('in_progress'),
+      v.literal('concept'),
     ),
     featured: v.optional(v.boolean()),
     featuredAt: v.optional(v.number()),
     createdAt: v.number(),
     updatedAt: v.number(),
   })
-    .index("by_slug", ["slug"])
-    .index("by_owner", ["ownerId", "createdAt"])
-    .index("by_created", ["createdAt"])
-    .index("by_featured", ["featured", "createdAt"]),
+    .index('by_slug', ['slug'])
+    .index('by_owner', ['ownerId', 'createdAt'])
+    .index('by_created', ['createdAt'])
+    .index('by_featured', ['featured', 'createdAt']),
 
   userFiles: defineTable({
     userId: v.string(),
-    storageId: v.id("_storage"),
+    storageId: v.id('_storage'),
     path: v.string(),
     createdAt: v.number(),
   })
-    .index("by_user", ["userId"])
-    .index("by_path", ["path"]),
+    .index('by_user', ['userId'])
+    .index('by_path', ['path']),
 
   events: defineTable({
     slug: v.string(),
     published: v.boolean(),
     type: v.union(
-      v.literal("Meetup"),
-      v.literal("Workshop"),
-      v.literal("Social"),
-      v.literal("Conference"),
-      v.literal("Hackathon")
+      v.literal('Meetup'),
+      v.literal('Workshop'),
+      v.literal('Social'),
+      v.literal('Conference'),
+      v.literal('Hackathon'),
     ),
     tags: v.array(v.string()),
     isVirtual: v.optional(v.boolean()),
@@ -88,7 +97,7 @@ export default defineSchema({
       v.object({
         es: v.string(),
         en: v.string(),
-      })
+      }),
     ),
     startAt: v.number(),
     endAt: v.optional(v.number()),
@@ -110,7 +119,7 @@ export default defineSchema({
       en: v.string(),
     }),
     rsvpUrl: v.string(),
-    coverImageId: v.optional(v.id("_storage")),
+    coverImageId: v.optional(v.id('_storage')),
     imageUrl: v.optional(v.string()),
     recapUrl: v.optional(v.string()),
     photoAlbumUrl: v.optional(v.string()),
@@ -118,13 +127,14 @@ export default defineSchema({
       v.object({
         es: v.string(),
         en: v.string(),
-      })
+      }),
     ),
     createdAt: v.number(),
     updatedAt: v.number(),
   })
-    .index("by_slug", ["slug"])
-    .index("by_published_startAt", ["published", "startAt"]),
+    .index('by_slug', ['slug'])
+    .index('by_published_startAt', ['published', 'startAt'])
+    .index('by_published_type_startAt', ['published', 'type', 'startAt']),
 
   labCards: defineTable({
     order: v.number(),
@@ -143,5 +153,5 @@ export default defineSchema({
     }),
     createdAt: v.number(),
     updatedAt: v.number(),
-  }).index("by_order", ["order"]),
-});
+  }).index('by_order', ['order']),
+})
