@@ -24,9 +24,9 @@ export function JoinCtaButton({ inverted, compact }: JoinCtaButtonProps) {
       variant={inverted ? "signInBarInverted" : "signInBar"}
       size={compact ? "sm" : "lg"}
       className={cn("hidden sm:inline-flex", compact ? "px-4" : "px-5")}
-      render={<Link to="/sign-in" />}
+      render={<Link to="/work-with-us" />}
     >
-      {t.signIn.title}
+      {t.ui.nav.workWithUs}
     </Button>
   );
 }

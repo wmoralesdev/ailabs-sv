@@ -1,11 +1,14 @@
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRightIcon, Image01Icon } from "@hugeicons/core-free-icons";
+import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
 import type { SiteContent } from "@/content/site-content";
 import { useI18n } from "@/lib/i18n";
 import { SectionHeader } from "@/components/section-header";
 import { Spinner } from "@/components/ui/spinner";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { formatWithBrandText } from "@/components/brand-text";
 import { UpcomingEventsCarousel } from "@/components/sections/upcoming-events-carousel";
@@ -46,25 +49,26 @@ function PastEventCard({
       <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/50 to-transparent" />
       <div className="absolute left-4 top-4 z-10 flex items-center gap-1.5">
         {event.partner && (
-          <span className="rounded-full border border-white/30 bg-black/50 px-2.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur-md">
+          <span className="rounded-full border border-white/20 bg-black/45 px-2.5 py-0.5 text-[10px] font-medium text-white/90 backdrop-blur-md">
             {event.partner}
           </span>
         )}
         {event.isVirtual && (
-          <span className="rounded-full border border-white/30 bg-black/50 px-2.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur-md">
+          <span className="rounded-full border border-white/20 bg-black/45 px-2.5 py-0.5 text-[10px] font-medium text-white/90 backdrop-blur-md">
             {t.events.virtualLabel}
           </span>
         )}
       </div>
       <div className="absolute bottom-0 left-0 z-10 w-full p-4 text-white">
-        <div className="mb-1.5 flex items-center gap-2">
-          <span className="text-[11px] font-medium uppercase tracking-widest text-white/70">
-            {event.date}
-          </span>
+        <div className="mb-1.5 flex items-center gap-2 text-[11px] font-medium uppercase tracking-widest text-white/70">
+          <span>{event.date}</span>
           {event.country && (
-            <span className="rounded-full border border-white/30 bg-black/40 px-2.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur-md">
-              {event.country}
-            </span>
+            <>
+              <span aria-hidden className="text-white/30">·</span>
+              <span className="text-white/65 normal-case tracking-normal">
+                {event.country}
+              </span>
+            </>
           )}
         </div>
         <h4 className="mb-2 text-base font-semibold leading-snug text-white">
@@ -110,8 +114,10 @@ function PastEventCard({
 
 export function EventsSection() {
   const { t, language } = useI18n();
+  const [now] = useState(() => Date.now());
   const result = useQuery(api.events.listForHomepage, {
     language,
+    now,
     upcomingLimit: 10,
     pastLimit: 12,
   });
@@ -130,65 +136,56 @@ export function EventsSection() {
   const { upcoming, past } = result;
 
   return (
-    <>
-      <section id="events" className="section-editorial py-20 md:py-28">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl">
-            <SectionHeader
-              eyebrow={t.events.badge}
-              title={t.events.sectionTitle}
-              description={t.events.tagline}
-              align="left"
-            />
-          </div>
-
-          <div className="mb-8 mt-4">
-            <h3 className="text-lg font-semibold">{t.events.upcomingTitle}</h3>
-          </div>
-
-          {upcoming.length > 0 ? (
-            <UpcomingEventsCarousel events={upcoming} t={t} />
-          ) : (
-            <div className="rounded-2xl border border-dashed border-border bg-card/40 p-10 text-center text-muted-foreground">
-              {t.events.noUpcoming}
-            </div>
-          )}
-        </div>
-      </section>
-
-      <section id="event-gallery" className="section-panel py-20 md:py-28">
-        <div className="container mx-auto px-4">
+    <section id="events" className="section-editorial py-20 md:py-28">
+      <div className="container mx-auto px-4">
+        <div className="mb-12 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeader
-            eyebrow={t.eventsGallery.badge}
-            title={t.eventsGallery.title}
+            eyebrow={t.events.badge}
+            title={t.events.sectionTitle}
+            description={t.events.tagline}
             align="left"
+            className="mb-0 max-w-4xl"
           />
+          <Link
+            to="/events"
+            className={cn(
+              buttonVariants({ variant: "outline", size: "xl" }),
+              "w-fit bg-background/60",
+            )}
+          >
+            {t.ui.nav.events}
+            <HugeiconsIcon icon={ArrowRightIcon} className="size-4" data-icon="inline-end" />
+          </Link>
         </div>
 
-        <div className="mt-12">
-          {past.length > 0 ? (
-            <div className="overflow-hidden py-4">
-              <div
-                className={cn(
-                  "flex gap-4 whitespace-nowrap px-6 motion-reduce:overflow-x-auto motion-reduce:animate-none motion-reduce:scrollbar-hide animate-marquee hover:paused"
-                )}
-              >
-                {[...past, ...past].map((event, index) => (
-                  <PastEventCard
-                    key={`${event.id}-${index}`}
-                    event={event}
-                    t={t}
-                  />
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="rounded-2xl border border-dashed border-border bg-card/40 px-6 py-12 text-center text-muted-foreground">
-              {t.events.noPast}
-            </div>
-          )}
+        {upcoming.length > 0 ? (
+          <UpcomingEventsCarousel events={upcoming} t={t} />
+        ) : (
+          <div className="quiet-card p-10 text-center text-muted-foreground">
+            {t.events.noUpcoming}
+          </div>
+        )}
+      </div>
+
+      {past.length > 0 ? (
+        <div className="mt-16 overflow-hidden py-4">
+          <p className="container mx-auto mb-6 px-4 eyebrow-label text-foreground/45">
+            {t.eventsGallery.title}
+          </p>
+          <div
+            className={cn(
+              "flex gap-4 whitespace-nowrap px-6 motion-reduce:overflow-x-auto motion-reduce:animate-none motion-reduce:scrollbar-hide animate-marquee hover:paused",
+            )}
+          >
+            {[
+              ...past.map((event) => ({ event, copy: "a" })),
+              ...past.map((event) => ({ event, copy: "b" })),
+            ].map(({ event, copy }) => (
+              <PastEventCard key={`${event.id}-${copy}`} event={event} t={t} />
+            ))}
+          </div>
         </div>
-      </section>
-    </>
+      ) : null}
+    </section>
   );
 }

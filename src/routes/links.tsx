@@ -1,4 +1,4 @@
-import { HugeiconsIcon } from "@hugeicons/react";
+import { HugeiconsIcon } from '@hugeicons/react'
 import {
   ArrowDown01Icon,
   ArrowRight01Icon,
@@ -6,93 +6,96 @@ import {
   Home09Icon,
   MapPinIcon,
   QrCodeScanIcon,
-} from "@hugeicons/core-free-icons";
-import { Link, createFileRoute } from "@tanstack/react-router";
-import QRCode from "react-qr-code";
-import { useQuery } from "convex/react";
-import { api } from "convex/_generated/api";
-import { formatWithBrandText } from "@/components/brand-text";
-import { SocialLinks } from "@/components/social-links";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { LanguageToggle } from "@/components/language-toggle";
-import { useResolvedDark } from "@/components/theme-provider";
-import { AnimatedGrid } from "@/components/ui/animated-grid";
-import { AilabsLockup } from "@/components/ui/ailabs-lockup";
-import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
+} from '@hugeicons/core-free-icons'
+import { useState } from 'react'
+import { Link, createFileRoute } from '@tanstack/react-router'
+import QRCode from 'react-qr-code'
+import { useQuery } from 'convex/react'
+import { api } from 'convex/_generated/api'
+import { formatWithBrandText } from '@/components/brand-text'
+import { SocialLinks } from '@/components/social-links'
+import { ThemeToggle } from '@/components/theme-toggle'
+import { LanguageToggle } from '@/components/language-toggle'
+import { useResolvedDark } from '@/components/theme-provider'
+import { AnimatedGrid } from '@/components/ui/animated-grid'
+import { AilabsLockup } from '@/components/ui/ailabs-lockup'
+import { Badge } from '@/components/ui/badge'
+import { Button, buttonVariants } from '@/components/ui/button'
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { Spinner } from "@/components/ui/spinner";
-import { InstagramIcon } from "@/components/ui/instagram-icon";
-import { WhatsappIcon } from "@/components/ui/whatsapp-icon";
-import { seoCopyEs } from "@/content/seo-copy";
-import { buildLinksPageJsonLd, buildSeoMeta } from "@/lib/seo-meta";
-import { getSiteOrigin } from "@/lib/site-url";
-import { useI18n } from "@/lib/i18n";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/collapsible'
+import { Spinner } from '@/components/ui/spinner'
+import { InstagramIcon } from '@/components/ui/instagram-icon'
+import { WhatsappIcon } from '@/components/ui/whatsapp-icon'
+import { seoCopyEs } from '@/content/seo-copy'
+import { buildLinksPageJsonLd, buildSeoMeta } from '@/lib/seo-meta'
+import { getSiteOrigin } from '@/lib/site-url'
+import { useI18n } from '@/lib/i18n'
+import { cn } from '@/lib/utils'
 
-const linksShareUrl = `${getSiteOrigin()}/links`;
+const linksShareUrl = `${getSiteOrigin()}/links`
 
 function socialHandleFromUrl(url: string | undefined): string | null {
-  if (!url) return null;
+  if (!url) return null
   try {
-    const segment = new URL(url).pathname.replace(/^\//, "").split("/")[0];
-    return segment ? `@${segment}` : null;
+    const segment = new URL(url).pathname.replace(/^\//, '').split('/')[0]
+    return segment ? `@${segment}` : null
   } catch {
-    return null;
+    return null
   }
 }
 
-export const Route = createFileRoute("/links")({
+export const Route = createFileRoute('/links')({
   head: () => {
     const { meta, links } = buildSeoMeta({
-      path: "/links",
+      path: '/links',
       title: seoCopyEs.links.title,
       description: seoCopyEs.links.description,
-    });
+    })
     return {
       meta: [
         ...meta,
         {
-          "script:ld+json": buildLinksPageJsonLd(
+          'script:ld+json': buildLinksPageJsonLd(
             seoCopyEs.links.title,
             seoCopyEs.links.description,
           ),
         },
       ],
       links,
-    };
+    }
   },
   component: LinksPage,
-});
+})
 
 function LinksPage() {
-  const { t, language } = useI18n();
-  const isDark = useResolvedDark();
+  const { t, language } = useI18n()
+  const isDark = useResolvedDark()
+  const [now] = useState(() => Date.now())
   const eventsResult = useQuery(api.events.listForHomepage, {
     language,
+    now,
     upcomingLimit: 2,
     pastLimit: 0,
-  });
-  const socialHandle = socialHandleFromUrl(t.site.socials.twitter);
-  const instagramUrl = t.site.socials.instagram;
+  })
+  const socialHandle = socialHandleFromUrl(t.site.socials.twitter)
+  const instagramUrl = t.site.socials.instagram
 
-  const qrFg = isDark ? "#fafafa" : "#0a0a0a";
-  const qrBg = isDark ? "#1c1917" : "#fafaf9";
+  const qrFg = isDark ? '#fafafa' : '#0a0a0a'
+  const qrBg = isDark ? '#1c1917' : '#fafaf9'
 
   return (
-    <div className="relative min-h-dvh overflow-hidden bg-background text-foreground font-sans selection:bg-primary selection:text-primary-foreground motion-safe:animate-page-in">
+    <div className="bg-background text-foreground selection:bg-primary selection:text-primary-foreground motion-safe:animate-page-in relative min-h-dvh overflow-hidden font-sans">
       {/* Background layers — same as landing hero */}
       <AnimatedGrid className="opacity-70" />
       <div className="hero-radial-field pointer-events-none absolute inset-0 opacity-80" />
       <div className="hero-top-fade pointer-events-none absolute inset-0 z-[1]" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-background to-transparent" />
+      <div className="from-background pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-linear-to-t to-transparent" />
 
       {/* Top controls */}
-      <div className="pointer-events-none fixed right-3 top-3 z-30 flex items-center gap-2 md:right-5 md:top-4">
+      <div className="pointer-events-none fixed top-3 right-3 z-30 flex items-center gap-2 md:top-4 md:right-5">
         <div className="pointer-events-auto">
           <LanguageToggle />
         </div>
@@ -101,10 +104,10 @@ function LinksPage() {
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-dvh max-w-md flex-col px-4 pb-10 pt-12 md:pt-16">
+      <div className="relative z-10 mx-auto flex min-h-dvh max-w-md flex-col px-4 pt-12 pb-10 md:pt-16">
         {/* Header — brand lockup matching landing hero */}
         <header
-          className="mb-10 flex flex-col items-center text-center motion-safe:animate-hero-in [animation-delay:80ms]"
+          className="motion-safe:animate-hero-in mb-10 flex flex-col items-center text-center [animation-delay:80ms]"
           aria-label={t.site.name}
         >
           <h1 className="mb-4">
@@ -112,14 +115,12 @@ function LinksPage() {
             <AilabsLockup className="text-5xl md:text-6xl" />
           </h1>
           {socialHandle ? (
-            <p className="eyebrow-label text-primary mb-3">
-              {socialHandle}
-            </p>
+            <p className="eyebrow-label text-primary mb-3">{socialHandle}</p>
           ) : null}
-          <p className="text-body-lead max-w-sm text-pretty font-light text-foreground/65 motion-safe:animate-hero-in [animation-delay:140ms]">
+          <p className="text-body-lead text-foreground/65 motion-safe:animate-hero-in max-w-sm font-light text-pretty [animation-delay:140ms]">
             {t.site.description}
           </p>
-          <div className="mt-5 motion-safe:animate-hero-in [animation-delay:180ms]">
+          <div className="motion-safe:animate-hero-in mt-5 [animation-delay:180ms]">
             <SocialLinks socials={t.site.socials} variant="minimal" />
           </div>
         </header>
@@ -127,18 +128,18 @@ function LinksPage() {
         {/* Link rows */}
         <div className="flex flex-col gap-3">
           {/* Primary CTAs */}
-          <div className="flex gap-3 motion-safe:animate-hero-in [animation-delay:220ms]">
+          <div className="motion-safe:animate-hero-in flex gap-3 [animation-delay:220ms]">
             <a
               href={t.site.whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
-                buttonVariants({ size: "3xl" }),
-                "interactive-lift relative flex w-full items-center overflow-hidden",
-                instagramUrl ? "min-w-0 flex-1 basis-0" : "w-full",
+                buttonVariants({ size: '3xl' }),
+                'interactive-lift relative flex w-full items-center overflow-hidden',
+                instagramUrl ? 'min-w-0 flex-1 basis-0' : 'w-full',
               )}
             >
-              <span className="pointer-events-none absolute left-3 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-md bg-primary-foreground/15 text-primary-foreground sm:left-4 sm:size-9">
+              <span className="bg-primary-foreground/15 text-primary-foreground pointer-events-none absolute top-1/2 left-3 flex size-8 -translate-y-1/2 items-center justify-center rounded-md sm:left-4 sm:size-9">
                 <WhatsappIcon className="size-[16px] sm:size-[18px]" />
               </span>
               <span className="w-full truncate px-2 pl-11 text-center text-sm font-medium sm:pl-12">
@@ -151,12 +152,12 @@ function LinksPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  buttonVariants({ variant: "outline", size: "3xl" }),
-                  "interactive-lift group relative flex min-w-0 flex-1 basis-0 items-center overflow-hidden",
+                  buttonVariants({ variant: 'outline', size: '3xl' }),
+                  'interactive-lift group relative flex min-w-0 flex-1 basis-0 items-center overflow-hidden',
                 )}
               >
                 <span
-                  className="pointer-events-none absolute left-3 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-md bg-muted text-muted-foreground transition-colors group-hover:text-accent-foreground sm:left-4 sm:size-9"
+                  className="bg-muted text-muted-foreground group-hover:text-accent-foreground pointer-events-none absolute top-1/2 left-3 flex size-8 -translate-y-1/2 items-center justify-center rounded-md transition-colors sm:left-4 sm:size-9"
                   aria-hidden
                 >
                   <InstagramIcon className="size-[15px] sm:size-[18px]" />
@@ -175,12 +176,19 @@ function LinksPage() {
           >
             <CollapsibleTrigger
               className={cn(
-                buttonVariants({ variant: "outline", size: "3xl" }),
-                "interactive-lift group relative flex w-full cursor-pointer items-center overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                buttonVariants({ variant: 'outline', size: '3xl' }),
+                'interactive-lift group focus-visible:ring-ring focus-visible:ring-offset-background relative flex w-full cursor-pointer items-center overflow-hidden text-left focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
               )}
             >
-              <span className="pointer-events-none absolute left-5 top-1/2 flex size-9 -translate-y-1/2 items-center justify-center rounded-md bg-muted text-muted-foreground transition-colors group-hover:text-accent-foreground" aria-hidden>
-                <HugeiconsIcon icon={CalendarIcon} className="size-4" strokeWidth={2} />
+              <span
+                className="bg-muted text-muted-foreground group-hover:text-accent-foreground pointer-events-none absolute top-1/2 left-5 flex size-9 -translate-y-1/2 items-center justify-center rounded-md transition-colors"
+                aria-hidden
+              >
+                <HugeiconsIcon
+                  icon={CalendarIcon}
+                  className="size-4"
+                  strokeWidth={2}
+                />
               </span>
               <span className="block w-full px-14 text-center text-sm font-medium">
                 {t.ui.linksPage.eventsHeading}
@@ -188,7 +196,7 @@ function LinksPage() {
               <HugeiconsIcon
                 icon={ArrowDown01Icon}
                 strokeWidth={2}
-                className="pointer-events-none absolute right-5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground transition-[transform,color] duration-200 group-hover:text-accent-foreground group-data-[panel-open]:rotate-180"
+                className="text-muted-foreground group-hover:text-accent-foreground pointer-events-none absolute top-1/2 right-5 size-4 -translate-y-1/2 transition-[transform,color] duration-200 group-data-[panel-open]:rotate-180"
               />
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-2 flex flex-col gap-3">
@@ -197,18 +205,18 @@ function LinksPage() {
                   <Spinner size="lg" />
                 </div>
               ) : eventsResult.upcoming.length === 0 ? (
-                <p className="editorial-card rounded-[1.75rem] px-4 py-8 text-center text-sm text-muted-foreground">
+                <p className="editorial-card text-muted-foreground rounded-[1.75rem] px-4 py-8 text-center text-sm">
                   {t.events.noUpcoming}
                 </p>
               ) : (
                 eventsResult.upcoming.map((event, index) => (
                   <Link
                     key={event.id}
-                    to="/events/$slug"
-                    params={{ slug: event.slug }}
+                    to="/events/$param"
+                    params={{ param: event.slug }}
                     className={cn(
-                      "editorial-card interactive-lift group relative block rounded-[1.75rem] p-4 text-left text-card-foreground",
-                      "motion-safe:animate-hero-in",
+                      'editorial-card interactive-lift group text-card-foreground relative block rounded-[1.75rem] p-4 text-left',
+                      'motion-safe:animate-hero-in',
                     )}
                     style={{
                       animationDelay: `calc(270ms + ${index * 50}ms)`,
@@ -216,20 +224,20 @@ function LinksPage() {
                   >
                     <HugeiconsIcon
                       icon={ArrowRight01Icon}
-                      className="absolute right-3 top-3 size-4 text-muted-foreground opacity-50 transition-[opacity,color] duration-300 group-hover:text-accent-foreground group-hover:opacity-100"
+                      className="text-muted-foreground group-hover:text-accent-foreground absolute top-3 right-3 size-4 opacity-50 transition-[opacity,color] duration-300 group-hover:opacity-100"
                       strokeWidth={2}
                     />
                     <div className="flex flex-wrap items-center gap-2 pr-8">
                       <Badge
                         variant="secondary"
-                        className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary"
+                        className="bg-primary/10 text-primary rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wide uppercase"
                       >
                         {event.type}
                       </Badge>
                       {event.isVirtual ? (
                         <Badge
                           variant="outline"
-                          className="rounded-full border-dashed border-primary/40 px-2 py-0 text-[10px] font-medium text-primary"
+                          className="border-primary/40 text-primary rounded-full border-dashed px-2 py-0 text-[10px] font-medium"
                         >
                           {t.events.virtualLabel}
                         </Badge>
@@ -237,20 +245,20 @@ function LinksPage() {
                       {event.partner ? (
                         <Badge
                           variant="outline"
-                          className="rounded-full border-border/70 px-2 py-0 text-[10px] font-medium"
+                          className="border-border/70 rounded-full px-2 py-0 text-[10px] font-medium"
                         >
                           {event.partner}
                         </Badge>
                       ) : null}
                     </div>
-                    <h2 className="mt-3 font-display text-base font-semibold leading-snug tracking-tight">
+                    <h2 className="font-display mt-3 text-base leading-snug font-semibold tracking-tight">
                       {formatWithBrandText(event.title)}
                     </h2>
-                    <div className="mt-3 space-y-1.5 text-xs text-muted-foreground transition-colors duration-300 group-hover:text-accent-foreground/80 md:text-sm">
+                    <div className="text-muted-foreground group-hover:text-accent-foreground/80 mt-3 space-y-1.5 text-xs transition-colors duration-300 md:text-sm">
                       <p className="flex items-start gap-2">
                         <HugeiconsIcon
                           icon={CalendarIcon}
-                          className="mt-0.5 size-3.5 shrink-0 text-primary"
+                          className="text-primary mt-0.5 size-3.5 shrink-0"
                           strokeWidth={2}
                         />
                         <span>{event.date}</span>
@@ -258,19 +266,19 @@ function LinksPage() {
                       <p className="flex items-start gap-2">
                         <HugeiconsIcon
                           icon={MapPinIcon}
-                          className="mt-0.5 size-3.5 shrink-0 text-primary"
+                          className="text-primary mt-0.5 size-3.5 shrink-0"
                           strokeWidth={2}
                         />
                         <span>
                           {event.location}
-                          {event.country ? `, ${event.country}` : ""}
+                          {event.country ? `, ${event.country}` : ''}
                         </span>
                       </p>
                     </div>
                     <span
                       className={cn(
-                        buttonVariants({ size: "2xl" }),
-                        "mt-4 w-full gap-2",
+                        buttonVariants({ size: '2xl' }),
+                        'mt-4 w-full gap-2',
                       )}
                     >
                       {t.events.rsvpButton}
@@ -293,10 +301,16 @@ function LinksPage() {
             className="interactive-lift group motion-safe:animate-hero-in [animation-delay:310ms]"
             render={<Link to="/" />}
           >
-            <span className="pointer-events-none absolute left-5 flex size-9 items-center justify-center rounded-md bg-muted text-muted-foreground transition-colors group-hover:text-accent-foreground">
-              <HugeiconsIcon icon={Home09Icon} className="size-4" strokeWidth={2} />
+            <span className="bg-muted text-muted-foreground group-hover:text-accent-foreground pointer-events-none absolute left-5 flex size-9 items-center justify-center rounded-md transition-colors">
+              <HugeiconsIcon
+                icon={Home09Icon}
+                className="size-4"
+                strokeWidth={2}
+              />
             </span>
-            <span className="w-full text-center pr-2">{t.ui.linksPage.home}</span>
+            <span className="w-full pr-2 text-center">
+              {t.ui.linksPage.home}
+            </span>
           </Button>
 
           {/* QR collapsible */}
@@ -306,12 +320,19 @@ function LinksPage() {
           >
             <CollapsibleTrigger
               className={cn(
-                buttonVariants({ variant: "outline", size: "3xl" }),
-                "interactive-lift group relative flex w-full cursor-pointer items-center overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                buttonVariants({ variant: 'outline', size: '3xl' }),
+                'interactive-lift group focus-visible:ring-ring focus-visible:ring-offset-background relative flex w-full cursor-pointer items-center overflow-hidden text-left focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
               )}
             >
-              <span className="pointer-events-none absolute left-5 top-1/2 flex size-9 -translate-y-1/2 items-center justify-center rounded-md bg-muted text-muted-foreground transition-colors group-hover:text-accent-foreground" aria-hidden>
-                <HugeiconsIcon icon={QrCodeScanIcon} className="size-4" strokeWidth={2} />
+              <span
+                className="bg-muted text-muted-foreground group-hover:text-accent-foreground pointer-events-none absolute top-1/2 left-5 flex size-9 -translate-y-1/2 items-center justify-center rounded-md transition-colors"
+                aria-hidden
+              >
+                <HugeiconsIcon
+                  icon={QrCodeScanIcon}
+                  className="size-4"
+                  strokeWidth={2}
+                />
               </span>
               <span className="block w-full px-14 text-center text-sm font-medium">
                 {t.ui.linksPage.qrLabel}
@@ -319,11 +340,11 @@ function LinksPage() {
               <HugeiconsIcon
                 icon={ArrowDown01Icon}
                 strokeWidth={2}
-                className="pointer-events-none absolute right-5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground transition-[transform,color] duration-200 group-hover:text-accent-foreground group-data-[panel-open]:rotate-180"
+                className="text-muted-foreground group-hover:text-accent-foreground pointer-events-none absolute top-1/2 right-5 size-4 -translate-y-1/2 transition-[transform,color] duration-200 group-data-[panel-open]:rotate-180"
               />
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-2 space-y-3">
-              <p className="text-center text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-center text-xs">
                 {t.ui.linksPage.qrDescription}
               </p>
               <div className="editorial-card rounded-[1.75rem] p-5">
@@ -341,28 +362,30 @@ function LinksPage() {
         </div>
 
         {/* Footer — matches landing page bottom bar */}
-        <footer className="mt-auto pt-12 motion-safe:animate-hero-in [animation-delay:430ms]">
-          <div className="flex flex-col items-center gap-4 border-t border-border pt-6 text-center">
-            <p className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-xs font-light leading-none text-foreground/40">
+        <footer className="motion-safe:animate-hero-in mt-auto pt-12 [animation-delay:430ms]">
+          <div className="border-border flex flex-col items-center gap-4 border-t pt-6 text-center">
+            <p className="text-foreground/40 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-xs leading-none font-light">
               <span>© {new Date().getFullYear()}</span>
               <AilabsLockup className="inline-flex -translate-y-[0.14em] text-xs [&_svg]:h-[1em] [&_svg]:w-auto" />
               <span>
-                . {t.ui.footer.madeWith}{" "}
-                <span className="text-primary">♥</span> {t.ui.footer.inSanSalvador}
+                . {t.ui.footer.madeWith} <span className="text-primary">♥</span>{' '}
+                {t.ui.footer.inSanSalvador}
               </span>
             </p>
             <a
               href="https://www.lem-design.art/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[11px] font-light text-foreground/40 transition-colors hover:text-foreground/70"
+              className="text-foreground/40 hover:text-foreground/70 text-[11px] font-light transition-colors"
             >
-              <span className="mr-1 text-primary" aria-hidden>✦</span>
+              <span className="text-primary mr-1" aria-hidden>
+                ✦
+              </span>
               {t.ui.linksPage.logoCredit}
             </a>
           </div>
         </footer>
       </div>
     </div>
-  );
+  )
 }

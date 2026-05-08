@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WorkWithUsRouteImport } from './routes/work-with-us'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SlidesRouteImport } from './routes/slides'
 import { Route as SignUpRouteImport } from './routes/sign-up'
@@ -19,23 +20,30 @@ import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as MeRouteImport } from './routes/me'
 import { Route as LinksRouteImport } from './routes/links'
 import { Route as FeedRouteImport } from './routes/feed'
+import { Route as EventsRouteImport } from './routes/events'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SlidesIndexRouteImport } from './routes/slides.index'
 import { Route as ShowcaseIndexRouteImport } from './routes/showcase.index'
+import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as SlidesDeckIdRouteImport } from './routes/slides.$deckId'
 import { Route as SignInSsoCallbackRouteImport } from './routes/sign-in_.sso-callback'
 import { Route as ShowcaseSubmitRouteImport } from './routes/showcase.submit'
 import { Route as ShowcaseSlugRouteImport } from './routes/showcase.$slug'
-import { Route as EventsSlugRouteImport } from './routes/events.$slug'
+import { Route as EventsParamRouteImport } from './routes/events.$param'
 import { Route as CommunitySlugRouteImport } from './routes/community.$slug'
 import { Route as AdminWalletRouteImport } from './routes/admin.wallet'
 import { Route as AdminLabRouteImport } from './routes/admin.lab'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
 
+const WorkWithUsRoute = WorkWithUsRouteImport.update({
+  id: '/work-with-us',
+  path: '/work-with-us',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -86,6 +94,11 @@ const FeedRoute = FeedRouteImport.update({
   path: '/feed',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DesignSystemRoute = DesignSystemRouteImport.update({
   id: '/design-system',
   path: '/design-system',
@@ -116,6 +129,11 @@ const ShowcaseIndexRoute = ShowcaseIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ShowcaseRoute,
 } as any)
+const EventsIndexRoute = EventsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EventsRoute,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -141,10 +159,10 @@ const ShowcaseSlugRoute = ShowcaseSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ShowcaseRoute,
 } as any)
-const EventsSlugRoute = EventsSlugRouteImport.update({
-  id: '/events/$slug',
-  path: '/events/$slug',
-  getParentRoute: () => rootRouteImport,
+const EventsParamRoute = EventsParamRouteImport.update({
+  id: '/$param',
+  path: '/$param',
+  getParentRoute: () => EventsRoute,
 } as any)
 const CommunitySlugRoute = CommunitySlugRouteImport.update({
   id: '/community/$slug',
@@ -172,6 +190,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/blog': typeof BlogRoute
   '/design-system': typeof DesignSystemRoute
+  '/events': typeof EventsRouteWithChildren
   '/feed': typeof FeedRoute
   '/links': typeof LinksRoute
   '/me': typeof MeRoute
@@ -182,16 +201,18 @@ export interface FileRoutesByFullPath {
   '/sign-up': typeof SignUpRoute
   '/slides': typeof SlidesRouteWithChildren
   '/terms': typeof TermsRoute
+  '/work-with-us': typeof WorkWithUsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/lab': typeof AdminLabRoute
   '/admin/wallet': typeof AdminWalletRoute
   '/community/$slug': typeof CommunitySlugRoute
-  '/events/$slug': typeof EventsSlugRoute
+  '/events/$param': typeof EventsParamRoute
   '/showcase/$slug': typeof ShowcaseSlugRoute
   '/showcase/submit': typeof ShowcaseSubmitRoute
   '/sign-in/sso-callback': typeof SignInSsoCallbackRoute
   '/slides/$deckId': typeof SlidesDeckIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/events/': typeof EventsIndexRoute
   '/showcase/': typeof ShowcaseIndexRoute
   '/slides/': typeof SlidesIndexRoute
 }
@@ -207,16 +228,18 @@ export interface FileRoutesByTo {
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/terms': typeof TermsRoute
+  '/work-with-us': typeof WorkWithUsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/lab': typeof AdminLabRoute
   '/admin/wallet': typeof AdminWalletRoute
   '/community/$slug': typeof CommunitySlugRoute
-  '/events/$slug': typeof EventsSlugRoute
+  '/events/$param': typeof EventsParamRoute
   '/showcase/$slug': typeof ShowcaseSlugRoute
   '/showcase/submit': typeof ShowcaseSubmitRoute
   '/sign-in/sso-callback': typeof SignInSsoCallbackRoute
   '/slides/$deckId': typeof SlidesDeckIdRoute
   '/admin': typeof AdminIndexRoute
+  '/events': typeof EventsIndexRoute
   '/showcase': typeof ShowcaseIndexRoute
   '/slides': typeof SlidesIndexRoute
 }
@@ -226,6 +249,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/blog': typeof BlogRoute
   '/design-system': typeof DesignSystemRoute
+  '/events': typeof EventsRouteWithChildren
   '/feed': typeof FeedRoute
   '/links': typeof LinksRoute
   '/me': typeof MeRoute
@@ -236,16 +260,18 @@ export interface FileRoutesById {
   '/sign-up': typeof SignUpRoute
   '/slides': typeof SlidesRouteWithChildren
   '/terms': typeof TermsRoute
+  '/work-with-us': typeof WorkWithUsRoute
   '/admin/events': typeof AdminEventsRoute
   '/admin/lab': typeof AdminLabRoute
   '/admin/wallet': typeof AdminWalletRoute
   '/community/$slug': typeof CommunitySlugRoute
-  '/events/$slug': typeof EventsSlugRoute
+  '/events/$param': typeof EventsParamRoute
   '/showcase/$slug': typeof ShowcaseSlugRoute
   '/showcase/submit': typeof ShowcaseSubmitRoute
   '/sign-in_/sso-callback': typeof SignInSsoCallbackRoute
   '/slides/$deckId': typeof SlidesDeckIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/events/': typeof EventsIndexRoute
   '/showcase/': typeof ShowcaseIndexRoute
   '/slides/': typeof SlidesIndexRoute
 }
@@ -256,6 +282,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/blog'
     | '/design-system'
+    | '/events'
     | '/feed'
     | '/links'
     | '/me'
@@ -266,16 +293,18 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/slides'
     | '/terms'
+    | '/work-with-us'
     | '/admin/events'
     | '/admin/lab'
     | '/admin/wallet'
     | '/community/$slug'
-    | '/events/$slug'
+    | '/events/$param'
     | '/showcase/$slug'
     | '/showcase/submit'
     | '/sign-in/sso-callback'
     | '/slides/$deckId'
     | '/admin/'
+    | '/events/'
     | '/showcase/'
     | '/slides/'
   fileRoutesByTo: FileRoutesByTo
@@ -291,16 +320,18 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/terms'
+    | '/work-with-us'
     | '/admin/events'
     | '/admin/lab'
     | '/admin/wallet'
     | '/community/$slug'
-    | '/events/$slug'
+    | '/events/$param'
     | '/showcase/$slug'
     | '/showcase/submit'
     | '/sign-in/sso-callback'
     | '/slides/$deckId'
     | '/admin'
+    | '/events'
     | '/showcase'
     | '/slides'
   id:
@@ -309,6 +340,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/blog'
     | '/design-system'
+    | '/events'
     | '/feed'
     | '/links'
     | '/me'
@@ -319,16 +351,18 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/slides'
     | '/terms'
+    | '/work-with-us'
     | '/admin/events'
     | '/admin/lab'
     | '/admin/wallet'
     | '/community/$slug'
-    | '/events/$slug'
+    | '/events/$param'
     | '/showcase/$slug'
     | '/showcase/submit'
     | '/sign-in_/sso-callback'
     | '/slides/$deckId'
     | '/admin/'
+    | '/events/'
     | '/showcase/'
     | '/slides/'
   fileRoutesById: FileRoutesById
@@ -338,6 +372,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   BlogRoute: typeof BlogRoute
   DesignSystemRoute: typeof DesignSystemRoute
+  EventsRoute: typeof EventsRouteWithChildren
   FeedRoute: typeof FeedRoute
   LinksRoute: typeof LinksRoute
   MeRoute: typeof MeRoute
@@ -348,13 +383,20 @@ export interface RootRouteChildren {
   SignUpRoute: typeof SignUpRoute
   SlidesRoute: typeof SlidesRouteWithChildren
   TermsRoute: typeof TermsRoute
+  WorkWithUsRoute: typeof WorkWithUsRoute
   CommunitySlugRoute: typeof CommunitySlugRoute
-  EventsSlugRoute: typeof EventsSlugRoute
   SignInSsoCallbackRoute: typeof SignInSsoCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/work-with-us': {
+      id: '/work-with-us'
+      path: '/work-with-us'
+      fullPath: '/work-with-us'
+      preLoaderRoute: typeof WorkWithUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -425,6 +467,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeedRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/design-system': {
       id: '/design-system'
       path: '/design-system'
@@ -467,6 +516,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShowcaseIndexRouteImport
       parentRoute: typeof ShowcaseRoute
     }
+    '/events/': {
+      id: '/events/'
+      path: '/'
+      fullPath: '/events/'
+      preLoaderRoute: typeof EventsIndexRouteImport
+      parentRoute: typeof EventsRoute
+    }
     '/admin/': {
       id: '/admin/'
       path: '/'
@@ -502,12 +558,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShowcaseSlugRouteImport
       parentRoute: typeof ShowcaseRoute
     }
-    '/events/$slug': {
-      id: '/events/$slug'
-      path: '/events/$slug'
-      fullPath: '/events/$slug'
-      preLoaderRoute: typeof EventsSlugRouteImport
-      parentRoute: typeof rootRouteImport
+    '/events/$param': {
+      id: '/events/$param'
+      path: '/$param'
+      fullPath: '/events/$param'
+      preLoaderRoute: typeof EventsParamRouteImport
+      parentRoute: typeof EventsRoute
     }
     '/community/$slug': {
       id: '/community/$slug'
@@ -556,6 +612,19 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface EventsRouteChildren {
+  EventsParamRoute: typeof EventsParamRoute
+  EventsIndexRoute: typeof EventsIndexRoute
+}
+
+const EventsRouteChildren: EventsRouteChildren = {
+  EventsParamRoute: EventsParamRoute,
+  EventsIndexRoute: EventsIndexRoute,
+}
+
+const EventsRouteWithChildren =
+  EventsRoute._addFileChildren(EventsRouteChildren)
+
 interface ShowcaseRouteChildren {
   ShowcaseSlugRoute: typeof ShowcaseSlugRoute
   ShowcaseSubmitRoute: typeof ShowcaseSubmitRoute
@@ -590,6 +659,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   BlogRoute: BlogRoute,
   DesignSystemRoute: DesignSystemRoute,
+  EventsRoute: EventsRouteWithChildren,
   FeedRoute: FeedRoute,
   LinksRoute: LinksRoute,
   MeRoute: MeRoute,
@@ -600,8 +670,8 @@ const rootRouteChildren: RootRouteChildren = {
   SignUpRoute: SignUpRoute,
   SlidesRoute: SlidesRouteWithChildren,
   TermsRoute: TermsRoute,
+  WorkWithUsRoute: WorkWithUsRoute,
   CommunitySlugRoute: CommunitySlugRoute,
-  EventsSlugRoute: EventsSlugRoute,
   SignInSsoCallbackRoute: SignInSsoCallbackRoute,
 }
 export const routeTree = rootRouteImport

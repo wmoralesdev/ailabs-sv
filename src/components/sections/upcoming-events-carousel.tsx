@@ -10,7 +10,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { SiteContent } from "@/content/site-content";
 import { formatWithBrandText } from "@/components/brand-text";
 import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -128,7 +128,11 @@ export function UpcomingEventsCarousel({ events, t }: Props) {
       <div
         ref={trackRef}
         className={cn(
-          "scrollbar-hide flex w-full min-w-0 flex-nowrap snap-x snap-mandatory gap-6 overflow-x-auto overflow-y-hidden scroll-smooth",
+          // The track has overflow-y-hidden so the surface-card hover
+          // (translateY + 0 18px 44px box-shadow) lives inside the track,
+          // not the page. Asymmetric padding because the shadow extends
+          // ~40px below the card and only ~6px above.
+          "scrollbar-hide flex w-full min-w-0 flex-nowrap snap-x snap-mandatory gap-6 overflow-x-auto overflow-y-hidden scroll-smooth pt-4 pb-14 md:pt-6 md:pb-16",
         )}
       >
         {events.map((event) => (
@@ -136,43 +140,45 @@ export function UpcomingEventsCarousel({ events, t }: Props) {
             key={event.id}
             className="min-w-0 shrink-0 snap-start flex-[0_0_100%] md:flex-[0_0_calc(50%-0.75rem)]"
           >
-            <Card className="editorial-card interactive-lift overflow-hidden rounded-[1.75rem] py-0">
+            <Card className="surface-card overflow-hidden py-0">
               <CardHeader className="space-y-4 px-6 pt-6">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge
+                    variant="secondary"
+                    className="bg-primary/10 text-primary rounded-full px-3 py-1 text-[11px] font-semibold tracking-wide uppercase"
+                  >
+                    {event.type}
+                  </Badge>
+                  {event.isVirtual ? (
                     <Badge
-                      variant="secondary"
-                      className="rounded-full bg-primary/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-primary"
+                      variant="outline"
+                      className="border-border/70 text-foreground/75 rounded-full px-2.5 py-0.5 text-[11px] font-medium"
                     >
-                      {event.type}
+                      {t.events.virtualLabel}
                     </Badge>
-                    {event.isVirtual ? (
-                      <Badge
-                        variant="outline"
-                        className="rounded-full border-dashed border-primary/50 px-2.5 py-0.5 text-[11px] font-medium text-primary"
-                      >
-                        {t.events.virtualLabel}
-                      </Badge>
-                    ) : null}
-                    {event.partner ? (
-                      <Badge
-                        variant="outline"
-                        className="rounded-full border-border/70 px-2.5 py-0.5 text-[11px] font-medium"
-                      >
-                        {event.partner}
-                      </Badge>
-                    ) : null}
-                  </div>
-                  <div className="flex flex-wrap justify-end gap-2">
-                    {event.tags.map((tag) => (
-                      <span
-                        key={tag}
-                    className="rounded-full border border-border/70 bg-background/80 px-2 py-0.5 font-mono text-[11px] text-muted-foreground"
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
+                  ) : null}
+                  {event.partner ? (
+                    <Badge
+                      variant="outline"
+                      className="border-border/70 text-foreground/75 rounded-full px-2.5 py-0.5 text-[11px] font-medium"
+                    >
+                      {event.partner}
+                    </Badge>
+                  ) : null}
+                  {event.tags.length > 0 ? (
+                    <span
+                      aria-hidden
+                      className="bg-border/60 mx-1 hidden h-3.5 w-px md:inline-block"
+                    />
+                  ) : null}
+                  {event.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-muted-foreground/80 font-mono text-[11px] tracking-tight"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
                 </div>
                 <CardTitle className="text-xl leading-tight md:text-2xl">
                   {formatWithBrandText(event.title)}
@@ -197,24 +203,25 @@ export function UpcomingEventsCarousel({ events, t }: Props) {
                   </p>
                 </div>
               </CardHeader>
-              <CardContent className="px-6">
-                <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-                  {formatWithBrandText(event.description)}
-                </p>
-              </CardContent>
               <CardFooter className="border-border/60 bg-background/35 px-6">
-                <a
-                  href={event.rsvpUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(buttonVariants({ size: "xl" }), "group w-full")}
+                <Button
+                  size="xl"
+                  className="group w-full"
+                  render={
+                    <a
+                      href={event.rsvpUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    />
+                  }
                 >
                   {t.events.rsvpButton}
                   <HugeiconsIcon
                     icon={ArrowUpRightIcon}
                     className="size-4"
+                    data-icon="inline-end"
                   />
-                </a>
+                </Button>
               </CardFooter>
             </Card>
           </div>

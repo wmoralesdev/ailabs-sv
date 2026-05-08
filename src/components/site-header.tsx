@@ -30,6 +30,8 @@ export function SiteHeader() {
   }, []);
 
   const navLinks = [
+    { to: "/work-with-us" as const, hash: undefined, label: t.ui.nav.workWithUs },
+    { to: "/events" as const, hash: undefined, label: t.ui.nav.events },
     { to: "/partners" as const, hash: undefined, label: t.ui.nav.partners },
     { to: "/showcase" as const, hash: undefined, label: t.ui.nav.feed },
   ] as const;
@@ -38,7 +40,7 @@ export function SiteHeader() {
     <header
       className={cn(
         "fixed inset-x-0 top-4 z-50 mx-auto pt-[env(safe-area-inset-top)] transition-all duration-300",
-        scrolled ? "w-[calc(100%-2rem)] max-w-3xl" : "w-[calc(100%-2rem)] max-w-5xl",
+        scrolled ? "w-[calc(100%-2rem)] max-w-5xl" : "w-[calc(100%-2rem)] max-w-6xl",
       )}
     >
       <div
@@ -133,9 +135,16 @@ export function SiteHeader() {
                   <ThemeToggle />
                 </div>
                 <Link
-                  to="/sign-in"
+                  to="/work-with-us"
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex h-10 w-full items-center justify-center rounded-full bg-foreground text-sm font-medium text-background transition-opacity hover:opacity-90"
+                >
+                  {t.ui.nav.workWithUs}
+                </Link>
+                <Link
+                  to="/sign-in"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="mt-3 flex h-9 w-full items-center justify-center rounded-full text-sm font-medium text-foreground/70 transition-colors hover:bg-accent hover:text-foreground"
                 >
                   {t.signIn.title}
                 </Link>

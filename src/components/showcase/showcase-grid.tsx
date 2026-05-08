@@ -51,12 +51,12 @@ export function ShowcaseGrid({ search, className }: ShowcaseGridProps) {
 
   return (
     <div className={cn('flex flex-col gap-10', className)}>
-      <div className="editorial-card rounded-[1.5rem] p-4 sm:p-5">
+      <div className="border-border/60 -mx-4 border-y px-4 py-4 sm:mx-0 sm:rounded-2xl sm:border sm:bg-card/30 sm:px-5">
         <ShowcaseFilters search={search} eventOptions={eventOptions} />
       </div>
 
       {items.length === 0 ? (
-        <div className="editorial-card flex flex-col items-center justify-center rounded-[1.75rem] px-6 py-20 text-center md:px-12">
+        <div className="surface-card flex flex-col items-center justify-center px-6 py-20 text-center md:px-12">
           <div className="border-primary/20 bg-primary/10 mb-6 flex size-16 items-center justify-center rounded-2xl border">
             <HugeiconsIcon
               icon={RocketIcon}

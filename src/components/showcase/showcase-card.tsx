@@ -4,14 +4,20 @@ import { toolIcons } from '@/components/onboarding/tool-icons'
 import { idsToLabels } from '@/lib/onboarding-interests'
 import { useI18n } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
+import { formatWithBrandText } from '@/components/brand-text'
 
-const CARD_BASE =
-  'group editorial-card interactive-lift block overflow-hidden rounded-[1.75rem]'
+const CARD_BASE = 'group surface-card block overflow-hidden'
 
 const STATUS_LABELS: Record<string, string> = {
   shipped: 'Shipped',
   in_progress: 'In progress',
   concept: 'Concept',
+}
+
+const STATUS_DOT_TONES: Record<string, string> = {
+  shipped: 'bg-emerald-400',
+  in_progress: 'bg-amber-400',
+  concept: 'bg-foreground/40',
 }
 
 export type ShowcaseCardEntry = {
@@ -111,6 +117,75 @@ export function ShowcaseCard({ entry, featured }: ShowcaseCardProps) {
             </span>
           </div>
         )}
+      </div>
+    </Link>
+  )
+}
+
+/**
+ * Compact, image-led card for the homepage showcase teaser. Single
+ * full-bleed cover with a status pill, a typographic overlay (event eyebrow
+ * + title + author byline), and a grayscale -> color hover. Tagline and tool
+ * list are intentionally omitted: this card is signal that projects ship,
+ * not the full detail page. Use `ShowcaseCard` on `/showcase` for the full
+ * info card.
+ */
+export function ShowcaseTeaserCard({ entry }: { entry: ShowcaseCardEntry }) {
+  const statusLabel = STATUS_LABELS[entry.status] ?? entry.status
+  const statusDot = STATUS_DOT_TONES[entry.status] ?? 'bg-foreground/40'
+
+  return (
+    <Link
+      to="/showcase/$slug"
+      params={{ slug: entry.slug }}
+      className="group surface-card relative block aspect-[4/3] overflow-hidden p-0"
+    >
+      <img
+        src={entry.coverImageUrl}
+        alt=""
+        className="absolute inset-0 size-full object-cover grayscale transition duration-500 group-hover:scale-[1.04] group-hover:grayscale-0 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-linear-to-t from-black/85 via-black/45 to-black/10"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-20 bg-linear-to-b from-black/55 to-transparent"
+      />
+
+      <span className="absolute top-4 right-4 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/55 px-2.5 py-1 text-[10px] font-medium tracking-wide text-white/95 backdrop-blur-md">
+        <span className={cn('size-1.5 rounded-full', statusDot)} aria-hidden />
+        {statusLabel}
+      </span>
+
+      <div className="absolute inset-x-0 bottom-0 flex flex-col gap-3 p-5 text-white">
+        {entry.event ? (
+          <p className="text-[10px] font-medium tracking-[0.2em] text-white/65 uppercase">
+            {entry.event}
+          </p>
+        ) : null}
+        <h3 className="font-display text-2xl leading-tight font-medium tracking-[-0.02em] text-balance md:text-3xl">
+          {formatWithBrandText(entry.title)}
+        </h3>
+        {entry.author ? (
+          <div className="flex items-center gap-2 text-xs text-white/75">
+            <span className="bg-muted flex size-5 shrink-0 overflow-hidden rounded-full">
+              {entry.author.avatarUrl ? (
+                <img
+                  src={entry.author.avatarUrl}
+                  alt=""
+                  className="size-full object-cover"
+                />
+              ) : (
+                <span className="text-foreground/80 flex size-full items-center justify-center text-[10px] font-medium">
+                  {entry.author.name.charAt(0).toUpperCase()}
+                </span>
+              )}
+            </span>
+            <span className="font-medium">{entry.author.name}</span>
+          </div>
+        ) : null}
       </div>
     </Link>
   )

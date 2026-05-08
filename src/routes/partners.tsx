@@ -1,25 +1,44 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { HugeiconsIcon } from '@hugeicons/react'
 import {
-  ArrowRightIcon,
-  FlashIcon,
-  Presentation01Icon,
+  ArrowUpRightIcon,
+  ChampionIcon,
+  Megaphone02Icon,
+  PresentationOnlineIcon,
+  StoreManagement01Icon,
   Tick02Icon,
-  Wrench01Icon,
+  ToolsIcon,
+  UserMultiple02Icon,
 } from '@hugeicons/core-free-icons'
 import { seoCopyEs } from '@/content/seo-copy'
+import { strategyContent } from '@/content/strategy-content'
 import { buildSeoMeta } from '@/lib/seo-meta'
 import { useI18n } from '@/lib/i18n'
-import { PartnerLogoRow } from '@/components/partner-logo-row'
+import { BOOKING_LINK } from '@/lib/links'
+import { PartnerLogoStack } from '@/components/blocks/partner-logo-stack'
 import { RevealOnScroll } from '@/components/reveal-on-scroll'
-import { CommunityProofBentoSection } from '@/components/sections/community-proof-bento-section'
 import { InnerPageHero } from '@/components/sections/inner-page-hero'
+import { EditorialSplit } from '@/components/sections/editorial-split'
 import { SectionHeader } from '@/components/section-header'
 import { SiteHeader } from '@/components/site-header'
+import { StrategyPathCardGrid } from '@/components/strategy-path-card-grid'
 import { Button } from '@/components/ui/button'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
 import { SiteFooter } from '@/components/site-footer'
 
-const WAYS_TO_HELP_ICONS = [FlashIcon, Wrench01Icon, Presentation01Icon]
+const WAY_ICONS = [
+  StoreManagement01Icon,
+  ChampionIcon,
+  PresentationOnlineIcon,
+  ToolsIcon,
+  UserMultiple02Icon,
+  Megaphone02Icon,
+] as const
 
 export const Route = createFileRoute('/partners')({
   head: () => {
@@ -34,8 +53,9 @@ export const Route = createFileRoute('/partners')({
 })
 
 function PartnersPage() {
-  const { t } = useI18n()
+  const { t, language } = useI18n()
   const p = t.partnersPage
+  const partnerPaths = strategyContent[language].partners.paths
 
   return (
     <>
@@ -43,22 +63,34 @@ function PartnersPage() {
       <div className="bg-background text-foreground selection:bg-primary selection:text-primary-foreground motion-safe:animate-page-in min-h-dvh overflow-x-hidden font-sans">
         <main>
           <InnerPageHero
-            badge={p.hero.badge}
             headlineLine1={p.hero.headlineLine1}
             headlinePhrases={p.hero.headlinePhrases}
             subheadline={p.hero.subheadline}
             note={p.hero.note}
-            proofCard={{
-              eyebrow: p.hero.proofCardEyebrow,
-              title: p.hero.proofCardTitle,
-              items: p.waysToHelp.cards.slice(0, 4).map((card, index) => ({
-                value: `0${index + 1}`,
-                label: card.title,
-              })),
-            }}
+            aside={
+              <PartnerLogoStack
+                partners={t.ecosystem.partners}
+                caption={
+                  language === 'es'
+                    ? 'Equipos que han apoyado'
+                    : 'Teams that have helped'
+                }
+                description={
+                  language === 'es'
+                    ? 'Herramientas, espacios y equipos que han acercado práctica real al ecosistema.'
+                    : 'Tools, spaces, and teams that have brought real practice closer to the ecosystem.'
+                }
+              />
+            }
             primaryAction={{
               label: p.hero.primaryCta,
-              render: <a href={`mailto:${t.partner.email}`} />,
+              render: (
+                <a
+                  href={BOOKING_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+              ),
             }}
             secondaryAction={{
               label: p.hero.secondaryCta,
@@ -69,12 +101,25 @@ function PartnersPage() {
           />
 
           <RevealOnScroll>
-            <CommunityProofBentoSection id="community-proof-partners" />
+            <section className="section-panel py-20 md:py-28">
+              <div className="container mx-auto px-4">
+                <SectionHeader
+                  eyebrow={partnerPaths.eyebrow}
+                  title={partnerPaths.title}
+                  description={partnerPaths.description}
+                  align="left"
+                />
+                <StrategyPathCardGrid
+                  items={partnerPaths.items}
+                  columns="two"
+                />
+              </div>
+            </section>
           </RevealOnScroll>
 
           <RevealOnScroll>
-            <section className="section-panel py-20 md:py-28">
-              <div className="container mx-auto px-4">
+            <section className="section-spacing border-border/50 border-y">
+              <div className="container mx-auto max-w-3xl px-4">
                 <SectionHeader
                   eyebrow={p.whatMeans.eyebrow}
                   title={p.whatMeans.title}
@@ -85,14 +130,14 @@ function PartnersPage() {
                   }
                   align="center"
                 />
-                <ul className="editorial-card mx-auto flex max-w-2xl flex-col gap-3 rounded-[1.75rem] p-6 text-left sm:p-8">
+                <ul className="mx-auto flex max-w-xl flex-col gap-3 text-left">
                   {p.whatMeans.principles.map((item) => (
-                    <li key={item} className="flex items-center gap-3">
+                    <li key={item} className="flex items-start gap-3">
                       <HugeiconsIcon
                         icon={Tick02Icon}
-                        className="text-primary size-5 shrink-0"
+                        className="text-primary mt-0.5 size-5 shrink-0"
                       />
-                      <span className="text-foreground/80 font-light">
+                      <span className="text-foreground/80 font-light leading-relaxed">
                         {item}
                       </span>
                     </li>
@@ -103,59 +148,45 @@ function PartnersPage() {
           </RevealOnScroll>
 
           <RevealOnScroll>
-            <section className="section-spacing border-border/50 relative overflow-hidden border-y">
-              <div className="container mx-auto px-4">
-                <div className="flex flex-col items-center gap-8 text-center">
-                  <SectionHeader
-                    eyebrow={p.pastPartners.eyebrow}
-                    title={p.pastPartners.title}
-                    description={p.pastPartners.body}
-                    align="center"
-                    className="mb-0"
-                  />
-                  <PartnerLogoRow
-                    partners={t.ecosystem.partners}
-                    showSvgMarks
-                  />
-                </div>
-              </div>
-            </section>
+            <PartnerCreditsRoll
+              partners={t.ecosystem.partners}
+              language={language}
+            />
           </RevealOnScroll>
 
           <RevealOnScroll>
-            <section id="ways-to-help" className="section-panel py-20 md:py-28">
-              <div className="container mx-auto px-4">
-                <SectionHeader
-                  eyebrow={p.waysToHelp.eyebrow}
-                  title={p.waysToHelp.title}
-                  description={p.waysToHelp.intro}
-                  align="left"
-                />
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <EditorialSplit
+              id="ways-to-help"
+              eyebrow={p.waysToHelp.eyebrow}
+              title={p.waysToHelp.title}
+              body={<p>{p.waysToHelp.intro}</p>}
+              surface="editorial"
+              aside={
+                <ul className="flex flex-col gap-1">
                   {p.waysToHelp.cards.map((card, index) => {
-                    const Icon =
-                      WAYS_TO_HELP_ICONS[index % WAYS_TO_HELP_ICONS.length]
+                    const Icon = WAY_ICONS[index % WAY_ICONS.length]
                     return (
-                      <article
+                      <li
                         key={card.title}
-                        className="group editorial-card interactive-lift relative overflow-hidden rounded-[1.75rem] p-7"
+                        className="border-border/40 group flex gap-4 border-b py-5 last:border-b-0"
                       >
-                        <div className="bg-primary/10 pointer-events-none absolute -top-12 -right-10 size-36 rounded-full blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
-                        <div className="border-primary/20 bg-primary/10 text-primary relative z-10 mb-6 inline-flex size-12 items-center justify-center rounded-2xl border">
-                          <HugeiconsIcon icon={Icon} className="size-6" />
+                        <div className="bg-primary/8 text-primary mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-2xl">
+                          <HugeiconsIcon icon={Icon} className="size-4" />
                         </div>
-                        <h3 className="font-display relative z-10 mb-4 text-2xl font-semibold tracking-tight">
-                          {card.title}
-                        </h3>
-                        <p className="text-muted-foreground relative z-10 text-base leading-relaxed font-light text-pretty">
-                          {card.description}
-                        </p>
-                      </article>
+                        <div>
+                          <h3 className="font-display text-foreground text-lg font-semibold tracking-tight">
+                            {card.title}
+                          </h3>
+                          <p className="text-muted-foreground mt-1 text-sm leading-relaxed font-light">
+                            {card.description}
+                          </p>
+                        </div>
+                      </li>
                     )
                   })}
-                </div>
-              </div>
-            </section>
+                </ul>
+              }
+            />
           </RevealOnScroll>
 
           <RevealOnScroll>
@@ -166,11 +197,11 @@ function PartnersPage() {
                   title={p.howItWorks.title}
                   align="left"
                 />
-                <ol className="grid gap-4 md:grid-cols-3">
+                <ol className="grid gap-3 md:grid-cols-3">
                   {p.howItWorks.steps.map((step, i) => (
                     <li
                       key={step}
-                      className="editorial-card interactive-lift flex gap-4 rounded-[1.5rem] p-6"
+                      className="quiet-card flex gap-4 p-6"
                     >
                       <span className="border-primary/20 bg-primary/10 text-primary flex size-9 shrink-0 items-center justify-center rounded-full border font-mono text-sm font-medium">
                         {i + 1}
@@ -193,21 +224,21 @@ function PartnersPage() {
                   title={p.faq.title}
                   align="left"
                 />
-                <dl className="grid gap-4 md:grid-cols-2">
+                <Accordion className="grid gap-3 md:grid-cols-2">
                   {p.faq.items.map((item) => (
-                    <div
+                    <AccordionItem
                       key={item.q}
-                      className="editorial-card rounded-[1.5rem] p-6"
+                      className="quiet-card px-6"
                     >
-                      <dt className="text-foreground mb-2 font-medium">
+                      <AccordionTrigger className="py-5 text-base">
                         {item.q}
-                      </dt>
-                      <dd className="text-muted-foreground leading-relaxed font-light">
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pb-5 text-sm leading-relaxed">
                         {item.a}
-                      </dd>
-                    </div>
+                      </AccordionContent>
+                    </AccordionItem>
                   ))}
-                </dl>
+                </Accordion>
               </div>
             </section>
           </RevealOnScroll>
@@ -234,12 +265,18 @@ function PartnersPage() {
                 />
                 <Button
                   size="3xl"
-                  className="bg-primary-foreground text-primary dark:bg-primary dark:text-primary-foreground rounded-full px-10 text-lg shadow-lg shadow-black/15 hover:shadow-black/25"
-                  render={<a href={`mailto:${t.partner.email}`} />}
+                  className="bg-primary-foreground text-primary px-10 text-lg shadow-lg shadow-black/15 hover:shadow-black/25 dark:bg-primary dark:text-primary-foreground"
+                  render={
+                    <a
+                      href={BOOKING_LINK}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    />
+                  }
                 >
                   {p.finalCta.cta}
                   <HugeiconsIcon
-                    icon={ArrowRightIcon}
+                    icon={ArrowUpRightIcon}
                     size={22}
                     data-icon="inline-end"
                   />
@@ -253,3 +290,84 @@ function PartnersPage() {
     </>
   )
 }
+
+type Partner = { name: string; url: string }
+
+/**
+ * Per-partner role descriptors for the credits roll. Keys match the
+ * canonical names in `t.ecosystem.partners`. New partners can be added
+ * here; unmatched names render with no role line.
+ */
+const PARTNER_ROLES: Record<string, { es: string; en: string }> = {
+  Cursor: {
+    es: 'Cursor Ambassadors · Programa oficial · Desde 2025',
+    en: 'Cursor Ambassadors · Official program · Since 2025',
+  },
+  Codex: {
+    es: 'Codex Community Ambassadors · 2026',
+    en: 'Codex Community Ambassadors · 2026',
+  },
+  v0: {
+    es: 'v0 / Vercel · Herramientas, créditos, amigos del lab',
+    en: 'v0 / Vercel · Tools, credits, friends of the lab',
+  },
+}
+
+function PartnerCreditsRoll({
+  partners,
+  language,
+}: {
+  partners: Array<Partner>
+  language: 'es' | 'en'
+}) {
+  const eyebrow = language === 'es' ? 'Quiénes' : 'Who'
+  const headline =
+    language === 'es'
+      ? 'Detrás de la práctica.'
+      : 'Behind the practice.'
+
+  return (
+    <section className="border-border/50 relative overflow-hidden border-y bg-muted/10 py-20 md:py-28">
+      <div
+        aria-hidden
+        className="from-primary/15 pointer-events-none absolute -top-32 left-1/2 -z-0 h-96 w-[120%] -translate-x-1/2 rounded-full bg-gradient-to-b to-transparent blur-3xl"
+      />
+      <div className="relative z-10 container mx-auto max-w-5xl px-4">
+        <div className="mb-12 flex items-baseline justify-between gap-6">
+          <p className="eyebrow-label text-primary">{eyebrow}</p>
+          <h2 className="font-display text-foreground/80 text-base font-medium tracking-[-0.02em] md:text-lg">
+            {headline}
+          </h2>
+        </div>
+        <ul className="divide-border/40 divide-y">
+          {partners.map((partner) => {
+            const roleText =
+              partner.name in PARTNER_ROLES
+                ? PARTNER_ROLES[partner.name][language]
+                : null
+            return (
+              <li key={partner.name} className="group">
+                <a
+                  href={partner.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="grid grid-cols-1 items-baseline gap-1 py-7 md:grid-cols-[1fr_auto] md:gap-12 md:py-10"
+                >
+                  <span className="font-display text-foreground/80 group-hover:text-foreground block text-4xl leading-none font-medium tracking-[-0.04em] uppercase transition-all duration-500 ease-out group-hover:translate-x-1 motion-reduce:transform-none md:text-6xl lg:text-7xl">
+                    {partner.name}
+                  </span>
+                  {roleText ? (
+                    <span className="text-muted-foreground/70 group-hover:text-muted-foreground text-xs leading-relaxed font-medium tracking-[0.16em] uppercase transition-colors duration-500 md:text-right">
+                      {roleText}
+                    </span>
+                  ) : null}
+                </a>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+    </section>
+  )
+}
+

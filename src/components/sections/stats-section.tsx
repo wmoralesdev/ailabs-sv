@@ -1,44 +1,44 @@
-import { useEffect, useRef, useState } from "react";
-import { useI18n } from "@/lib/i18n";
-import { SectionHeader } from "@/components/section-header";
-import { cn } from "@/lib/utils";
+import { useEffect, useRef, useState } from 'react'
+import { useI18n } from '@/lib/i18n'
+import { SectionHeader } from '@/components/section-header'
+import { cn } from '@/lib/utils'
 
 function useCountUp(value: string, enabled: boolean, duration = 1000): string {
-  const [display, setDisplay] = useState(value);
-  const hasAnimated = useRef(false);
+  const [display, setDisplay] = useState(value)
+  const hasAnimated = useRef(false)
 
   useEffect(() => {
     if (!enabled) {
-      setDisplay(value);
-      return;
+      setDisplay(value)
+      return
     }
-    if (hasAnimated.current) return;
+    if (hasAnimated.current) return
 
-    const match = value.match(/^(\d+)(\+?)$/);
+    const match = value.match(/^(\d+)(\+?)$/)
     if (!match) {
-      setDisplay(value);
-      hasAnimated.current = true;
-      return;
+      setDisplay(value)
+      hasAnimated.current = true
+      return
     }
 
-    hasAnimated.current = true;
-    const target = parseInt(match[1], 10);
-    const suffix = match[2] || "";
+    hasAnimated.current = true
+    const target = parseInt(match[1], 10)
+    const suffix = match[2] || ''
 
-    setDisplay(`0${suffix}`);
-    const start = performance.now();
+    setDisplay(`0${suffix}`)
+    const start = performance.now()
     const step = (now: number) => {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - (1 - progress) ** 3;
-      const current = Math.floor(eased * target);
-      setDisplay(`${current}${suffix}`);
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [value, enabled, duration]);
+      const elapsed = now - start
+      const progress = Math.min(elapsed / duration, 1)
+      const eased = 1 - (1 - progress) ** 3
+      const current = Math.floor(eased * target)
+      setDisplay(`${current}${suffix}`)
+      if (progress < 1) requestAnimationFrame(step)
+    }
+    requestAnimationFrame(step)
+  }, [value, enabled, duration])
 
-  return display;
+  return display
 }
 
 function StatCell({
@@ -47,62 +47,62 @@ function StatCell({
   badge,
   animate,
 }: {
-  value: string;
-  label: string;
-  badge?: string;
-  animate: boolean;
+  value: string
+  label: string
+  badge?: string
+  animate: boolean
 }) {
-  const display = useCountUp(value, animate, 1000);
+  const display = useCountUp(value, animate, 1000)
 
   return (
-    <div className="interactive-lift flex min-w-0 flex-col items-start justify-between gap-4 rounded-2xl border border-border/70 bg-background/55 p-5 text-left">
+    <div className="interactive-lift border-border/70 bg-background/55 flex min-w-0 flex-col items-start justify-between gap-4 rounded-2xl border p-5 text-left">
       <div className="flex w-full max-w-full flex-wrap items-baseline justify-start gap-2">
-        <span className="font-mono text-3xl font-semibold leading-none tracking-[-0.04em] tabular-nums text-foreground md:text-4xl">
+        <span className="text-foreground font-mono text-3xl leading-none font-semibold tracking-[-0.04em] tabular-nums md:text-4xl">
           {display}
         </span>
         {badge ? (
-          <span className="rounded-full border border-primary/20 bg-primary/10 px-2 py-0.5 font-mono text-[0.68rem] font-semibold text-primary">
+          <span className="border-primary/20 bg-primary/10 text-primary rounded-full border px-2 py-0.5 font-mono text-[0.68rem] font-semibold">
             {badge}
           </span>
         ) : null}
       </div>
-      <span className="eyebrow-label text-muted-foreground">
-        {label}
-      </span>
+      <span className="eyebrow-label text-muted-foreground">{label}</span>
     </div>
-  );
+  )
 }
 
 export function StatsSection() {
-  const { t } = useI18n();
-  const [hasEntered, setHasEntered] = useState(false);
-  const [animate, setAnimate] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+  const { t } = useI18n()
+  const [hasEntered, setHasEntered] = useState(false)
+  const [animate, setAnimate] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
     if (prefersReducedMotion) {
-      setHasEntered(true);
-      setAnimate(false);
-      return;
+      setHasEntered(true)
+      setAnimate(false)
+      return
     }
 
-    const el = sectionRef.current;
-    if (!el) return;
+    const el = sectionRef.current
+    if (!el) return
 
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0]?.isIntersecting) {
-          setHasEntered(true);
-          setAnimate(true);
-          observer.disconnect();
+          setHasEntered(true)
+          setAnimate(true)
+          observer.disconnect()
         }
       },
-      { threshold: 0.15 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+      { threshold: 0.15 },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   const stats = [
     {
@@ -115,14 +115,10 @@ export function StatsSection() {
       label: t.ui.stats.eventsDetail,
     },
     {
-      value: t.stats.projectsShipped,
-      label: t.ui.stats.projectsShippedDetail,
-    },
-    {
       value: t.stats.partners,
       label: t.ui.stats.partnersDetail,
     },
-  ];
+  ]
 
   return (
     <section ref={sectionRef} className="section-spacing">
@@ -135,8 +131,8 @@ export function StatsSection() {
         />
         <div
           className={cn(
-            "grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4 reveal-on-scroll",
-            hasEntered && "is-visible",
+            'reveal-on-scroll grid grid-cols-1 gap-3 sm:grid-cols-3',
+            hasEntered && 'is-visible',
           )}
         >
           {stats.map((stat) => (
@@ -151,5 +147,5 @@ export function StatsSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

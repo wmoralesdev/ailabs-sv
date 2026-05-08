@@ -45,7 +45,7 @@ function FounderProfile({ person }: { person: FounderPerson }) {
   const hasSocials = Object.values(person.socials).some(Boolean);
 
   return (
-    <div className="group editorial-card flex flex-col rounded-[1.75rem] p-3">
+    <div className="group surface-card flex flex-col p-3">
       <div className="relative mb-5 aspect-[4/5] w-full overflow-hidden rounded-[1.35rem] border border-border/40 bg-muted/20">
         {showPhoto ? (
           <img
@@ -111,37 +111,34 @@ export function FounderSection() {
               {formatWithBrandText(founders.bio)}
             </p>
 
-            {/* Callout card for purpose items + partners CTA */}
-            <div className="group/card editorial-card relative mt-10 overflow-hidden rounded-[1.75rem] p-6 sm:p-8">
-              <div className="pointer-events-none absolute -inset-x-20 -top-20 h-[150px] w-[calc(100%+160px)] bg-primary/5 opacity-50 blur-3xl transition-opacity duration-500 group-hover/card:opacity-100" />
+            {/* Editorial callout: purpose framing + items, with a typographic
+                cross-link to /partners. Replaces the previous card-in-card
+                pseudo-button so the founder column reads as one column of
+                connected prose, not two stacked cards. */}
+            <div className="border-primary/20 relative mt-10 border-l pl-6 sm:pl-8">
+              <p className="mb-6 font-display text-foreground text-lg font-medium">
+                {founders.purposeFraming}
+              </p>
+              <ul className="mb-8 space-y-4 text-muted-foreground text-sm">
+                {founders.purposeItems.slice(0, -1).map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <span className="bg-primary/50 mt-1.5 flex size-1.5 shrink-0 rounded-full" />
+                    <span className="leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
 
-              <div className="relative z-10">
-                <p className="mb-6 font-display text-lg font-medium text-foreground">
-                  {founders.purposeFraming}
-                </p>
-                <ul className="mb-8 space-y-4 text-sm text-muted-foreground">
-                  {founders.purposeItems.slice(0, -1).map((item) => (
-                    <li key={item} className="flex items-start gap-3">
-                      <span className="mt-1.5 flex size-1.5 shrink-0 rounded-full bg-primary/50" />
-                      <span className="leading-relaxed">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {founders.purposeItems.length > 0 && (
-                  <Link
-                    to="/partners"
-                    className="group flex w-full items-center justify-between gap-4 rounded-xl bg-primary/10 px-5 py-4 text-left transition-all duration-300 hover:bg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  >
-                    <span className="text-sm font-medium leading-snug text-primary group-hover:text-primary-foreground sm:text-base">
-                      {founders.purposeItems[founders.purposeItems.length - 1]}
-                    </span>
-                    <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-background/80 text-primary transition-colors group-hover:bg-primary-foreground/20 group-hover:text-primary-foreground">
-                      <PartnersCtaChevron className="size-4" />
-                    </div>
-                  </Link>
-                )}
-              </div>
+              {founders.purposeItems.length > 0 && (
+                <Link
+                  to="/partners"
+                  className="group inline-flex items-baseline gap-3 text-base font-medium leading-snug text-primary transition-colors hover:text-primary-foreground/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-lg"
+                >
+                  <span className="border-b border-primary/30 pb-0.5 transition-colors group-hover:border-primary">
+                    {founders.purposeItems[founders.purposeItems.length - 1]}
+                  </span>
+                  <PartnersCtaChevron className="size-4 shrink-0 self-center text-primary transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transform-none" />
+                </Link>
+              )}
             </div>
           </div>
 

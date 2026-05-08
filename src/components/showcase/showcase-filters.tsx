@@ -1,4 +1,5 @@
 import { useNavigate } from '@tanstack/react-router'
+import type { ReactNode } from 'react'
 import { ToggleChip } from '@/components/ui/toggle-chip'
 import { toolIcons } from '@/components/onboarding/tool-icons'
 import { TOOL_IDS } from '@/content/onboarding-interest-ids'
@@ -55,49 +56,49 @@ export function ShowcaseFilters({
     })
   }
 
+  const visibleTools = TOOL_IDS.slice(0, 5)
+
   return (
     <div
-      className={cn('flex flex-wrap items-center gap-x-2 gap-y-3', className)}
+      className={cn(
+        'flex flex-wrap items-center gap-x-6 gap-y-4',
+        className,
+      )}
     >
-      <span className="eyebrow-label text-muted-foreground mr-1">
-        {L.filterStatusLabel}
-      </span>
-      {statusOptions.map((opt) => (
-        <ToggleChip
-          key={opt.value}
-          label={opt.label}
-          selected={search.status === opt.value}
-          onToggle={() =>
-            updateFilter(
-              'status',
-              search.status === opt.value ? undefined : opt.value,
-            )
-          }
-        />
-      ))}
-      <span className="eyebrow-label text-muted-foreground mr-1 ml-2">
-        {L.filterToolsLabel}
-      </span>
-      {TOOL_IDS.slice(0, 8).map((id, i) => {
-        const label = toolLabels[i] ?? String(id)
-        const icon = toolIcons[id]
-        return (
+      <FilterRow label={L.filterStatusLabel}>
+        {statusOptions.map((opt) => (
           <ToggleChip
-            key={id}
-            label={label}
-            selected={search.tool === id}
+            key={opt.value}
+            label={opt.label}
+            selected={search.status === opt.value}
             onToggle={() =>
-              updateFilter('tool', search.tool === id ? undefined : id)
+              updateFilter(
+                'status',
+                search.status === opt.value ? undefined : opt.value,
+              )
             }
-            icon={icon}
           />
-        )
-      })}
+        ))}
+      </FilterRow>
+      <FilterRow label={L.filterToolsLabel}>
+        {visibleTools.map((id, i) => {
+          const label = toolLabels[i] ?? String(id)
+          const icon = toolIcons[id]
+          return (
+            <ToggleChip
+              key={id}
+              label={label}
+              selected={search.tool === id}
+              onToggle={() =>
+                updateFilter('tool', search.tool === id ? undefined : id)
+              }
+              icon={icon}
+            />
+          )
+        })}
+      </FilterRow>
       {eventOptions.length > 0 && (
-        <>
-          <span className="eyebrow-label text-muted-foreground mr-1 ml-2">
-            {L.filterEventLabel}
-          </span>
+        <FilterRow label={L.filterEventLabel}>
           {eventOptions.map((ev) => (
             <ToggleChip
               key={ev}
@@ -108,8 +109,25 @@ export function ShowcaseFilters({
               }
             />
           ))}
-        </>
+        </FilterRow>
       )}
+    </div>
+  )
+}
+
+function FilterRow({
+  label,
+  children,
+}: {
+  label: string
+  children: ReactNode
+}) {
+  return (
+    <div className="flex flex-wrap items-center gap-x-2 gap-y-2">
+      <span className="eyebrow-label text-muted-foreground/70 mr-1">
+        {label}
+      </span>
+      {children}
     </div>
   )
 }
