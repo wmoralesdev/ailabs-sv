@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { TouchEvent } from 'react'
 import { toPng } from 'html-to-image'
+import type { TouchEvent } from 'react'
 import type { SlideDeckDefinition } from '@/lib/slides/deck-types'
 import { LanguageToggle } from '@/components/language-toggle'
 import { SlidesExportToolbar } from '@/components/slides/slides-export-toolbar'
