@@ -1,5 +1,7 @@
 # AI Labs SV — Brand Voice Guide
 
+> **Deprecated.** Superseded by [`docs/brand-spine.md`](../brand-spine.md). Kept here as an audit trail through the UI consolidation; will be deleted in Phase 3 cleanup once founders have signed off on the new spine. Do not author new copy against this file.
+
 ---
 
 ## Brand Identity
