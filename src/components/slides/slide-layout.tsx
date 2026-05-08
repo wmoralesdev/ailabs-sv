@@ -28,9 +28,7 @@ export function SlideLayout({
     >
       <div className={cn("mx-auto w-full max-w-5xl space-y-6", contentClassName)}>
         {eyebrow ? (
-          <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-primary">
-            {eyebrow}
-          </p>
+          <p className="eyebrow-label text-primary">{eyebrow}</p>
         ) : null}
         {title ? (
           <h2 className="flex flex-wrap items-center gap-3 font-display text-3xl font-semibold leading-tight tracking-tight text-foreground md:text-4xl lg:text-5xl">

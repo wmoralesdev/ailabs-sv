@@ -1,55 +1,93 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
-import { SlidesShell } from "@/components/slides/slides-shell";
-import { seoCopyEs } from "@/content/seo-copy";
-import { useI18n } from "@/lib/i18n";
-import { buildSeoMeta } from "@/lib/seo-meta";
-import { getSlideDeck } from "@/lib/slides-decks";
+import { Link, createFileRoute } from '@tanstack/react-router'
+import { useEffect, useState } from 'react'
+import type { Language } from '@/content/site-content'
+import type { SlidesGateState } from '@/lib/slides-gate-server'
+import { SlidesShell } from '@/components/slides/slides-shell'
+import {
+  SlidesGateForm,
+  SlidesGateLoading,
+  SlidesGateUnavailable,
+} from '@/components/slides/slides-gate-form'
+import { seoCopyEs } from '@/content/seo-copy'
+import { useI18n } from '@/lib/i18n'
+import { buildSeoMeta } from '@/lib/seo-meta'
+import { getSlideDeck } from '@/lib/slides-decks'
+import { getSlidesGateStateFn } from '@/lib/slides-gate-server'
 
-export const Route = createFileRoute("/slides/$deckId")({
+export const Route = createFileRoute('/slides/$deckId')({
   head: ({ params }) => {
-    const copy = seoCopyEs.slidesDeck(params.deckId);
+    const copy = seoCopyEs.slidesDeck(params.deckId)
     const { meta, links } = buildSeoMeta({
       path: `/slides/${params.deckId}`,
       title: copy.title,
       description: copy.description,
       noIndex: true,
-    });
-    return { meta, links };
+    })
+    return { meta, links }
   },
   component: SlidesDeckPage,
-});
+})
+
+function deckLabelFor(
+  deckId: string,
+  baseLabel: string,
+  language: Language,
+): string {
+  if (deckId === 'test') {
+    return language === 'es' ? 'Prueba' : 'Test'
+  }
+  return baseLabel
+}
 
 function SlidesDeckPage() {
-  const { deckId } = Route.useParams();
-  const { language } = useI18n();
-  const deck = getSlideDeck(deckId);
+  const { deckId } = Route.useParams()
+  const { language } = useI18n()
+  const [gate, setGate] = useState<SlidesGateState | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    void getSlidesGateStateFn().then((state) => {
+      if (!cancelled) setGate(state)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  if (gate === null) {
+    return <SlidesGateLoading />
+  }
+
+  if (!gate.configured) {
+    return <SlidesGateUnavailable />
+  }
+
+  if (!gate.allowed) {
+    return (
+      <SlidesGateForm onUnlocked={() => void getSlidesGateStateFn().then(setGate)} />
+    )
+  }
+
+  const deck = getSlideDeck(deckId)
 
   if (!deck) {
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center bg-background px-6 text-center text-foreground">
+      <div className="bg-background text-foreground flex min-h-dvh flex-col items-center justify-center px-6 text-center">
         <p className="font-display text-xl font-semibold">Deck no encontrado</p>
-        <p className="mt-2 max-w-sm text-sm text-muted-foreground">
+        <p className="text-muted-foreground mt-2 max-w-sm text-sm">
           No hay una presentación con este identificador.
         </p>
-        <Link to="/" className="mt-8 text-sm font-medium text-primary underline-offset-4 hover:underline">
+        <Link
+          to="/"
+          className="text-primary mt-8 text-sm font-medium underline-offset-4 hover:underline"
+        >
           Volver al inicio
         </Link>
       </div>
-    );
+    )
   }
 
-  const deckLabel =
-    deck.id === "brand"
-      ? language === "es"
-        ? "Marca"
-        : "Brand"
-      : deck.id === "brand-students"
-        ? language === "es"
-          ? "Marca · estudiantes"
-          : "Brand · students"
-        : deck.id === "ufg-events"
-          ? "UFG"
-          : deck.label;
+  const deckLabel = deckLabelFor(deck.id, deck.label, language)
 
-  return <SlidesShell slides={[...deck.slides]} deckLabel={deckLabel} />;
+  return <SlidesShell deck={deck} deckLabel={deckLabel} />
 }
