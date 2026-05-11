@@ -8,6 +8,7 @@ export default [
       '.output/**',
       'convex/_generated/**',
       'eslint.config.js',
+      'figma-deck-import/**',
       'prettier.config.js',
     ],
   },
