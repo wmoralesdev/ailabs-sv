@@ -1,18 +1,10 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
 import type { Language } from '@/content/site-content'
-import type { SlidesGateState } from '@/lib/slides-gate-server'
 import { SlidesShell } from '@/components/slides/slides-shell'
-import {
-  SlidesGateForm,
-  SlidesGateLoading,
-  SlidesGateUnavailable,
-} from '@/components/slides/slides-gate-form'
 import { seoCopyEs } from '@/content/seo-copy'
 import { useI18n } from '@/lib/i18n'
 import { buildSeoMeta } from '@/lib/seo-meta'
 import { getSlideDeck } from '@/lib/slides-decks'
-import { getSlidesGateStateFn } from '@/lib/slides-gate-server'
 
 export const Route = createFileRoute('/slides/$deckId')({
   head: ({ params }) => {
@@ -42,31 +34,6 @@ function deckLabelFor(
 function SlidesDeckPage() {
   const { deckId } = Route.useParams()
   const { language } = useI18n()
-  const [gate, setGate] = useState<SlidesGateState | null>(null)
-
-  useEffect(() => {
-    let cancelled = false
-    void getSlidesGateStateFn().then((state) => {
-      if (!cancelled) setGate(state)
-    })
-    return () => {
-      cancelled = true
-    }
-  }, [])
-
-  if (gate === null) {
-    return <SlidesGateLoading />
-  }
-
-  if (!gate.configured) {
-    return <SlidesGateUnavailable />
-  }
-
-  if (!gate.allowed) {
-    return (
-      <SlidesGateForm onUnlocked={() => void getSlidesGateStateFn().then(setGate)} />
-    )
-  }
 
   const deck = getSlideDeck(deckId)
 

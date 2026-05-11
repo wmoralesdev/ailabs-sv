@@ -1,19 +1,11 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
 import { ArrowRightIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import type { Language } from '@/content/site-content'
-import type { SlidesGateState } from '@/lib/slides-gate-server'
-import {
-  SlidesGateForm,
-  SlidesGateLoading,
-  SlidesGateUnavailable,
-} from '@/components/slides/slides-gate-form'
 import { seoCopyEs } from '@/content/seo-copy'
 import { buildSeoMeta } from '@/lib/seo-meta'
 import { useI18n } from '@/lib/i18n'
 import { listSlideDecks } from '@/lib/slides-decks'
-import { getSlidesGateStateFn } from '@/lib/slides-gate-server'
 
 export const Route = createFileRoute('/slides/')({
   head: () => {
@@ -38,33 +30,6 @@ function deckTitle(deckId: string, baseLabel: string, language: Language): strin
 function SlidesIndexPage() {
   const { language } = useI18n()
   const decks = listSlideDecks()
-  const [gate, setGate] = useState<SlidesGateState | null>(null)
-
-  useEffect(() => {
-    let cancelled = false
-    void getSlidesGateStateFn().then((state) => {
-      if (!cancelled) setGate(state)
-    })
-    return () => {
-      cancelled = true
-    }
-  }, [])
-
-  if (gate === null) {
-    return <SlidesGateLoading />
-  }
-
-  const state = gate
-
-  if (!state.configured) {
-    return <SlidesGateUnavailable />
-  }
-
-  if (!state.allowed) {
-    return (
-      <SlidesGateForm onUnlocked={() => void getSlidesGateStateFn().then(setGate)} />
-    )
-  }
 
   return (
     <div className="bg-background text-foreground flex min-h-dvh flex-col px-6 py-16">
