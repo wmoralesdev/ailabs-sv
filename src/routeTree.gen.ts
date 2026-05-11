@@ -38,6 +38,7 @@ import { Route as CommunitySlugRouteImport } from './routes/community.$slug'
 import { Route as AdminWalletRouteImport } from './routes/admin.wallet'
 import { Route as AdminLabRouteImport } from './routes/admin.lab'
 import { Route as AdminEventsRouteImport } from './routes/admin.events'
+import { Route as SlidesDeckIdFigmaRouteImport } from './routes/slides_.$deckId.figma'
 
 const WorkWithUsRoute = WorkWithUsRouteImport.update({
   id: '/work-with-us',
@@ -184,6 +185,11 @@ const AdminEventsRoute = AdminEventsRouteImport.update({
   path: '/events',
   getParentRoute: () => AdminRoute,
 } as any)
+const SlidesDeckIdFigmaRoute = SlidesDeckIdFigmaRouteImport.update({
+  id: '/slides_/$deckId/figma',
+  path: '/slides/$deckId/figma',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -215,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/events/': typeof EventsIndexRoute
   '/showcase/': typeof ShowcaseIndexRoute
   '/slides/': typeof SlidesIndexRoute
+  '/slides/$deckId/figma': typeof SlidesDeckIdFigmaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -242,6 +249,7 @@ export interface FileRoutesByTo {
   '/events': typeof EventsIndexRoute
   '/showcase': typeof ShowcaseIndexRoute
   '/slides': typeof SlidesIndexRoute
+  '/slides/$deckId/figma': typeof SlidesDeckIdFigmaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -274,6 +282,7 @@ export interface FileRoutesById {
   '/events/': typeof EventsIndexRoute
   '/showcase/': typeof ShowcaseIndexRoute
   '/slides/': typeof SlidesIndexRoute
+  '/slides_/$deckId/figma': typeof SlidesDeckIdFigmaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -307,6 +316,7 @@ export interface FileRouteTypes {
     | '/events/'
     | '/showcase/'
     | '/slides/'
+    | '/slides/$deckId/figma'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -334,6 +344,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/showcase'
     | '/slides'
+    | '/slides/$deckId/figma'
   id:
     | '__root__'
     | '/'
@@ -365,6 +376,7 @@ export interface FileRouteTypes {
     | '/events/'
     | '/showcase/'
     | '/slides/'
+    | '/slides_/$deckId/figma'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -386,6 +398,7 @@ export interface RootRouteChildren {
   WorkWithUsRoute: typeof WorkWithUsRoute
   CommunitySlugRoute: typeof CommunitySlugRoute
   SignInSsoCallbackRoute: typeof SignInSsoCallbackRoute
+  SlidesDeckIdFigmaRoute: typeof SlidesDeckIdFigmaRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -593,6 +606,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminEventsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/slides_/$deckId/figma': {
+      id: '/slides_/$deckId/figma'
+      path: '/slides/$deckId/figma'
+      fullPath: '/slides/$deckId/figma'
+      preLoaderRoute: typeof SlidesDeckIdFigmaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -673,6 +693,7 @@ const rootRouteChildren: RootRouteChildren = {
   WorkWithUsRoute: WorkWithUsRoute,
   CommunitySlugRoute: CommunitySlugRoute,
   SignInSsoCallbackRoute: SignInSsoCallbackRoute,
+  SlidesDeckIdFigmaRoute: SlidesDeckIdFigmaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

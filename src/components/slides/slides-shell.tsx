@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { toPng } from 'html-to-image'
 import type { TouchEvent } from 'react'
 import type { SlideDeckDefinition } from '@/lib/slides/deck-types'
 import { LanguageToggle } from '@/components/language-toggle'
@@ -7,70 +6,15 @@ import { SlidesExportToolbar } from '@/components/slides/slides-export-toolbar'
 import { SlidesThemeSelector } from '@/components/slides/slides-theme-selector'
 import { cn } from '@/lib/utils'
 
-const SLIDE_EXPORT_WIDTH = 1920
-const SLIDE_EXPORT_HEIGHT = 1080
-const IMAGE_LOAD_TIMEOUT_MS = 10000
-
 type SlidesShellProps = {
   deck: SlideDeckDefinition
   deckLabel?: string
 }
 
-function downloadDataUrl(dataUrl: string, filename: string) {
-  const a = document.createElement('a')
-  a.href = dataUrl
-  a.download = filename
-  document.body.appendChild(a)
-  a.click()
-  a.remove()
-}
-
-function nextFrame() {
-  return new Promise<void>((resolve) => {
-    requestAnimationFrame(() => resolve())
-  })
-}
-
-async function waitForFonts() {
-  if ('fonts' in document) {
-    await document.fonts.ready
-  }
-}
-
-async function waitForImages(root: HTMLElement) {
-  const images = Array.from(root.querySelectorAll('img'))
-  await Promise.all(
-    images.map(async (image) => {
-      image.loading = 'eager'
-
-      if (!image.complete) {
-        await new Promise<void>((resolve) => {
-          const done = () => {
-            window.clearTimeout(timeout)
-            image.removeEventListener('load', done)
-            image.removeEventListener('error', done)
-            resolve()
-          }
-          const timeout = window.setTimeout(done, IMAGE_LOAD_TIMEOUT_MS)
-
-          image.addEventListener('load', done, { once: true })
-          image.addEventListener('error', done, { once: true })
-        })
-      }
-      if (typeof image.decode === 'function') {
-        await image.decode().catch(() => undefined)
-      }
-    }),
-  )
-}
-
 export function SlidesShell({ deck, deckLabel }: SlidesShellProps) {
   const slides = deck.slides
   const [index, setIndex] = useState(0)
-  const [exportingPng, setExportingPng] = useState(false)
-  const [exportError, setExportError] = useState<string | null>(null)
   const touchStartX = useRef<number | null>(null)
-  const exportPageRefs = useRef<Array<HTMLDivElement | null>>([])
 
   const count = slides.length
   const safeIndex = count === 0 ? 0 : Math.min(index, count - 1)
@@ -78,10 +22,6 @@ export function SlidesShell({ deck, deckLabel }: SlidesShellProps) {
 
   useEffect(() => {
     setIndex((i) => (count === 0 ? 0 : Math.min(i, count - 1)))
-  }, [count])
-
-  useEffect(() => {
-    exportPageRefs.current = exportPageRefs.current.slice(0, count)
   }, [count])
 
   const go = useCallback(
@@ -154,48 +94,6 @@ export function SlidesShell({ deck, deckLabel }: SlidesShellProps) {
     else go(safeIndex - 1)
   }
 
-  const exportSlidesAsPng = useCallback(async () => {
-    if (exportingPng) return
-
-    setExportingPng(true)
-    setExportError(null)
-
-    try {
-      await waitForFonts()
-      await nextFrame()
-      await nextFrame()
-
-      for (let i = 0; i < count; i += 1) {
-        const page = exportPageRefs.current[i]
-        if (!page) {
-          throw new Error(`Slide ${i + 1} is not ready for export.`)
-        }
-
-        await waitForImages(page)
-
-        const dataUrl = await toPng(page, {
-          width: SLIDE_EXPORT_WIDTH,
-          height: SLIDE_EXPORT_HEIGHT,
-          pixelRatio: 1,
-          cacheBust: true,
-          style: {
-            width: `${SLIDE_EXPORT_WIDTH}px`,
-            height: `${SLIDE_EXPORT_HEIGHT}px`,
-          },
-        })
-
-        const slideNumber = String(i + 1).padStart(2, '0')
-        downloadDataUrl(dataUrl, `${deck.id}-${slideNumber}.png`)
-      }
-    } catch (error) {
-      setExportError(
-        error instanceof Error ? error.message : 'Could not export slide PNGs.',
-      )
-    } finally {
-      setExportingPng(false)
-    }
-  }, [count, deck.id, exportingPng])
-
   if (count === 0) {
     return (
       <div className="bg-background text-foreground flex min-h-dvh items-center justify-center px-6">
@@ -217,23 +115,12 @@ export function SlidesShell({ deck, deckLabel }: SlidesShellProps) {
     >
       <div className="slides-chrome print:hidden pointer-events-none absolute right-0 top-0 z-50 flex max-w-[100vw] flex-col items-end gap-2 pt-[max(0.75rem,env(safe-area-inset-top))] pr-[max(0.75rem,env(safe-area-inset-right))]">
         <div className="pointer-events-auto flex flex-wrap items-center justify-end gap-2">
-          <SlidesExportToolbar
-            exportingPng={exportingPng}
-            onExportPng={() => void exportSlidesAsPng()}
-          />
+          <SlidesExportToolbar figmaCaptureHref={`/slides/${deck.id}/figma`} />
           <div className="border-border/50 bg-background/80 flex items-center rounded-full border shadow-sm backdrop-blur-md">
             {deck.id === 'netlify-kp' ? null : <LanguageToggle />}
             <SlidesThemeSelector />
           </div>
         </div>
-        {exportError ? (
-          <p
-            className="border-destructive/30 bg-background/95 text-destructive pointer-events-auto max-w-sm rounded-full border px-3 py-1 text-right text-xs shadow-sm"
-            role="alert"
-          >
-            {exportError}
-          </p>
-        ) : null}
       </div>
 
       <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden px-4 pb-24 pt-14 print:hidden md:px-8 md:pb-28 md:pt-16">
@@ -243,31 +130,6 @@ export function SlidesShell({ deck, deckLabel }: SlidesShellProps) {
         >
           <Current />
         </div>
-      </div>
-
-      <div className="slides-print-only hidden print:block">
-        {slides.map((Slide, i) => (
-          <div key={i} className="slides-output-page slides-print-page">
-            <Slide />
-          </div>
-        ))}
-      </div>
-
-      <div
-        className="slides-export-stage print:hidden"
-        aria-hidden="true"
-      >
-        {slides.map((Slide, i) => (
-          <div
-            key={i}
-            ref={(node) => {
-              exportPageRefs.current[i] = node
-            }}
-            className="slides-output-page slides-export-page"
-          >
-            <Slide />
-          </div>
-        ))}
       </div>
 
       <footer

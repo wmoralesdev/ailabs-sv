@@ -1,42 +1,26 @@
-import { useCallback } from 'react'
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 
 type SlidesExportToolbarProps = {
-  exportingPng?: boolean
-  onExportPng: () => void
+  figmaCaptureHref: string
 }
 
-export function SlidesExportToolbar({
-  exportingPng,
-  onExportPng,
-}: SlidesExportToolbarProps) {
-  const onPrint = useCallback(() => {
-    window.print()
-  }, [])
-
+export function SlidesExportToolbar({ figmaCaptureHref }: SlidesExportToolbarProps) {
   return (
     <div className="border-border/50 bg-background/80 flex flex-wrap items-center gap-2 rounded-full border px-2 py-1.5 shadow-sm backdrop-blur-md">
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        shape="pill"
-        className="border-border/70"
-        onClick={onPrint}
+      <a
+        href={figmaCaptureHref}
+        target="_blank"
+        rel="noreferrer"
+        title="Open the clean 1920x1080 slide frames for Figma Code to Canvas capture."
+        className={buttonVariants({
+          variant: 'outline',
+          size: 'sm',
+          shape: 'pill',
+          className: 'border-border/70',
+        })}
       >
-        PDF / print
-      </Button>
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        shape="pill"
-        className="border-border/70"
-        disabled={exportingPng}
-        onClick={onExportPng}
-      >
-        {exportingPng ? 'Exporting...' : 'Figma PNG'}
-      </Button>
+        Open Figma capture
+      </a>
     </div>
   )
 }

@@ -143,6 +143,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         /> */}
         <Analytics mode={import.meta.env.PROD ? 'production' : 'development'} />
         <ClarityAnalytics />
+        {import.meta.env.DEV ? (
+          <script
+            async
+            src="https://mcp.figma.com/mcp/html-to-design/capture.js"
+          />
+        ) : null}
         <Scripts />
       </body>
     </html>

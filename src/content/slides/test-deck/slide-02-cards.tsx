@@ -15,7 +15,7 @@ const CARDS_ES = [
   {
     title: 'Export',
     body:
-      'PDF con impresión del navegador y payload Figma para sincronizar vía MCP.',
+      'Vista limpia para capturar los slides reales en Figma desde el DOM.',
   },
 ] as const
 
@@ -33,7 +33,7 @@ const CARDS_EN = [
   {
     title: 'Export',
     body:
-      'PDF via browser print and a Figma JSON payload for MCP workflows.',
+      'Clean capture view for sending the real slide DOM into Figma.',
   },
 ] as const
 

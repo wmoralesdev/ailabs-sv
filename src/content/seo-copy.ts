@@ -83,6 +83,11 @@ export const seoCopyEs = {
     description:
       'Material para eventos y presentaciones. No aparece en el mapa del sitio; uso compartido por enlace.',
   }),
+  slidesDeckFigma: (deckId: string) => ({
+    title: `Captura Figma (${deckId}) — Ai /abs`,
+    description:
+      'Vista interna para capturar slides reales en Figma desde el DOM de la presentación.',
+  }),
   ssoCallback: {
     title: 'Iniciando sesión — Ai /abs',
     description: 'Redirección de inicio de sesión.',
