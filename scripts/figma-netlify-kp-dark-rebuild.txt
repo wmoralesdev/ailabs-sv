@@ -1,0 +1,371 @@
+(async () => {
+  const DARK = { r: 28 / 255, g: 26 / 255, b: 35 / 255 };
+  const FG = { r: 0.94, g: 0.94, b: 0.96 };
+  const MU = { r: 0.66, g: 0.63, b: 0.72 };
+  const PR = { r: 139 / 255, g: 123 / 255, b: 199 / 255 };
+  const W = 1920;
+  const H = 1080;
+  const GAP = 64;
+
+  await figma.loadFontAsync({ family: "Inter", style: "Regular" });
+  await figma.loadFontAsync({ family: "Inter", style: "Semi Bold" });
+  await figma.loadFontAsync({ family: "Space Grotesk", style: "Medium" });
+
+  const page = figma.currentPage;
+  page.name = "Netlify KP — dark (copy sync)";
+  for (const c of [...page.children]) c.remove();
+
+  let col = 0;
+
+  function mkFrame(name) {
+    const fr = figma.createFrame();
+    fr.name = name;
+    fr.resize(W, H);
+    fr.x = col * (W + GAP);
+    fr.y = 0;
+    col += 1;
+    fr.fills = [{ type: "SOLID", color: DARK }];
+    page.appendChild(fr);
+    return fr;
+  }
+
+  function txt(parent, x, y, w, text, o) {
+    const opts = o || {};
+    const tw = Math.max(w != null && w > 0 ? w : 1680, 400);
+    const t = figma.createText();
+    const family = opts.family || "Inter";
+    const style = opts.style || "Regular";
+    t.fontName = { family, style };
+    t.fontSize = opts.size || 16;
+    t.fills = [{ type: "SOLID", color: opts.color || FG }];
+    if (opts.ls != null) t.letterSpacing = { unit: "PIXELS", value: opts.ls };
+    t.resize(tw, 3200);
+    t.textAutoResize = "HEIGHT";
+    t.textAlignHorizontal = opts.align || "LEFT";
+    t.x = x;
+    t.y = y;
+    t.characters = text;
+    parent.appendChild(t);
+    return t;
+  }
+
+  const disp = "Medium";
+
+  let f;
+
+  f = mkFrame("01 · Cover");
+  txt(f, 200, 200, 1520, "Ai /abs", {
+    family: "Space Grotesk",
+    style: disp,
+    size: 72,
+    align: "CENTER",
+  });
+  txt(f, 200, 330, 1520, "Build with Netlify · San Salvador", {
+    size: 24,
+    color: MU,
+    style: "Semi Bold",
+    align: "CENTER",
+  });
+  txt(
+    f,
+    200,
+    420,
+    1520,
+    "A San Salvador pilot for turning Netlify’s platform story into shipped projects.",
+    { size: 30, family: "Space Grotesk", style: disp, align: "CENTER" },
+  );
+  txt(
+    f,
+    200,
+    540,
+    1520,
+    "Prepared by Ai /abs for the Netlify team.",
+    { size: 20, color: MU, align: "CENTER" },
+  );
+  txt(f, 200, 700, 1520, "May 2026", { size: 11, color: MU, ls: 4, align: "CENTER" });
+
+  f = mkFrame("02 · Ai /abs");
+  txt(f, 96, 72, 720, "Who runs this pilot", {
+    size: 12,
+    color: PR,
+    style: "Semi Bold",
+    ls: 2,
+  });
+  txt(f, 96, 102, 1728, "Ai /abs is El Salvador’s practical AI lab", {
+    size: 44,
+    family: "Space Grotesk",
+    style: disp,
+  });
+  txt(
+    f,
+    96,
+    200,
+    1728,
+    "Ai /abs brings builders into practical rooms: community labs, campus sessions, company trainings, and partner events where people leave with working projects. With Netlify, the next step is clear: help builders experience Netlify as more than hosting.",
+    { size: 17, color: MU },
+  );
+  const cards = [
+    ["700+", "BUILDERS IN COMMUNITY", "Developers, students, founders, and operators who show up to build."],
+    ["30+", "IRL EVENTS · PAST YEAR", "Hackathons, meetups, campus labs, and partner sessions with live demos."],
+    ["8", "ACTIVE PARTNERS", "Cursor, v0, Codex, and allied teams already trust Ai /abs with the room."],
+  ];
+  const cw = 500;
+  const gap = 40;
+  for (let i = 0; i < 3; i++) {
+    const cx = 96 + i * (cw + gap);
+    const [val, lab, note] = cards[i];
+    txt(f, cx, 400, cw, val, { size: 32, style: "Semi Bold" });
+    txt(f, cx, 470, cw, lab, { size: 10, color: PR, style: "Semi Bold", ls: 2 });
+    txt(f, cx, 520, cw, note, { size: 14, color: MU });
+  }
+
+  f = mkFrame("03 · Proof 1/2");
+  txt(f, 96, 72, 720, "Proof · 1/2", { size: 12, color: PR, style: "Semi Bold", ls: 2 });
+  txt(f, 96, 102, 1728, "We gather builders in rooms, not webinars", {
+    size: 44,
+    family: "Space Grotesk",
+    style: disp,
+  });
+  txt(
+    f,
+    96,
+    180,
+    1728,
+    "Recent Ai /abs-led sessions with the kind of room Netlify can plug into.",
+    { size: 15, color: MU },
+  );
+  txt(
+    f,
+    96,
+    260,
+    1728,
+    "[Photo grid — place assets]\n\n• Cursor Hackathon · San Salvador · 145 attendees\n• Cursor Hackathon · Guatemala · 140 attendees\n• Cafe Cursor · 86 attendees\n• Cursor Lab · UFG · 75 attendees",
+    { size: 16, color: MU },
+  );
+
+  f = mkFrame("04 · Proof 2/2");
+  txt(f, 96, 72, 720, "Proof · 2/2", { size: 12, color: PR, style: "Semi Bold", ls: 2 });
+  txt(f, 96, 102, 1728, "Same format, different rooms", {
+    size: 44,
+    family: "Space Grotesk",
+    style: disp,
+  });
+  txt(
+    f,
+    96,
+    180,
+    1728,
+    "Meetups, partner labs, and cross-border sessions with laptops open and demos live.",
+    { size: 15, color: MU },
+  );
+  txt(
+    f,
+    96,
+    260,
+    1728,
+    "[Photo grid — place assets]\n\n• Cursor Meetup · 97 attendees\n• Supabase Meetup · 43 attendees\n• v0 Prompt to Production · Guatemala · 37 attendees",
+    { size: 16, color: MU },
+  );
+
+  f = mkFrame("05 · Opportunity");
+  txt(f, 96, 72, 720, "Opportunity", { size: 12, color: PR, style: "Semi Bold", ls: 2 });
+  txt(f, 96, 102, 1728, "Netlify’s bigger story needs a room", {
+    size: 44,
+    family: "Space Grotesk",
+    style: disp,
+  });
+  txt(
+    f,
+    96,
+    180,
+    1728,
+    "Many builders still think “Netlify = deploy.” A local pilot can change that by helping them build with Database, AI Gateway, Functions, and Blobs in one guided session.",
+    { size: 17, color: MU },
+  );
+  const opp = [
+    ["The hosting label is sticky", "Builders still reduce Netlify to “where I deploy.” That makes the newer platform story harder to see."],
+    ["The platform expanded", "Database and AI Gateway make Netlify feel like a fuller default for AI apps."],
+    ["Builders trust live builds", "The fastest way to shift perception is to help people ship something in the room."],
+  ];
+  for (let i = 0; i < 3; i++) {
+    const cx = 96 + i * (520 + 32);
+    const [title, body] = opp[i];
+    txt(f, cx, 300, 500, title, { size: 10, color: PR, style: "Semi Bold", ls: 2 });
+    txt(f, cx, 340, 500, body, { size: 15, color: MU });
+  }
+
+  f = mkFrame("06 · Proposal");
+  txt(f, 96, 72, 720, "Proposal", { size: 12, color: PR, style: "Semi Bold", ls: 2 });
+  txt(f, 96, 102, 1728, "Build with Netlify · city hubs", {
+    size: 44,
+    family: "Space Grotesk",
+    style: disp,
+  });
+  txt(f, 96, 180, 800, "Ai /abs can launch the first hub in San Salvador.", {
+    size: 24,
+    family: "Space Grotesk",
+    style: disp,
+  });
+  txt(
+    f,
+    96,
+    270,
+    800,
+    "Ai /abs fills and runs the room. Netlify anchors the product story. Builders leave with deployed URLs, project stories, and work worth amplifying.",
+    { size: 16, color: MU },
+  );
+  txt(f, 960, 220, 860, "What hubs do for Netlify", {
+    size: 10,
+    color: PR,
+    style: "Semi Bold",
+    ls: 3,
+  });
+  const pillars = [
+    "City meetups as repeatable hubs.",
+    "Credits and swag as activation fuel.",
+    "Local builders and experts mentoring live.",
+    "Project recognition and recaps Ai /abs can publish.",
+    "San Salvador first, then a playbook for more cities.",
+  ];
+  txt(f, 960, 260, 860, "• " + pillars.join("\n• "), { size: 16, color: MU });
+
+  f = mkFrame("07 · Model");
+  txt(f, 96, 72, 720, "Model", { size: 12, color: PR, style: "Semi Bold", ls: 2 });
+  txt(f, 96, 102, 1728, "Gather → Activate → Recognize", {
+    size: 44,
+    family: "Space Grotesk",
+    style: disp,
+  });
+  const steps = [
+    ["01", "Gather", "Use the Ai /abs community, campuses, partners, and calendar to fill a credible room."],
+    ["02", "Activate", "Pair a live demo with guided build time: Database, AI Gateway, and deploy."],
+    ["03", "Recognize", "Publish a roster, project board, and recap media Netlify can share."],
+  ];
+  for (let i = 0; i < 3; i++) {
+    const cx = 96 + i * (540 + 24);
+    const [sn, tit, bd] = steps[i];
+    txt(f, cx, 220, 520, sn, { size: 12, color: PR, style: "Semi Bold", ls: 3 });
+    txt(f, cx, 260, 520, tit, { size: 20, family: "Space Grotesk", style: disp });
+    txt(f, cx, 310, 520, bd, { size: 15, color: MU });
+  }
+
+  f = mkFrame("08 · June");
+  txt(f, 96, 72, 720, "June · Launch", { size: 12, color: PR, style: "Semi Bold", ls: 2 });
+  txt(f, 96, 102, 1728, "Build with Netlify kicks off San Salvador", {
+    size: 40,
+    family: "Space Grotesk",
+    style: disp,
+  });
+  txt(
+    f,
+    96,
+    200,
+    1728,
+    "June tests the playbook: audience quality, pacing, product fit, and recap assets. It also warms up builders ahead of the July Cursor Buildathon sprint.",
+    { size: 16, color: MU },
+  );
+  const juneB = [
+    "3-hour workshop with 50–80 builders on site in San Salvador.",
+    "Theme: Netlify beyond hosting, from deploys to AI app infrastructure.",
+    "Guided build with AI Gateway, Netlify Database, and deploy.",
+    "Optional Netlify cameo live or remote: DevRel, community, or product.",
+    "Networking time, swag, credits, photography, recap post, and Ai /abs social cadence.",
+  ];
+  txt(f, 96, 300, 1728, "• " + juneB.join("\n• "), { size: 16, color: MU });
+
+  f = mkFrame("09 · July");
+  txt(f, 96, 72, 720, "July · Proof", { size: 12, color: PR, style: "Semi Bold", ls: 2 });
+  txt(f, 96, 102, 1728, "Hackathon turns interest into shipped Netlify projects", {
+    size: 38,
+    family: "Space Grotesk",
+    style: disp,
+  });
+  txt(
+    f,
+    96,
+    210,
+    1728,
+    "June introduces the story. July proves adoption: teams, Netlify URLs, products used, demos, and recap content.",
+    { size: 16, color: MU },
+  );
+  const julB = [
+    "Netlify track plus prize slot for Cursor Buildathon (Jul 4–5, Universidad Francisco Gavidia).",
+    "Teams qualify by deploying on Netlify and using one product beyond hosting.",
+    "Optional 10-minute kickoff cameo plus two short office-hour windows.",
+    "Within seven days, Ai /abs shares handles, Netlify URLs, products used, and recap notes.",
+    "Public showcase board on ailabs.sv showing who shipped what.",
+  ];
+  txt(f, 96, 300, 1728, "• " + julB.join("\n• "), { size: 16, color: MU });
+
+  f = mkFrame("10 · Value");
+  txt(f, 96, 72, 720, "For Netlify", { size: 12, color: PR, style: "Semi Bold", ls: 2 });
+  txt(f, 96, 102, 1728, "What Netlify gets from the pilot", {
+    size: 42,
+    family: "Space Grotesk",
+    style: disp,
+  });
+  const wins = [
+    ["Perception shifts", "Builders see Netlify as an AI app stack: deploy, Database, AI Gateway, and supporting primitives."],
+    ["Builder visibility", "A named roster and project board showing who shipped, what they built, and which Netlify products they used."],
+    ["Repeatable playbook", "A city-hub format Netlify can reuse after the San Salvador pilot proves the pacing."],
+    ["Trusted local operator", "Cursor, v0, and Codex already trust Ai /abs to gather this builder audience."],
+  ];
+  for (let r = 0; r < 2; r++) {
+    for (let c = 0; c < 2; c++) {
+      const ix = r * 2 + c;
+      const cx = 96 + c * (780 + 32);
+      const cy = 220 + r * 220;
+      const [wt, wb] = wins[ix];
+      txt(f, cx, cy, 780, wt, { size: 10, color: PR, style: "Semi Bold", ls: 2 });
+      txt(f, cx, cy + 32, 780, wb, { size: 15, color: MU });
+    }
+  }
+
+  f = mkFrame("11 · Needs");
+  txt(f, 96, 72, 720, "Light collaboration", { size: 12, color: PR, style: "Semi Bold", ls: 2 });
+  txt(f, 96, 102, 1728, "What we need from Netlify", {
+    size: 42,
+    family: "Space Grotesk",
+    style: disp,
+  });
+  txt(
+    f,
+    96,
+    190,
+    1728,
+    "Ai /abs handles logistics, registration, the room, visuals, and recap. Netlify brings product alignment, lightweight resources, and a few moments of direct presence.",
+    { size: 16, color: MU },
+  );
+  const asks = [
+    "A quick intro video personalized for San Salvador.",
+    "Credits sized for demos and hackathon finalist teams.",
+    "Swag for attendees and builders who ship.",
+    "DevRel or community contact for pacing and AMA prep.",
+    "Naming approval for “Build with Netlify · San Salvador” or preferred phrasing.",
+  ];
+  txt(f, 96, 280, 1728, "• " + asks.join("\n• "), { size: 16, color: MU });
+
+  f = mkFrame("12 · Close");
+  txt(f, 96, 72, 720, "Next conversation", { size: 12, color: PR, style: "Semi Bold", ls: 2 });
+  txt(f, 96, 102, 1728, "Let’s align on the pilot in 30 minutes", {
+    size: 42,
+    family: "Space Grotesk",
+    style: disp,
+  });
+  const next = [
+    "Review the June hub and July buildathon linkage.",
+    "Lock dates and Netlify’s remote or onsite presence.",
+    "Align the AI Gateway + Database story before Ai /abs markets the pilot.",
+  ];
+  txt(f, 96, 200, 1728, "• " + next.join("\n• "), { size: 16, color: MU });
+  txt(
+    f,
+    96,
+    360,
+    1728,
+    "Let’s use San Salvador to prove the format, then turn it into a city-hub playbook Netlify can repeat.",
+    { size: 17, color: FG },
+  );
+
+  figma.viewport.scrollAndZoomIntoView(page.children);
+})();
